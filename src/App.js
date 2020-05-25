@@ -5,6 +5,7 @@ import {Stage, Layer, Image, Rect, Text, Circle, Line, Ellipse} from 'react-konv
 import uuid from 'react-uuid';
 import _ from 'lodash';
 import ImageUploader from 'react-images-upload';
+import Button from '@material-ui/core/Button'
 
 
 const Lines = props => {
@@ -118,20 +119,20 @@ function App() {
         setColor(nextCol)
     };
 
-    const removeLine = (e) => {
+    const undo = (e) => {
         let allLines = lineList;
         allLines.pop();
         setLineList(allLines);
         // for some reason it wont update until you mouse over canvas unless I have these:
-        setMouseX(e.clientX);
-        setMouseY(e.clientY);
+        setMouseX(e.clientX + Math.random());
+        setMouseY(e.clientY + Math.random());
     };
 
     return (
         <div className={styles.App}>
             <div className={styles.container}>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
-                    <Stage width={window.innerWidth * 0.7} height={window.innerHeight * 0.8}>
+                    <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {/*<Layer>*/}
                         {/*    <Image image={image} width={window.innerWidth}/>*/}
                         {/*</Layer>*/}
@@ -155,10 +156,11 @@ function App() {
                         buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
                         fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
                     />
+                    <Button onClick={changeColor} style={ { backgroundColor: "white", margin: 10 }}>Cycle Color</Button>
+                    <Button onClick={undo} style={ { backgroundColor: "white", margin: 10 }}>Undo</Button>
                 </div>
             </div>
-            <button onClick={changeColor}>Cycle Color</button>
-            <button onClick={removeLine}>Undo</button>
+
 
         </div>
     );
