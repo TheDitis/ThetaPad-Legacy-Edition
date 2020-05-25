@@ -8,8 +8,18 @@
 }
 
 Stage {
+  /*height: 100vh;*/
+  /*width: 100vw;*/
+}
+
+.container {
+  display: inline-flex;
+}
+
+.sidebar {
   height: 100vh;
-  width: 100vw;
+  width: 30vw;
+  background-color: #282c34;
 }
 
 @media (prefers-reduced-motion: no-preference) {
