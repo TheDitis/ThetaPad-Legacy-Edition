@@ -21,7 +21,7 @@ const SideBar = props => {
                 buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
                 fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
             />
-            <Button onClick={props.changeColor} style={ { backgroundColor: "white", margin: 10 }}>Cycle Color</Button>
+            {/*<Button onClick={props.changeColor} style={ { backgroundColor: "white", margin: 10 }}>Cycle Color</Button>*/}
             <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10 }}>Undo</Button>
             <hr style={{width: "100%"}}/>
             <div className={styles.profiles}>

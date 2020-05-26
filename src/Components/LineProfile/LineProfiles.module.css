@@ -9,14 +9,15 @@
 
 .leftSide {
     width: 5vw;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .swatch {
     margin: auto;
-    margin-top: 3px;
+    margin-top: 6px;
     border-radius: 5px;
-    height: 90%;
-    width: 90%;
+    height: 80%;
+    width: 80%;
 }
 
 .rightSide {
@@ -27,21 +28,32 @@
 .lineProfile hr{
     border-top: 1px solid black;
     margin: 0px;
+    /*margin-top: 5px;*/
 }
 
 .topSection {
-    height: 10px;
+    height: 12px;
+}
+
+.lineTitle {
+    position: relative;
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 15px;
+    bottom: 3px;
 }
 
 .bottomSection {
     margin: 0px;
+    margin-left: 7px;
     height: 20px;
-    /*border: 2px solid black;*/
+    float: left;
     display: inline-flex;
-    justify-content: left;
+    /*justify-content: left;*/
 }
 
 .bottomSection a{
+    text-align: left;
     margin-left: 8px;
 }
 
@@ -58,4 +70,7 @@
 .number {
     margin: 0px;
 }
+
+
+
 

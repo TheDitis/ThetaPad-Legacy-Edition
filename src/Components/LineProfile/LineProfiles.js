@@ -1,37 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './LineProfiles.module.css'
 import uuid from "react-uuid";
+import ColorPicker from "../ColorPicker/ColorPicker";
 
 
 const LineProfile = (props) => {
+    const [showColorPicker, setShowColorPicker] = useState(false);
+
     const line = props.line;
     return (
-        <div className={styles.LineProfile} key={uuid()}>
-            <div className={styles.leftSide}>
-                <div className={styles.swatch} style={{backgroundColor: line.color}}>
-                </div>
-            </div>
-            <div className={styles.rightSide}>
-                <div className={styles.topSection}>
-                    <h3>Line {props.index}</h3>
-                </div>
-
-                <hr/>
-
-                <div className={styles.bottomSection}>
-                    <a>Length: </a>
-                    <div className={styles.numberContainer}>
-                        <h5 className={styles.number}>{line.length}</h5>
+        <React.Fragment>
+            <div className={styles.LineProfile} key={uuid()}>
+                <div className={styles.leftSide}>
+                    <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={() => setShowColorPicker(true)}>
                     </div>
-                    <React.Fragment>
-                        <a>Angle</a>
+                </div>
+
+                <div className={styles.rightSide}>
+                    <div className={styles.topSection}>
+                        <h3 className={styles.lineTitle}>Line {props.index}</h3>
+                    </div>
+
+                    <hr/>
+
+                    <div className={styles.bottomSection}>
+                        <a>Length: </a>
                         <div className={styles.numberContainer}>
-                            <h5 className={styles.number}>{line.angle ? line.angle.toFixed(1) : 0}</h5>
+                            <h5 className={styles.number}>{line.length}</h5>
                         </div>
-                    </React.Fragment>
+                        <React.Fragment>
+                            <a>Angle</a>
+                            <div className={styles.numberContainer}>
+                                <h5 className={styles.number}>{line.angle ? line.angle.toFixed(1) : 0}</h5>
+                            </div>
+                        </React.Fragment>
+                    </div>
                 </div>
             </div>
-        </div>
+            {showColorPicker? <ColorPicker showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker}/> : null}
+            {/*<ColorPicker/>*/}
+        </React.Fragment>
     )
 }
 
