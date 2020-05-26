@@ -23,14 +23,12 @@ const LineProfile = (props) => {
                     <div className={styles.numberContainer}>
                         <h5 className={styles.number}>{line.length}</h5>
                     </div>
-                    {line.angle ? (
-                        <React.Fragment>
-                            <a>Angle</a>
-                            <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{line.angle.toFixed(1)}</h5>
-                            </div>
-                        </React.Fragment>
-                    ) : null}
+                    <React.Fragment>
+                        <a>Angle</a>
+                        <div className={styles.numberContainer}>
+                            <h5 className={styles.number}>{line.angle ? line.angle.toFixed(1) : 0}</h5>
+                        </div>
+                    </React.Fragment>
                 </div>
             </div>
         </div>

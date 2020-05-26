@@ -188,12 +188,6 @@ function App() {
                 setImgDims([img.width, img.height]);
                 setImage(url);
             };
-            // img.addEventListener('load', (e) => {
-            //     console.log('Image dims:', img.width, img.height);
-            //     setOrigImgDims([img.width, img.height]);
-            //     setImgDims([img.width, img.height]);
-            //     setImage(url);
-            // }, false);
             img.src = fr.result;
             imageObj = img
         };

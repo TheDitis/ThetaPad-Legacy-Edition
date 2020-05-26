@@ -21,10 +21,12 @@
 
 .rightSide {
     width: 25vw;
+    justify-content: left;
 }
 
 .lineProfile hr{
     border-top: 1px solid black;
+    margin: 0px;
 }
 
 .topSection {
@@ -32,16 +34,28 @@
 }
 
 .bottomSection {
+    margin: 0px;
+    height: 20px;
+    /*border: 2px solid black;*/
     display: inline-flex;
+    justify-content: left;
+}
+
+.bottomSection a{
+    margin-left: 8px;
 }
 
 .numberContainer {
     background-color: white;
+    width: 45px;
     border-radius: 5px;
     margin: 5px;
+    margin-top: 0px;
     float: bottom;
+    padding: 0px;
 }
 
 .number {
-    margin: 2px;
+    margin: 0px;
 }
+
