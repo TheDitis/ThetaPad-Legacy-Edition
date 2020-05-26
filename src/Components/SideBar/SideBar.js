@@ -25,9 +25,9 @@ const SideBar = props => {
             <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10 }}>Undo</Button>
             <hr style={{width: "100%"}}/>
             <div className={styles.profiles}>
-                {props.lineList.map(line => {
+                {props.lineList.map( (line, index) => {
                     return (
-                        <LineProfile line={line}/>
+                        <LineProfile key={uuid()} line={line} index={index}/>
                     )
                 })}
             </div>

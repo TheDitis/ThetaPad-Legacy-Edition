@@ -13,7 +13,7 @@ const LineProfile = (props) => {
             </div>
             <div className={styles.rightSide}>
                 <div className={styles.topSection}>
-
+                    <h3>Line {props.index}</h3>
                 </div>
 
                 <hr/>
