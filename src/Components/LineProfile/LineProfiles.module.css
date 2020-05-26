@@ -1,0 +1,30 @@
+.LineProfile {
+    margin: auto;
+    width: 95%;
+    margin-top: 8px;
+    background-color: #e9ebf0;
+    border-radius: 5px;
+}
+
+.lineProfile hr{
+    border-top: 1px solid black;
+}
+
+.topSection {
+    height: 10px;
+}
+
+.bottomSection {
+    display: inline-flex;
+}
+
+.numberContainer {
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    float: bottom;
+}
+
+.number {
+    margin: 2px;
+}

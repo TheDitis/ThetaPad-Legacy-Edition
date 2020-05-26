@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="40cc3834-6f57-4282-9dd1-3b1fadfc3081" name="Default Changelist" comment="Moved sidebar to left side.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+    <list default="true" id="40cc3834-6f57-4282-9dd1-3b1fadfc3081" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Components/SideBar/SideBar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Components/SideBar/Sidebar.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +23,14 @@
       <favorite_root url="file://$PROJECT_DIR$/src/App.js" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
     </favorites_list>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -25,6 +39,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -33,6 +48,12 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="yarn" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Components/App" />
+      <recent name="$PROJECT_DIR$/src/Components" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -73,7 +94,7 @@
       <updated>1590199748788</updated>
       <workItem from="1590199752444" duration="3272000" />
       <workItem from="1590338379326" duration="23284000" />
-      <workItem from="1590418915493" duration="27835000" />
+      <workItem from="1590418915493" duration="32263000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1590377217370</created>
@@ -110,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590432162869</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added scaling ability. It's definitely still off but kinda works.">
+      <created>1590453019982</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1590453019982</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,6 +163,7 @@
     <MESSAGE value="added sidebar" />
     <MESSAGE value="fixed undo issue mouse position issue and moved cycle color and undo buttons to sidebar" />
     <MESSAGE value="moved sidebar to left side, fixed picture upload issue. added color to measurement text. Still need to size the image." />
-    <option name="LAST_COMMIT_MESSAGE" value="moved sidebar to left side, fixed picture upload issue. added color to measurement text. Still need to size the image." />
+    <MESSAGE value="Added scaling ability. It's definitely still off but kinda works." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added scaling ability. It's definitely still off but kinda works." />
   </component>
 </project>

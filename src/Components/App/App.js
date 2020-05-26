@@ -6,9 +6,9 @@ import {Stage, Layer, Rect, Text, Circle, Line, Ellipse} from 'react-konva';
 import {Image as KonvaImage} from 'react-konva'
 import uuid from 'react-uuid';
 import _ from 'lodash';
-import ImageUploader from 'react-images-upload';
-import Button from '@material-ui/core/Button'
 import useImage from "use-image";
+
+import SideBar from "../SideBar/SideBar";
 
 
 const Lines = props => {
@@ -21,7 +21,7 @@ const Lines = props => {
                     <React.Fragment key={uuid()}>
                         <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={1}/>
                         <Text
-                            text={data.text}
+                            text={data.length}
                             x={data.x1 - widthSub}
                             y={data.y1 + 10}
                             rotation={data.angle}
@@ -63,18 +63,10 @@ function App() {
     const [lineList, setLineList] = useState([]);
     const [mouseDown, setMouseDown] = useState(false);
     const [image, setImage] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
     const [colorInd, setColorInd] = useState(0);
     const [color, setColor] = useState(allcolors[0]);
-    const [allPictures, setAllPictures] = useState([]);
-    // const [curImage, setCurrentImage] = useState(null)
-    // const [prevWinDims, setPrevWinDims] = useState([window.innerWidth, window.innerHeight]);
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
-    const [loadingImage, setLoadingImage] = useState(false)
-    // const [image] = useImage("https://lh3.googleusercontent.com/SB4W0XQWAyE_W-Zukt3M2Np_bLZh0MLJdX1Q2Hw2UPj0h9MYetkbZ_grVesfsLEpZJARdZM0lCDVrvwa0FLrUwVSubVPr1V6vBmEY540gtHXKJNy574ud5GJ1xhcRNaTKyKRXGPrgQjBAmqYTxY8a4n7zEbly3-wz_fz5s0GPILXHtSoMozCy1z2LHGNWNid8BAyACstNOzYWAOu4CP1Ifvk9cIu45XhNyd_In6Mw7rYD53m5gkDMNsJPHkKyI8TnXzkZ9pv-54VsHL8Ow6S6aNiZLUJz66wmRQbKpmLysxB8XIUjIICcIYUhPTK1eYbPOYV2Vbe8hIRA9_a2FXiKrc4irSsoIXMJSXIH67XnEH0jm0qYhPmomjNTXHwbWtPGT7LcfanYOuKlN6iMnAaExlPYTEbQ6VJC2GLkQJ0_AQXUJjVhPP3z3OYlrbUM8V9XEKzpZ5lB1_Jxkd9jzzcnLEbkbfMWMlYvVlqY2Z06J7LgfFeHNonz8JSdYA0DMvGu-J21TYNbXUUFD15y5KZZFX6XpaLbTHr1F8KiqhoFf0WVwyxzgDRdMeV2M2sMVoWs8qCIxuMjAShuPuzWj6KYr44ZFwkTy2rj4DBjelLvpeQuoLFst6i6phgCQlDERJ9hn4psjkW3oTYI0wVbsI7rHYmU398OERHnvWs1vQnvKUkkQbPw50Jbx1lkLY1H7Y=w1208-h1610-no?authuser=0")
-
-    const imgRef = useRef();
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
@@ -94,23 +86,23 @@ function App() {
     const resize = e => {
         handleMouseMove(e);
         e.preventDefault();
-        console.log('here');
-        const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight])
-        console.log('ratio', ratio);
+        // console.log('here');
+        const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);
+        // console.log('ratio', ratio);
         setImgDims((dims) => {
             return [dims[0] * ratio, dims[1] * ratio]
         });
-        console.log('post resize dims:', imgDims)
+        // console.log('post resize dims:', imgDims)
         prevWinDims = [window.innerWidth, window.innerHeight]
     };
 
     const calcImgDims = () => {
         if (origImgDims) {
             const preDims = origImgDims
-            console.log('calculating target dimensions')
+            // console.log('calculating target dimensions')
             const canvasDims = [window.innerWidth * 0.7, window.innerHeight];
             const ratio = getSizeRatio(origImgDims, canvasDims)
-            console.log('ratio:', ratio);
+            // console.log('ratio:', ratio);
             setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);
         }
     };
@@ -137,11 +129,11 @@ function App() {
             const angle = getAngle(
                 {x: currentLine.x1, y: currentLine.y1}, {x: currentLine.x2, y: currentLine.y2}
                 );
-            const text = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
+            const length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
                 .toFixed(0)
                 .toString()
             currentLine.angle = angle;
-            currentLine.text = text;
+            currentLine.length = length;
         }
     };
 
@@ -178,9 +170,8 @@ function App() {
     };
 
     const handleUpload = (pictures) => {
-        setLoadingImage(true);
         const picture = pictures[pictures.length - 1];
-        console.log(pictures);
+        // console.log(pictures);
         clearAll();
         imageFromFile(picture)
     };
@@ -207,7 +198,6 @@ function App() {
             imageObj = img
         };
         fr.readAsDataURL(picture);
-        setImageFile(imageObj)
     };
 
     const changeColor = () => {
@@ -231,23 +221,7 @@ function App() {
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <div className={styles.sidebar}>
-                    <hr style={{width: "100%"}}/>
-                    <ImageUploader
-                        buttonText='Choose image'
-                        onChange={handleUpload}
-                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                        maxFileSize={20971520}
-                        withIcon={false}
-                        withLabel={false}
-                        singleImage={false}
-                        buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
-                        fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
-                    />
-                    <Button onClick={changeColor} style={ { backgroundColor: "white", margin: 10 }}>Cycle Color</Button>
-                    <Button onClick={undo} style={ { backgroundColor: "white", margin: 10 }}>Undo</Button>
-                    <hr style={{width: "100%"}}/>
-                </div>
+                <SideBar changeColor={changeColor} undo={undo} handleUpload={handleUpload} lineList={lineList}/>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
