@@ -69,7 +69,6 @@ function App() {
     const [mouseDown, setMouseDown] = useState(false);
     const [image, setImage] = useState(null);
     const [colorInd, setColorInd] = useState(0);
-    const [refresh, setRefresh] = useState(false);
     const [color, setColor] = useState(allColors[0]);
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
@@ -88,13 +87,23 @@ function App() {
         calcImgDims();
     }, [image]);
 
+    const refresh = () => {
+        setMouseX(window.innerWidth * 0.5 + Math.random());
+        setMouseY(window.innerHeight * 0.5 + Math.random());
+    }
+
     const updateColor = (color, index) => {
         let allLines = lineList;
         allLines[index].color = color;
         setLineList(allLines);
-
-        setMouseX(window.innerWidth * 0.5 + Math.random());
-        setMouseY(window.innerHeight * 0.5 + Math.random());
+        refresh()
+    };
+    
+    const removeLine = (index) => {
+        let allLines = lineList;
+        allLines.splice(index, 1);
+        setLineList(allLines);
+        refresh();
     }
 
     const resize = e => {
@@ -173,7 +182,11 @@ function App() {
             currentLine.x2 = e.clientX;
             currentLine.y2 = e.clientY;
             allLines[allLines.length - 1] = currentLine;
+            if (!(currentLine.length) || Math.round(currentLine.length) === 0) {
+                allLines.pop();
+            }
             setMouseDown(false);
+            setLineList(allLines);
         }
     };
 
@@ -230,12 +243,12 @@ function App() {
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <SideBar changeColor={changeColor} undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor}/>
+                <SideBar changeColor={changeColor} undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine}/>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>
-                            <Lines list={lineList} refresh={refresh}/>
+                            <Lines list={lineList}/>
                         </Layer>
                     </Stage>
                 </div>

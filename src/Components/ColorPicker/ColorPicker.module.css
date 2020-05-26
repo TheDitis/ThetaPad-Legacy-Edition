@@ -18,9 +18,12 @@
 
 .colorBubble {
     position: relative;
+    display: flex;
+    /*padding: 10px;*/
+    height: 40px;
     background: rgba(255, 255, 255, 1);
     height: 50px;
-    width: 200px;
+    /*width: 200px;*/
     border-radius: 0 .4em .4em 0;
 
 }

@@ -19,6 +19,7 @@ const LineProfile = (props) => {
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
                         <h3 className={styles.lineTitle}>Line {props.index}</h3>
+                        <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                     </div>
 
                     <hr/>
@@ -31,7 +32,7 @@ const LineProfile = (props) => {
                         <React.Fragment>
                             <a>Angle</a>
                             <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{line.angle ? line.angle.toFixed(1) : 0}</h5>
+                                <h5 className={styles.number}>{line.angle ? line.angle.toFixed(0) : 0}°</h5>
                             </div>
                         </React.Fragment>
                     </div>

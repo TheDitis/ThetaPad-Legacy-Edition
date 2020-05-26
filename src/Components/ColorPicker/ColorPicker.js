@@ -26,7 +26,7 @@ const ColorPicker = props => {
                         return (
                             <div
                                 key={uuid()}
-                                style={{backgroundColor: color, height: '20px', width: '20px'}}
+                                style={{backgroundColor: color, height: '20px', width: '20px', alignItems: 'center'}}
                                 onClick={() => {
                                     props.updateColor(color, props.index)
                                     // let allLines = props.lineList;
