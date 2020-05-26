@@ -37,7 +37,13 @@ const LineProfile = (props) => {
                     </div>
                 </div>
             </div>
-            {showColorPicker? <ColorPicker showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker}/> : null}
+            {showColorPicker ? (
+                <ColorPicker
+                    showColorPicker={showColorPicker}
+                    setShowColorPicker={setShowColorPicker}
+                    {...props}
+                />
+                ) : null}
             {/*<ColorPicker/>*/}
         </React.Fragment>
     )

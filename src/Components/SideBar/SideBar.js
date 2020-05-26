@@ -27,7 +27,7 @@ const SideBar = props => {
             <div className={styles.profiles}>
                 {props.lineList.map( (line, index) => {
                     return (
-                        <LineProfile key={uuid()} line={line} index={index}/>
+                        <LineProfile key={uuid()} line={line} index={index} {...props}/>
                     )
                 })}
             </div>

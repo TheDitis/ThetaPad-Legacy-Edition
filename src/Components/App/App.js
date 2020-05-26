@@ -7,6 +7,7 @@ import {Image as KonvaImage} from 'react-konva'
 import uuid from 'react-uuid';
 import _ from 'lodash';
 import useImage from "use-image";
+import allColors from '../../colorOptions.json'
 
 import SideBar from "../SideBar/SideBar";
 
@@ -19,7 +20,7 @@ const Lines = props => {
                 const points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
                 return (
                     <React.Fragment key={uuid()}>
-                        <Line key={uuid()} x={0} y={0} stroke={data.color} points={points} strokeWidth={1}/>
+                        <Line key={uuid()} x={0} y={0} stroke={data.color} points={points} strokeWidth={2}/>
                         <Text
                             text={data.length}
                             x={data.x1 - widthSub}
@@ -54,11 +55,11 @@ const UserImage = (props) => {
     )
 };
 
-const allcolors = [
-    'red', 'crimson', 'orangered', 'darkorange', 'orange', 'gold', 'yellow', 'greenyellow', 'lawngreen', 'limegreen',
-    'springgreen', 'mediumspringgreen', 'aquamarine', 'turquoise', 'aqua', 'deepskyblue', 'dodgerblue',
-    'mediumslateblue', 'mediumpurple', 'blueviolet', 'darkviolet', 'purple', 'mediumvioletred'
-];
+// const allcolors = [
+//     'red', 'crimson', 'orangered', 'darkorange', 'orange', 'gold', 'yellow', 'greenyellow', 'lawngreen', 'limegreen',
+//     'springgreen', 'mediumspringgreen', 'aquamarine', 'turquoise', 'aqua', 'deepskyblue', 'dodgerblue',
+//     'mediumslateblue', 'mediumpurple', 'blueviolet', 'darkviolet', 'purple', 'mediumvioletred'
+// ];
 
 
 function App() {
@@ -68,7 +69,8 @@ function App() {
     const [mouseDown, setMouseDown] = useState(false);
     const [image, setImage] = useState(null);
     const [colorInd, setColorInd] = useState(0);
-    const [color, setColor] = useState(allcolors[0]);
+    const [refresh, setRefresh] = useState(false);
+    const [color, setColor] = useState(allColors[0]);
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
 
@@ -85,6 +87,15 @@ function App() {
     useEffect(() => {
         calcImgDims();
     }, [image]);
+
+    const updateColor = (color, index) => {
+        let allLines = lineList;
+        allLines[index].color = color;
+        setLineList(allLines);
+
+        setMouseX(window.innerWidth * 0.5 + Math.random());
+        setMouseY(window.innerHeight * 0.5 + Math.random());
+    }
 
     const resize = e => {
         handleMouseMove(e);
@@ -144,7 +155,7 @@ function App() {
         const x1 = e.clientX;
         const y1 = e.clientY;
         let allLines = lineList;
-        const color = allcolors[Math.floor(Math.random() * allcolors.length)];
+        const color = allColors[Math.floor(Math.random() * allColors.length)];
         let line = {x1: x1, y1: y1, color: color};
 
         setMouseDown(true);
@@ -199,8 +210,8 @@ function App() {
     };
 
     const changeColor = () => {
-        const nextInd = (colorInd + 1) < allcolors.length ? colorInd + 1 : 0;
-        const nextCol = allcolors[nextInd];
+        const nextInd = (colorInd + 1) < allColors.length ? colorInd + 1 : 0;
+        const nextCol = allColors[nextInd];
         setColorInd(nextInd);
         setColor(nextCol)
     };
@@ -219,12 +230,12 @@ function App() {
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <SideBar changeColor={changeColor} undo={undo} handleUpload={handleUpload} lineList={lineList}/>
+                <SideBar changeColor={changeColor} undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor}/>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>
-                            <Lines list={lineList}/>
+                            <Lines list={lineList} refresh={refresh}/>
                         </Layer>
                     </Stage>
                 </div>
