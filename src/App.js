@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import styles from './App.module.css';
 import Konva from 'konva'
 import {Stage, Layer, Rect, Text, Circle, Line, Ellipse} from 'react-konva';
@@ -22,7 +22,7 @@ const Lines = props => {
                         <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={1}/>
                         <Text
                             text={data.text}
-                            x={data.x1 - widthSub - 5}
+                            x={data.x1 - widthSub}
                             y={data.y1 + 10}
                             rotation={data.angle}
                             fontSize={15}
@@ -31,7 +31,6 @@ const Lines = props => {
                     </React.Fragment>
                 )
             }
-
         })
     )
 };
@@ -47,13 +46,13 @@ const distance = (a, b) => {
 };
 
 const UserImage = (props) => {
-    const [image] = useImage(props.url)
+    const [image] = useImage(props.url);
     return (
         <Layer>
-            <KonvaImage image={image}/>
+            <KonvaImage ref={props.imgRef} image={image} {...props}/>
         </Layer>
-        )
-}
+    )
+};
 
 const allcolors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet'];
 
@@ -64,20 +63,67 @@ function App() {
     const [lineList, setLineList] = useState([]);
     const [mouseDown, setMouseDown] = useState(false);
     const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     const [colorInd, setColorInd] = useState(0);
     const [color, setColor] = useState(allcolors[0]);
+    const [allPictures, setAllPictures] = useState([]);
     // const [curImage, setCurrentImage] = useState(null)
-    const [imgDims, setImgDims] = useState(null);
+    // const [prevWinDims, setPrevWinDims] = useState([window.innerWidth, window.innerHeight]);
+    const [origImgDims, setOrigImgDims] = useState(null);
+    const [imgDims, setImgDims] = useState([0, 0]);
+    const [loadingImage, setLoadingImage] = useState(false)
     // const [image] = useImage("https://lh3.googleusercontent.com/SB4W0XQWAyE_W-Zukt3M2Np_bLZh0MLJdX1Q2Hw2UPj0h9MYetkbZ_grVesfsLEpZJARdZM0lCDVrvwa0FLrUwVSubVPr1V6vBmEY540gtHXKJNy574ud5GJ1xhcRNaTKyKRXGPrgQjBAmqYTxY8a4n7zEbly3-wz_fz5s0GPILXHtSoMozCy1z2LHGNWNid8BAyACstNOzYWAOu4CP1Ifvk9cIu45XhNyd_In6Mw7rYD53m5gkDMNsJPHkKyI8TnXzkZ9pv-54VsHL8Ow6S6aNiZLUJz66wmRQbKpmLysxB8XIUjIICcIYUhPTK1eYbPOYV2Vbe8hIRA9_a2FXiKrc4irSsoIXMJSXIH67XnEH0jm0qYhPmomjNTXHwbWtPGT7LcfanYOuKlN6iMnAaExlPYTEbQ6VJC2GLkQJ0_AQXUJjVhPP3z3OYlrbUM8V9XEKzpZ5lB1_Jxkd9jzzcnLEbkbfMWMlYvVlqY2Z06J7LgfFeHNonz8JSdYA0DMvGu-J21TYNbXUUFD15y5KZZFX6XpaLbTHr1F8KiqhoFf0WVwyxzgDRdMeV2M2sMVoWs8qCIxuMjAShuPuzWj6KYr44ZFwkTy2rj4DBjelLvpeQuoLFst6i6phgCQlDERJ9hn4psjkW3oTYI0wVbsI7rHYmU398OERHnvWs1vQnvKUkkQbPw50Jbx1lkLY1H7Y=w1208-h1610-no?authuser=0")
 
+    const imgRef = useRef();
+
+    let prevWinDims = [window.innerWidth, window.innerHeight];
+
     useEffect(() => {
-        window.addEventListener('resize', resize)
+        window.addEventListener('resize', resize);
+
+        return () => {
+            window.removeEventListener('resize', resize)
+        }
     }, []);
+
+    useEffect(() => {
+        calcImgDims();
+    }, [image]);
 
 
     const resize = e => {
+        handleMouseMove(e);
+        e.preventDefault();
+        console.log('here');
+        const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight])
+        console.log('ratio', ratio);
+        setImgDims((dims) => {
+            return [dims[0] * ratio, dims[1] * ratio]
+        });
+        console.log('post resize dims:', imgDims)
+        prevWinDims = [window.innerWidth, window.innerHeight]
+    };
 
-        handleMouseMove(e)
+    const calcImgDims = () => {
+        if (origImgDims) {
+            const preDims = origImgDims
+            console.log('calculating target dimensions')
+            const canvasDims = [window.innerWidth * 0.7, window.innerHeight];
+            const ratio = getSizeRatio(origImgDims, canvasDims)
+            console.log('ratio:', ratio);
+            setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);
+        }
+    };
+
+    const getSizeRatio = (imageDims, canvasDims) => {
+        let diffs = [0, 0];
+        let dimsInds = [0, 1];
+        for (const index of dimsInds) {
+            diffs[index] = canvasDims[index] - imageDims[index]
+        }
+        const closerDimInd = diffs.indexOf(Math.min(...diffs));
+        const ratio = canvasDims[closerDimInd] / imageDims[closerDimInd];
+        return ratio
     }
 
     const handleMouseMove = e => {
@@ -92,7 +138,7 @@ function App() {
                 {x: currentLine.x1, y: currentLine.y1}, {x: currentLine.x2, y: currentLine.y2}
                 );
             const text = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
-                .toFixed(1)
+                .toFixed(0)
                 .toString()
             currentLine.angle = angle;
             currentLine.text = text;
@@ -114,26 +160,54 @@ function App() {
     };
 
     const handleMouseUp = e => {
-        let allLines = lineList;
-        let currentLine = allLines[allLines.length - 1];
-        currentLine.x2 = e.clientX;
-        currentLine.y2 = e.clientY;
-        allLines[allLines.length - 1] = currentLine;
-        setMouseDown(false);
+        if (mouseDown) {
+            let allLines = lineList;
+            let currentLine = allLines[allLines.length - 1];
+            currentLine.x2 = e.clientX;
+            currentLine.y2 = e.clientY;
+            allLines[allLines.length - 1] = currentLine;
+            setMouseDown(false);
+        }
+    };
+
+    const clearAll = () => {
+        setImage(null);
+        setLineList([])
+        // setOrigImgDims(null);
+        setImgDims([0, 0])
     };
 
     const handleUpload = (pictures) => {
-        console.log(pictures[0]);
-        const url = URL.createObjectURL(pictures[0]);
-        // let img = new Image();
-        // img.src = url;
-        //
-        // img.onload = () => {
-        //     console.log('loaded:', img)
-        //     setImage(i)mg;
-        // };
-        setImage(url);
-        // console.log(img)
+        setLoadingImage(true);
+        const picture = pictures[pictures.length - 1];
+        console.log(pictures);
+        clearAll();
+        imageFromFile(picture)
+    };
+
+    const imageFromFile = (picture) => {
+        const url = URL.createObjectURL(picture);
+        const fr = new FileReader();
+        let imageObj;
+        fr.onload = () => {
+            const img = new Image();
+            img.onload = () => {
+                console.log('Image dims:', img.width, img.height);
+                setOrigImgDims([img.width, img.height]);
+                setImgDims([img.width, img.height]);
+                setImage(url);
+            };
+            // img.addEventListener('load', (e) => {
+            //     console.log('Image dims:', img.width, img.height);
+            //     setOrigImgDims([img.width, img.height]);
+            //     setImgDims([img.width, img.height]);
+            //     setImage(url);
+            // }, false);
+            img.src = fr.result;
+            imageObj = img
+        };
+        fr.readAsDataURL(picture);
+        setImageFile(imageObj)
     };
 
     const changeColor = () => {
@@ -151,14 +225,15 @@ function App() {
         // for some reason it wont update until you mouse over canvas unless I have these:
         setMouseX(e.clientX + Math.random());
         setMouseY(e.clientY + Math.random());
+        e.preventDefault();
     };
 
     return (
         <div className={styles.App}>
             <div className={styles.container}>
                 <div className={styles.sidebar}>
+                    <hr style={{width: "100%"}}/>
                     <ImageUploader
-                        withIcon={true}
                         buttonText='Choose image'
                         onChange={handleUpload}
                         imgExtension={['.jpg', '.gif', '.png', '.gif']}
@@ -171,14 +246,12 @@ function App() {
                     />
                     <Button onClick={changeColor} style={ { backgroundColor: "white", margin: 10 }}>Cycle Color</Button>
                     <Button onClick={undo} style={ { backgroundColor: "white", margin: 10 }}>Undo</Button>
-                    <hr style={{width: "85%"}}/>
+                    <hr style={{width: "100%"}}/>
                 </div>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
-                        {image ? <UserImage url={image}/> : null}
+                        {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>
-                            {/*{image ? <Image image={image}/> : <Text>No Image</Text>}*/}
-                            {/*<Text text={"Cycle Color"} fontSize={25} onClick={changeColor}/>*/}
                             <Lines list={lineList} color={color}/>
                         </Layer>
                     </Stage>
