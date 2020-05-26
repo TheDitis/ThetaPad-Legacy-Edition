@@ -8,7 +8,7 @@ const LineProfile = (props) => {
     return (
         <div className={styles.LineProfile} key={uuid()}>
             <div className={styles.leftSide}>
-                <div className={styles.swatch} style={{backgroundColor: 'red'}}>
+                <div className={styles.swatch} style={{backgroundColor: line.color}}>
                 </div>
             </div>
             <div className={styles.rightSide}>

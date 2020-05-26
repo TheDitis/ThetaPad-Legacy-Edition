@@ -4,7 +4,6 @@
     <list default="true" id="40cc3834-6f57-4282-9dd1-3b1fadfc3081" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/Components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.module.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +87,7 @@
       <updated>1590199748788</updated>
       <workItem from="1590199752444" duration="3272000" />
       <workItem from="1590338379326" duration="23284000" />
-      <workItem from="1590418915493" duration="34863000" />
+      <workItem from="1590418915493" duration="36588000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1590377217370</created>
@@ -146,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590460170558</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="improved style of line profile a bit.">
+      <created>1590462651991</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1590462651991</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +180,7 @@
     <MESSAGE value="Added scaling ability. It's definitely still off but kinda works." />
     <MESSAGE value="Started with the line profiles in the sidebar." />
     <MESSAGE value="Added color swatch to the profile component" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added color swatch to the profile component" />
+    <MESSAGE value="improved style of line profile a bit." />
+    <option name="LAST_COMMIT_MESSAGE" value="improved style of line profile a bit." />
   </component>
 </project>

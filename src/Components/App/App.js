@@ -19,14 +19,14 @@ const Lines = props => {
                 const points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
                 return (
                     <React.Fragment key={uuid()}>
-                        <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={1}/>
+                        <Line key={uuid()} x={0} y={0} stroke={data.color} points={points} strokeWidth={1}/>
                         <Text
                             text={data.length}
                             x={data.x1 - widthSub}
                             y={data.y1 + 10}
                             rotation={data.angle}
                             fontSize={15}
-                            fill={props.color}
+                            fill={data.color}
                         />
                     </React.Fragment>
                 )
@@ -54,7 +54,11 @@ const UserImage = (props) => {
     )
 };
 
-const allcolors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet'];
+const allcolors = [
+    'red', 'crimson', 'orangered', 'darkorange', 'orange', 'gold', 'yellow', 'greenyellow', 'lawngreen', 'limegreen',
+    'springgreen', 'mediumspringgreen', 'aquamarine', 'turquoise', 'aqua', 'deepskyblue', 'dodgerblue',
+    'mediumslateblue', 'mediumpurple', 'blueviolet', 'darkviolet', 'purple', 'mediumvioletred'
+];
 
 
 function App() {
@@ -82,7 +86,6 @@ function App() {
         calcImgDims();
     }, [image]);
 
-
     const resize = e => {
         handleMouseMove(e);
         e.preventDefault();
@@ -98,10 +101,10 @@ function App() {
 
     const calcImgDims = () => {
         if (origImgDims) {
-            const preDims = origImgDims
+            const preDims = origImgDims;
             // console.log('calculating target dimensions')
             const canvasDims = [window.innerWidth * 0.7, window.innerHeight];
-            const ratio = getSizeRatio(origImgDims, canvasDims)
+            const ratio = getSizeRatio(origImgDims, canvasDims);
             // console.log('ratio:', ratio);
             setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);
         }
@@ -116,7 +119,7 @@ function App() {
         const closerDimInd = diffs.indexOf(Math.min(...diffs));
         const ratio = canvasDims[closerDimInd] / imageDims[closerDimInd];
         return ratio
-    }
+    };
 
     const handleMouseMove = e => {
         setMouseX(e.clientX);
@@ -141,7 +144,8 @@ function App() {
         const x1 = e.clientX;
         const y1 = e.clientY;
         let allLines = lineList;
-        let line = {x1: x1, y1: y1};
+        const color = allcolors[Math.floor(Math.random() * allcolors.length)];
+        let line = {x1: x1, y1: y1, color: color};
 
         setMouseDown(true);
         allLines.push(line);
@@ -220,7 +224,7 @@ function App() {
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>
-                            <Lines list={lineList} color={color}/>
+                            <Lines list={lineList}/>
                         </Layer>
                     </Stage>
                 </div>
