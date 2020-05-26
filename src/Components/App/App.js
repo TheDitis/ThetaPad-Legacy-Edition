@@ -60,6 +60,7 @@ const UserImage = (props) => {
 //     'springgreen', 'mediumspringgreen', 'aquamarine', 'turquoise', 'aqua', 'deepskyblue', 'dodgerblue',
 //     'mediumslateblue', 'mediumpurple', 'blueviolet', 'darkviolet', 'purple', 'mediumvioletred'
 // ];
+const widthSub = window.innerWidth * 0.3;
 
 
 function App() {
@@ -67,17 +68,44 @@ function App() {
     const [mouseY, setMouseY] = useState(null);
     const [lineList, setLineList] = useState([]);
     const [mouseDown, setMouseDown] = useState(false);
+    const [drawMode, setDrawMode] = useState('line');
+    const [endPoly, setEndPoly] = useState(true);
     const [image, setImage] = useState(null);
     const [colorInd, setColorInd] = useState(0);
     const [color, setColor] = useState(allColors[0]);
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
+    const [cmdKey, setCmdKey] = useState(null);
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
+    document.onkeydown = (e) => {
+        if (e.key === 'Escape') {
+            console.log('Escape Pressed');
+            setEndPoly(true)
+        }
+        else if (e.key === 'Meta') {
+            setCmdKey(true);
+            console.log("cmdKey: ", cmdKey)
+        }
+        else if (e.key === 'z') {
+            console.log('z key pressed');
+            if (cmdKey) {
+                undo();
+                refresh();
+            }
+        }
+    };
+
+    document.onkeyup = (e) => {
+        if (e.key == 'Meta') {
+            setCmdKey(false)
+            console.log("cmdKey: ", cmdKey)
+        }
+    }
+
     useEffect(() => {
         window.addEventListener('resize', resize);
-
         return () => {
             window.removeEventListener('resize', resize)
         }
@@ -90,7 +118,7 @@ function App() {
     const refresh = () => {
         setMouseX(window.innerWidth * 0.5 + Math.random());
         setMouseY(window.innerHeight * 0.5 + Math.random());
-    }
+    };
 
     const updateColor = (color, index) => {
         let allLines = lineList;
@@ -148,6 +176,10 @@ function App() {
             let currentLine = lineList[lineList.length - 1];
             currentLine.x2 = mouseX;
             currentLine.y2 = mouseY;
+            // currentLine.points[currentLine.length - 2] = mouseX - widthSub;
+            // currentLine.points[currentLine.length - 1] = mouseY;
+            currentLine.points[currentLine.length - 2] = 0
+            currentLine.points[currentLine.length - 1] = 0
 
             const angle = getAngle(
                 {x: currentLine.x1, y: currentLine.y1}, {x: currentLine.x2, y: currentLine.y2}
@@ -160,13 +192,11 @@ function App() {
         }
     };
 
-    const handleMouseDown = e => {
-        const x1 = e.clientX;
-        const y1 = e.clientY;
+    const startLine = (x, y) => {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
-        let line = {x1: x1, y1: y1, color: color};
-
+        const widthSub = window.innerWidth * 0.3
+        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y]};
         setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
@@ -175,12 +205,14 @@ function App() {
         }
     };
 
-    const handleMouseUp = e => {
+    const endLine = (x, y) => {
         if (mouseDown) {
             let allLines = lineList;
             let currentLine = allLines[allLines.length - 1];
-            currentLine.x2 = e.clientX;
-            currentLine.y2 = e.clientY;
+            currentLine.points.push(x - widthSub);
+            currentLine.points.push(y)
+            currentLine.x2 = x;
+            currentLine.y2 = y;
             allLines[allLines.length - 1] = currentLine;
             if (!(currentLine.length) || Math.round(currentLine.length) === 0) {
                 allLines.pop();
@@ -188,6 +220,59 @@ function App() {
             setMouseDown(false);
             setLineList(allLines);
         }
+    };
+
+    const startPoly = (x, y) => {
+        if (endPoly) {
+            startLine(x, y)
+        }
+        else {
+            addPolyPoint(x, y)
+        }
+
+    };
+
+    const addPolyPoint = (x, y) => {
+        let allLines = lineList;
+        // let currentline =
+        // allLines.push(line);
+        // setLineList(allLines);
+        // if (allLines.length > 50) {
+        //     allLines.shift();
+        // }
+    }
+
+    const handleMouseDown = e => {
+        const x = e.clientX;
+        const y = e.clientY;
+        switch (drawMode) {
+            case 'line':
+                startLine(x, y);
+                break;
+            case 'poly':
+                startPoly(x, y);
+                break;
+            default:
+                break;
+        }
+
+    };
+
+    const handleMouseUp = e => {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        switch (drawMode) {
+            case 'line':
+                endLine(x, y);
+                break;
+            case 'poly':
+                addPolyPoint(x, y);
+                break;
+            default:
+                break;
+        }
+
     };
 
     const clearAll = () => {
@@ -222,28 +307,21 @@ function App() {
         fr.readAsDataURL(picture);
     };
 
-    const changeColor = () => {
-        const nextInd = (colorInd + 1) < allColors.length ? colorInd + 1 : 0;
-        const nextCol = allColors[nextInd];
-        setColorInd(nextInd);
-        setColor(nextCol)
-    };
-
-    const undo = (e) => {
+    const undo = () => {
         // TODO: Add ctrl-z
         let allLines = lineList;
         allLines.pop();
         setLineList(allLines);
         // for some reason it wont update until you mouse over canvas unless I have these:
-        setMouseX(e.clientX + Math.random());
-        setMouseY(e.clientY + Math.random());
-        e.preventDefault();
+        setMouseX(window.innerWidth * 0.5 + Math.random());
+        setMouseY(window.innerHeight * 0.5 + Math.random());
+        refresh()
     };
 
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <SideBar changeColor={changeColor} undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine}/>
+                <SideBar undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine} setDrawMode={setDrawMode}/>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
