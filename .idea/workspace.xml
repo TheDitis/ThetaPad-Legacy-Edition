@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40cc3834-6f57-4282-9dd1-3b1fadfc3081" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Components/SideBar/SideBar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Components/SideBar/Sidebar.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/App/App.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LineProfile/LineProfiles.module.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +87,7 @@
       <updated>1590199748788</updated>
       <workItem from="1590199752444" duration="3272000" />
       <workItem from="1590338379326" duration="23284000" />
-      <workItem from="1590418915493" duration="32263000" />
+      <workItem from="1590418915493" duration="32866000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1590377217370</created>
@@ -138,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590453019982</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Started with the line profiles in the sidebar.">
+      <created>1590459576336</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1590459576336</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,6 +164,7 @@
     <MESSAGE value="fixed undo issue mouse position issue and moved cycle color and undo buttons to sidebar" />
     <MESSAGE value="moved sidebar to left side, fixed picture upload issue. added color to measurement text. Still need to size the image." />
     <MESSAGE value="Added scaling ability. It's definitely still off but kinda works." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added scaling ability. It's definitely still off but kinda works." />
+    <MESSAGE value="Started with the line profiles in the sidebar." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started with the line profiles in the sidebar." />
   </component>
 </project>
