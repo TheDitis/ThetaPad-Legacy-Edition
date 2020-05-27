@@ -17,7 +17,16 @@ const Lines = props => {
         props.list.map( data => {
             if (_.has(data, 'x2')) {
                 const widthSub = window.innerWidth * 0.3
-                const points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
+                let points;
+                switch (data.type) {
+                    case 'line':
+                        points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
+                        break;
+                    default:
+                        points = data.points;
+                        break
+                }
+                // const points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
                 return (
                     <React.Fragment key={uuid()}>
                         <Line key={uuid()} x={0} y={0} stroke={data.color} points={points} strokeWidth={2}/>
@@ -25,7 +34,7 @@ const Lines = props => {
                             text={data.length}
                             x={data.x1 - widthSub}
                             y={data.y1 + 10}
-                            rotation={data.angle}
+                            rotation={data.angles[0]}
                             fontSize={15}
                             fill={data.color}
                         />
@@ -55,11 +64,6 @@ const UserImage = (props) => {
     )
 };
 
-// const allcolors = [
-//     'red', 'crimson', 'orangered', 'darkorange', 'orange', 'gold', 'yellow', 'greenyellow', 'lawngreen', 'limegreen',
-//     'springgreen', 'mediumspringgreen', 'aquamarine', 'turquoise', 'aqua', 'deepskyblue', 'dodgerblue',
-//     'mediumslateblue', 'mediumpurple', 'blueviolet', 'darkviolet', 'purple', 'mediumvioletred'
-// ];
 const widthSub = window.innerWidth * 0.3;
 
 
@@ -69,10 +73,9 @@ function App() {
     const [lineList, setLineList] = useState([]);
     const [mouseDown, setMouseDown] = useState(false);
     const [drawMode, setDrawMode] = useState('line');
-    const [endPoly, setEndPoly] = useState(true);
+    const [inPolyDraw, setInPolyDraw] = useState(false);
+    const [newPolyLine, setNewPolyLine] = useState(true)
     const [image, setImage] = useState(null);
-    const [colorInd, setColorInd] = useState(0);
-    const [color, setColor] = useState(allColors[0]);
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
     const [cmdKey, setCmdKey] = useState(null);
@@ -82,7 +85,10 @@ function App() {
     document.onkeydown = (e) => {
         if (e.key === 'Escape') {
             console.log('Escape Pressed');
-            setEndPoly(true)
+            setNewPolyLine(true);
+            if (inPolyDraw) {
+                stopPolyDraw()
+            }
         }
         else if (e.key === 'Meta') {
             setCmdKey(true);
@@ -102,7 +108,7 @@ function App() {
             setCmdKey(false)
             console.log("cmdKey: ", cmdKey)
         }
-    }
+    };
 
     useEffect(() => {
         window.addEventListener('resize', resize);
@@ -132,7 +138,7 @@ function App() {
         allLines.splice(index, 1);
         setLineList(allLines);
         refresh();
-    }
+    };
 
     const resize = e => {
         handleMouseMove(e);
@@ -165,38 +171,77 @@ function App() {
             diffs[index] = canvasDims[index] - imageDims[index]
         }
         const closerDimInd = diffs.indexOf(Math.min(...diffs));
-        const ratio = canvasDims[closerDimInd] / imageDims[closerDimInd];
-        return ratio
+        return canvasDims[closerDimInd] / imageDims[closerDimInd];
     };
 
     const handleMouseMove = e => {
         setMouseX(e.clientX);
         setMouseY(e.clientY);
-        if (mouseDown){
+        if (mouseDown || inPolyDraw){
+            // console.log("in mouse Move")
             let currentLine = lineList[lineList.length - 1];
             currentLine.x2 = mouseX;
             currentLine.y2 = mouseY;
+            if (currentLine.points.length > 2) {
+                currentLine.points.pop();
+                currentLine.points.pop();
+                currentLine.points.push(e.clientX - widthSub);
+                currentLine.points.push(e.clientY);
+            }
+
             // currentLine.points[currentLine.length - 2] = mouseX - widthSub;
             // currentLine.points[currentLine.length - 1] = mouseY;
-            currentLine.points[currentLine.length - 2] = 0
-            currentLine.points[currentLine.length - 1] = 0
+            // currentLine.points[currentLine.length - 2] = 0
+            // currentLine.points[currentLine.length - 1] = 0
 
-            const angle = getAngle(
-                {x: currentLine.x1, y: currentLine.y1}, {x: currentLine.x2, y: currentLine.y2}
+            let length;
+
+            if (drawMode === 'line') {
+                length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
+                    .toFixed(0)
+                    .toString();
+                const angle = getAngle(
+                    {x: currentLine.x1, y: currentLine.y1}, {x: currentLine.x2, y: currentLine.y2}
                 );
-            const length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
-                .toFixed(0)
-                .toString()
-            currentLine.angle = angle;
+                currentLine.angles[0] = angle;
+            }
+            else if (drawMode === 'poly') {
+                // for (let i; i++; i<)
+                let separatedLines = _.chunk(currentLine.points, 4);
+                console.log('separated:', separatedLines);
+                // currentLine.points.forEach(( coord, index ) => {
+                //
+                // });
+                length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
+                    .toFixed(0)
+                    .toString();
+
+                const x1 = currentLine.points[currentLine.points.length - 4];
+                const x2 = currentLine.points[currentLine.points.length - 2];
+                const y1 = currentLine.points[currentLine.points.length - 3];
+                const y2 = currentLine.points[currentLine.points.length - 1];
+                console.log('points:', x1, y1, x2, y2);
+                const angle = getAngle({ x: x1, y: y1 }, { x: x2, y: y2 });
+                const index = currentLine.points.length / 2 - 1;
+                console.log('angle: ', angle);
+                if (angle) {
+                    currentLine.angles[currentLine.lineCount - 1] = angle;
+                }
+
+                console.log('line:', currentLine)
+            }
+
             currentLine.length = length;
         }
     };
 
+
+
     const startLine = (x, y) => {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
-        const widthSub = window.innerWidth * 0.3
-        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y]};
+        const widthSub = window.innerWidth * 0.3;
+        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y], angles: []};
         setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
@@ -222,35 +267,62 @@ function App() {
         }
     };
 
-    const startPoly = (x, y) => {
-        if (endPoly) {
-            startLine(x, y)
+    const drawPoly = (x, y) => {
+        if (newPolyLine) {
+            setInPolyDraw(true);
+            setNewPolyLine(false);
+            startPoly(x, y);
+            addPolyPoint(x, y)
         }
         else {
+            // startLine(x, y);
             addPolyPoint(x, y)
         }
 
     };
 
-    const addPolyPoint = (x, y) => {
+    const startPoly = (x, y) => {
         let allLines = lineList;
-        // let currentline =
-        // allLines.push(line);
-        // setLineList(allLines);
-        // if (allLines.length > 50) {
-        //     allLines.shift();
-        // }
+        const color = allColors[Math.floor(Math.random() * allColors.length)];
+        const widthSub = window.innerWidth * 0.3;
+        let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 0};
+        line.points = [x - widthSub, y];
+        // setMouseDown(true);
+        allLines.push(line);
+        setLineList(allLines);
+        console.log('first line:', line)
+        refresh()
+        if (allLines.length > 50) {
+            allLines.shift();
+        }
     }
 
+    const addPolyPoint = (x, y) => {
+        let allLines = lineList;
+        let currentLine = allLines[allLines.length - 1];
+        currentLine.points.push(x - widthSub);
+        currentLine.points.push(y);
+        currentLine.lineCount ++
+        setLineList(allLines)
+    };
+
+    const stopPolyDraw = () => {
+        const currentLine = lineList[lineList.length - 1];
+        currentLine.points.pop();
+        currentLine.points.pop();
+        setInPolyDraw(false);
+        setMouseDown(false);
+    };
+
     const handleMouseDown = e => {
-        const x = e.clientX;
-        const y = e.clientY;
+        const x = Math.round(e.clientX);
+        const y = Math.round(e.clientY);
         switch (drawMode) {
             case 'line':
                 startLine(x, y);
                 break;
             case 'poly':
-                startPoly(x, y);
+                drawPoly(x, y);
                 break;
             default:
                 break;
@@ -267,7 +339,7 @@ function App() {
                 endLine(x, y);
                 break;
             case 'poly':
-                addPolyPoint(x, y);
+                // addPolyPoint(x, y);
                 break;
             default:
                 break;
