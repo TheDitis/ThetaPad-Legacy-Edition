@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styles from './LineProfiles.module.css'
 import uuid from "react-uuid";
 import ColorPicker from "../ColorPicker/ColorPicker";
-
+import Button from '@material-ui/core/Button'
 
 const LineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
@@ -19,6 +19,7 @@ const LineProfile = (props) => {
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
                         <h3 className={styles.lineTitle}>Line {props.index}</h3>
+                        <Button className={styles.unitSelect} onClick={() => props.setUnit(line.length)}>Unit</Button>
                         <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                     </div>
 
@@ -27,7 +28,7 @@ const LineProfile = (props) => {
                     <div className={styles.bottomSection}>
                         <a>Length: </a>
                         <div className={styles.numberContainer}>
-                            <h5 className={styles.number}>{line.length}</h5>
+                            <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
                         </div>
                         <React.Fragment>
                             <a>Angle</a>

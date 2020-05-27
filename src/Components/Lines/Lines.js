@@ -5,17 +5,15 @@ import StraightLine from "./StraightLine";
 import PolyLine from "./PolyLine";
 
 
-const widthSub = window.innerWidth * 0.3;
-
 const Lines = props => {
     return (
         props.list.map( data => {
             if (_.has(data, 'x2')) {
                 switch (data.type) {
                     case 'line':
-                        return <StraightLine key={uuid()} {...data} widthSub={widthSub}/>
+                        return <StraightLine key={uuid()} {...data} {...props}/>;
                     default:
-                        return <PolyLine key={uuid()} {...data} widthSub={widthSub}/>
+                        return <PolyLine key={uuid()} {...data} {...props}/>;
                 }
             }
         })

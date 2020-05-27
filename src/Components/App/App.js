@@ -47,6 +47,7 @@ function App() {
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
     const [cmdKey, setCmdKey] = useState(null);
+    const [unit, setUnit] = useState(1);
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
@@ -71,7 +72,7 @@ function App() {
         }
     };
     document.onkeyup = (e) => {
-        if (e.key == 'Meta') {
+        if (e.key === 'Meta') {
             setCmdKey(false)
             console.log("cmdKey: ", cmdKey)
         }
@@ -360,12 +361,12 @@ function App() {
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <SideBar undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine} setDrawMode={setDrawMode}/>
+                <SideBar undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine} setDrawMode={setDrawMode} unit={unit} setUnit={setUnit}/>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>
-                            <Lines list={lineList}/>
+                            <Lines list={lineList} unit={unit} widthSub={widthSub}/>
                         </Layer>
                     </Stage>
                 </div>
