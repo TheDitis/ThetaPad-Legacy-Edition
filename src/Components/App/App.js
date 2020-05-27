@@ -8,42 +8,10 @@ import uuid from 'react-uuid';
 import _ from 'lodash';
 import useImage from "use-image";
 import allColors from '../../colorOptions.json'
+import Lines from "../Lines/Lines";
 
 import SideBar from "../SideBar/SideBar";
 
-
-const Lines = props => {
-    return (
-        props.list.map( data => {
-            if (_.has(data, 'x2')) {
-                const widthSub = window.innerWidth * 0.3
-                let points;
-                switch (data.type) {
-                    case 'line':
-                        points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
-                        break;
-                    default:
-                        points = data.points;
-                        break
-                }
-                // const points = [data.x1 - widthSub, data.y1, data.x2 - widthSub, data.y2];
-                return (
-                    <React.Fragment key={uuid()}>
-                        <Line key={uuid()} x={0} y={0} stroke={data.color} points={points} strokeWidth={2}/>
-                        <Text
-                            text={data.length}
-                            x={data.x1 - widthSub}
-                            y={data.y1 + 10}
-                            rotation={data.angles[0]}
-                            fontSize={15}
-                            fill={data.color}
-                        />
-                    </React.Fragment>
-                )
-            }
-        })
-    )
-};
 
 const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
 
@@ -102,7 +70,6 @@ function App() {
             }
         }
     };
-
     document.onkeyup = (e) => {
         if (e.key == 'Meta') {
             setCmdKey(false)
