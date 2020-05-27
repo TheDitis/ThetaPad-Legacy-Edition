@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import styles from './ColorPicker.module.css'
+import styles from './ColorPicker.module.scss'
 import allColors from '../../colorOptions.json'
 import uuid from 'react-uuid'
 
@@ -22,22 +22,19 @@ const ColorPicker = props => {
         <div className={styles.overlay} onClick={() => props.setShowColorPicker(false)}>
             <div className={styles.colorBubbleContainer}>
                 <div className={styles.colorBubble}>
-                    {allColors.map((color) => {
-                        return (
-                            <div
-                                key={uuid()}
-                                style={{backgroundColor: color, height: '20px', width: '20px', alignItems: 'center'}}
-                                onClick={() => {
-                                    props.updateColor(color, props.index)
-                                    // let allLines = props.lineList;
-                                    // allLines[props.index].color = color;
-                                    // props.setLineList(allLines)
-                                    //
-                                    // props.lineList[props.index].color = color;
-                                }}
-                            />
+                    <ul className={styles.swatchList}>
+                        {allColors.map((color) => {
+                            return (
+                                <li className={styles.colorSwatch}>
+                                    <div
+                                        key={uuid()}
+                                        style={{backgroundColor: color}}
+                                        onClick={() => {props.updateColor(color, props.index)}}
+                                    />
+                                </li>
                             )
-                    })}
+                        })}
+                    </ul>
                 </div>
             </div>
         </div>

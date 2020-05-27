@@ -9,7 +9,7 @@ const PolyLine = (props) => {
         <React.Fragment>
             <Line x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
             <Text
-                text={props.length}
+                text={(props.length / props.unit).toFixed(2)}
                 x={props.x1 - props.widthSub}
                 y={props.y1 + 10}
                 rotation={props.angles[0]}

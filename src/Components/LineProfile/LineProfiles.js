@@ -2,15 +2,55 @@ import React, {useState} from 'react';
 import styles from './LineProfiles.module.css'
 import uuid from "react-uuid";
 import ColorPicker from "../ColorPicker/ColorPicker";
+import Button from '@material-ui/core/Button'
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import _ from "lodash";
+
+
+const useStyles = makeStyles({
+    unitSelect: {
+        '&:hover': {
+            backgroundColor: 'gray'
+        },
+        marginLeft: '15px',
+        marginTop: '4px',
+        height: '30px'
+    },
+    unitSelectUnselected: {
+        backgroundColor: "#e9ebf0",
+    },
+    unitSelectSelected: {
+        backgroundColor: 'rgba(82, 82, 82, 1)',
+        color: 'white'
+    }
+});
 
 
 const LineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
+    // const [isUnit, setIsUnit] = useState();
 
     const line = props.line;
+
+
+
+    const classes = useStyles();
+
+    const toggleIsUnit = (e) => {
+        if (line.isUnit) {
+            props.setUnit(1);
+            line.isUnit = false;
+        }
+        else {
+            props.setUnit(line.length);
+            props.unselectAllLines()
+            line.isUnit = true
+        }
+    };
+
     return (
         <React.Fragment>
-            <div className={styles.LineProfile} key={uuid()}>
+            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', border: '3px solid black'} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.leftSide}>
                     <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={() => setShowColorPicker(true)}>
                     </div>
@@ -18,7 +58,8 @@ const LineProfile = (props) => {
 
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
-                        <h3 className={styles.lineTitle}>Line {props.index}</h3>
+                        <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
+                        <Button className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`} size={'small'} variant={'outlined'} onClick={toggleIsUnit}>Unit</Button>
                         <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                     </div>
 
@@ -27,7 +68,7 @@ const LineProfile = (props) => {
                     <div className={styles.bottomSection}>
                         <a>Length: </a>
                         <div className={styles.numberContainer}>
-                            <h5 className={styles.number}>{line.length}</h5>
+                            <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
                         </div>
                         <React.Fragment>
                             <a>Angle</a>
