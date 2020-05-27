@@ -6,8 +6,22 @@ import Button from '@material-ui/core/Button'
 
 const LineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
+    const [isUnit, setIsUnit] = useState(false);
 
     const line = props.line;
+
+    const toggleIsUnit = (e) => {
+        console.log('unit button pressed: ', isUnit);
+        console.log(e)
+        if (isUnit) {
+            props.setUnit(1);
+        }
+        else {
+            props.setUnit(line.length);
+        }
+        setIsUnit(!isUnit)
+    };
+
     return (
         <React.Fragment>
             <div className={styles.LineProfile} key={uuid()}>
@@ -19,7 +33,7 @@ const LineProfile = (props) => {
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
                         <h3 className={styles.lineTitle}>Line {props.index}</h3>
-                        <Button className={styles.unitSelect} onClick={() => props.setUnit(line.length)}>Unit</Button>
+                        <Button className={styles.unitSelect} onClick={toggleIsUnit}>Unit</Button>
                         <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                     </div>
 
