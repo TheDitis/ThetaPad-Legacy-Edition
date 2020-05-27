@@ -103,10 +103,19 @@ function App() {
     
     const removeLine = (index) => {
         let allLines = lineList;
+        if (allLines[index].isUnit) {
+            setUnit(1)
+        }
         allLines.splice(index, 1);
         setLineList(allLines);
         refresh();
     };
+
+    const unselectAllLines = () => {
+        for (let line of lineList) {
+            line.isUnit = false;
+        }
+    }
 
     const resize = e => {
         handleMouseMove(e);
@@ -209,7 +218,7 @@ function App() {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
         const widthSub = window.innerWidth * 0.3;
-        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y], angles: []};
+        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y], angles: [], isUnit: false};
         setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
@@ -361,7 +370,7 @@ function App() {
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <SideBar undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine} setDrawMode={setDrawMode} unit={unit} setUnit={setUnit}/>
+                <SideBar undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine} setDrawMode={setDrawMode} unit={unit} setUnit={setUnit} unselectAllLines={unselectAllLines}/>
                 <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
@@ -378,5 +387,6 @@ function App() {
         </div>
     );
 }
+
 
 export default App;

@@ -15,7 +15,7 @@ const SideBar = props => {
             <ImageUploader
                 buttonText='Choose image'
                 onChange={props.handleUpload}
-                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                imgExtension={['.jpg', '.jpeg', '.gif', '.png', '.gif']}
                 maxFileSize={20971520}
                 withIcon={false}
                 withLabel={false}

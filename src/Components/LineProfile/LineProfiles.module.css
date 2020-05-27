@@ -2,9 +2,10 @@
     margin: auto;
     width: 95%;
     margin-top: 8px;
-    background-color: #e9ebf0;
-    border-radius: 5px;
+    /*background-color: #e9ebf0;*/
+    border-radius: 10px;
     display: inline-flex;
+    box-shadow: 0 0 10px black;
 }
 
 .leftSide {
@@ -31,15 +32,28 @@
 }
 
 .topSection {
-    height: 20px;
+    height: 30px;
     display: flex;
 }
 
 .lineTitle {
     position: relative;
     text-align: left;
-    margin-top: 5px;
+    margin-top: 8px;
     margin-left: 15px;
+}
+
+.unitSelect {
+    position: relative;
+    margin-left: 15px;
+    /*padding-bottom: 4px;*/
+    width: 30px;
+    height: 30px;
+    top: 4px;
+    left: 10px;
+    background-color: red;
+    color: red;
+    justify-content: left;
 }
 
 .deleteButton {
