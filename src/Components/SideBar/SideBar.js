@@ -23,8 +23,9 @@ const SideBar = props => {
                 buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
                 fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
             />
-            {/*<Button onClick={props.changeColor} style={ { backgroundColor: "white", margin: 10 }}>Cycle Color</Button>*/}
-            <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10, fontSize: 5}}><UndoIcon/></Button>
+            <Button onClick={() => props.setDrawMode('line')} style={ { backgroundColor: "white", margin: 10 }}>Line</Button>
+            <Button onClick={() => props.setDrawMode('poly')} style={ { backgroundColor: "white", margin: 10 }}>Poly</Button>
+            <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10}}><UndoIcon/></Button>
             <hr style={{width: "100%"}}/>
             <div className={styles.profiles}>
                 {props.lineList.map( (line, index) => {
