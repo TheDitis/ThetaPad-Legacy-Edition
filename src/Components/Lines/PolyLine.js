@@ -52,16 +52,34 @@ const PolyLine = (props) => {
                     const [dist, pts] = list;
                     const [pt1, pt2] = pts;
                     const [xMid, yMid] = findMidPoint(pt1,pt2);
+
+                    let angle;
+                    if (props.angles[0]) {
+                        angle = index !== 0 ? props.angles[index] - props.angles[index-1] : props.angles[index]
+                    }
+
                     return (
-                        <Text
-                            key={uuid()}
-                            text={(dist / props.unit).toFixed(2)}
-                            x={xMid}
-                            y={yMid}
-                            rotation={props.angles[index]}
-                            fontSize={15}
-                            fill={props.color}
-                        />
+                        <React.Fragment key={uuid()}>
+                            <Text
+                                text={(dist / props.unit).toFixed(2)}
+                                x={xMid}
+                                y={yMid}
+                                rotation={props.angles[index]}
+                                fontSize={15}
+                                fill={props.color}
+                            />
+                            {angle ? (
+                                <Text
+                                    text={`${angle.toFixed(1)}°`}
+                                    x={pt1[0]}
+                                    y={pt1[1]}
+                                    // rotation={props.angles[index]}
+                                    fontSize={15}
+                                    fill={props.color}
+                                />
+                            ) : null}
+
+                        </React.Fragment>
                     )
                 }
 
