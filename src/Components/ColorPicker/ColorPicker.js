@@ -44,6 +44,6 @@ const ColorPicker = props => {
             </ul>
         </div>
     )
-}
+};
 
 export default ColorPicker
