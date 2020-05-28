@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 
 const LineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
+    const [colorPickerLocation, setColorPickerLocation] = useState(null);
     // const [isUnit, setIsUnit] = useState();
 
     const line = props.line;
@@ -48,11 +49,16 @@ const LineProfile = (props) => {
         }
     };
 
+    const openColorPicker = (e) => {
+        setColorPickerLocation([e.clientX, e.clientY]);
+        setShowColorPicker(true)
+    };
+
     return (
         <React.Fragment>
             <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', border: '3px solid black'} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.leftSide}>
-                    <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={() => setShowColorPicker(true)}>
+                    <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
                     </div>
                 </div>
 
@@ -83,6 +89,7 @@ const LineProfile = (props) => {
                 <ColorPicker
                     showColorPicker={showColorPicker}
                     setShowColorPicker={setShowColorPicker}
+                    location={colorPickerLocation}
                     {...props}
                 />
                 ) : null}

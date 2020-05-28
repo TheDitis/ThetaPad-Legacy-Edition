@@ -39,14 +39,15 @@
 
 .swatchList {
   position: relative;
-  width: 12em;
-  height: 12em;
+  width: 9em;
+  height: 9em;
   padding: 0;
-  border-radius: 50%;
+  border-radius: 50% 50% 50% 0%;
   list-style: none;
   margin: -10em auto 0;
   background-color: white;
   border: solid 30px white;
+  box-shadow: 3px 3px 20px black;
   list-style-type: none;
   position: relative;
   top: 57px;
@@ -56,90 +57,123 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  margin: -0.75em;
+  width: 1.2em;
+  height: 1.2em;
+  margin: -0.6em;
 }
 .swatchList > *:nth-of-type(1) {
-  transform: rotate(0deg) translate(6em) rotate(0deg);
+  transform: rotate(0deg) translate(4.5em) rotate(0deg);
 }
 .swatchList > *:nth-of-type(2) {
-  transform: rotate(15.652173913deg) translate(6em) rotate(-15.652173913deg);
+  transform: rotate(15.652173913deg) translate(4.5em) rotate(-15.652173913deg);
 }
 .swatchList > *:nth-of-type(3) {
-  transform: rotate(31.3043478261deg) translate(6em) rotate(-31.3043478261deg);
+  transform: rotate(31.3043478261deg) translate(4.5em) rotate(-31.3043478261deg);
 }
 .swatchList > *:nth-of-type(4) {
-  transform: rotate(46.9565217391deg) translate(6em) rotate(-46.9565217391deg);
+  transform: rotate(46.9565217391deg) translate(4.5em) rotate(-46.9565217391deg);
 }
 .swatchList > *:nth-of-type(5) {
-  transform: rotate(62.6086956522deg) translate(6em) rotate(-62.6086956522deg);
+  transform: rotate(62.6086956522deg) translate(4.5em) rotate(-62.6086956522deg);
 }
 .swatchList > *:nth-of-type(6) {
-  transform: rotate(78.2608695652deg) translate(6em) rotate(-78.2608695652deg);
+  transform: rotate(78.2608695652deg) translate(4.5em) rotate(-78.2608695652deg);
 }
 .swatchList > *:nth-of-type(7) {
-  transform: rotate(93.9130434783deg) translate(6em) rotate(-93.9130434783deg);
+  transform: rotate(93.9130434783deg) translate(4.5em) rotate(-93.9130434783deg);
 }
 .swatchList > *:nth-of-type(8) {
-  transform: rotate(109.5652173913deg) translate(6em) rotate(-109.5652173913deg);
+  transform: rotate(109.5652173913deg) translate(4.5em) rotate(-109.5652173913deg);
 }
 .swatchList > *:nth-of-type(9) {
-  transform: rotate(125.2173913043deg) translate(6em) rotate(-125.2173913043deg);
+  transform: rotate(125.2173913043deg) translate(4.5em) rotate(-125.2173913043deg);
 }
 .swatchList > *:nth-of-type(10) {
-  transform: rotate(140.8695652174deg) translate(6em) rotate(-140.8695652174deg);
+  transform: rotate(140.8695652174deg) translate(4.5em) rotate(-140.8695652174deg);
 }
 .swatchList > *:nth-of-type(11) {
-  transform: rotate(156.5217391304deg) translate(6em) rotate(-156.5217391304deg);
+  transform: rotate(156.5217391304deg) translate(4.5em) rotate(-156.5217391304deg);
 }
 .swatchList > *:nth-of-type(12) {
-  transform: rotate(172.1739130435deg) translate(6em) rotate(-172.1739130435deg);
+  transform: rotate(172.1739130435deg) translate(4.5em) rotate(-172.1739130435deg);
 }
 .swatchList > *:nth-of-type(13) {
-  transform: rotate(187.8260869565deg) translate(6em) rotate(-187.8260869565deg);
+  transform: rotate(187.8260869565deg) translate(4.5em) rotate(-187.8260869565deg);
 }
 .swatchList > *:nth-of-type(14) {
-  transform: rotate(203.4782608696deg) translate(6em) rotate(-203.4782608696deg);
+  transform: rotate(203.4782608696deg) translate(4.5em) rotate(-203.4782608696deg);
 }
 .swatchList > *:nth-of-type(15) {
-  transform: rotate(219.1304347826deg) translate(6em) rotate(-219.1304347826deg);
+  transform: rotate(219.1304347826deg) translate(4.5em) rotate(-219.1304347826deg);
 }
 .swatchList > *:nth-of-type(16) {
-  transform: rotate(234.7826086957deg) translate(6em) rotate(-234.7826086957deg);
+  transform: rotate(234.7826086957deg) translate(4.5em) rotate(-234.7826086957deg);
 }
 .swatchList > *:nth-of-type(17) {
-  transform: rotate(250.4347826087deg) translate(6em) rotate(-250.4347826087deg);
+  transform: rotate(250.4347826087deg) translate(4.5em) rotate(-250.4347826087deg);
 }
 .swatchList > *:nth-of-type(18) {
-  transform: rotate(266.0869565217deg) translate(6em) rotate(-266.0869565217deg);
+  transform: rotate(266.0869565217deg) translate(4.5em) rotate(-266.0869565217deg);
 }
 .swatchList > *:nth-of-type(19) {
-  transform: rotate(281.7391304348deg) translate(6em) rotate(-281.7391304348deg);
+  transform: rotate(281.7391304348deg) translate(4.5em) rotate(-281.7391304348deg);
 }
 .swatchList > *:nth-of-type(20) {
-  transform: rotate(297.3913043478deg) translate(6em) rotate(-297.3913043478deg);
+  transform: rotate(297.3913043478deg) translate(4.5em) rotate(-297.3913043478deg);
 }
 .swatchList > *:nth-of-type(21) {
-  transform: rotate(313.0434782609deg) translate(6em) rotate(-313.0434782609deg);
+  transform: rotate(313.0434782609deg) translate(4.5em) rotate(-313.0434782609deg);
 }
 .swatchList > *:nth-of-type(22) {
-  transform: rotate(328.6956521739deg) translate(6em) rotate(-328.6956521739deg);
+  transform: rotate(328.6956521739deg) translate(4.5em) rotate(-328.6956521739deg);
 }
 .swatchList > *:nth-of-type(23) {
-  transform: rotate(344.347826087deg) translate(6em) rotate(-344.347826087deg);
+  transform: rotate(344.347826087deg) translate(4.5em) rotate(-344.347826087deg);
 }
-.swatchList div {
+
+.colorSwatch {
   display: block;
   max-width: 100%;
   border-radius: 50%;
   transition: 0.15s;
-  height: 1.5em;
-  width: 1.5em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  height: 1.2em;
+  width: 1.2em;
   alignItems: center;
 }
-.swatchList div:hover, .swatchList div:active {
+.colorSwatch:hover, .colorSwatch:active {
   transform: scale(1.2);
+}
+
+.blackWhiteContainer {
+  position: relative;
+  right: 0.9em;
+  bottom: 0.84em;
+  width: 50px;
+  display: flex;
+}
+
+.blackSwatch {
+  background-color: black;
+  border: 1px solid black;
+  display: block;
+  height: 2.8em;
+  width: 1.4em;
+  border-bottom-left-radius: 2.8em;
+  border-top-left-radius: 2.8em;
+  margin-right: 2px;
+}
+
+.whiteSwatch {
+  background-color: white;
+  border: 1px solid black;
+  display: block;
+  border-radius: 0 50% 50% 0;
+  height: 2.8em;
+  width: 1.4em;
+  border-bottom-right-radius: 2.8em;
+  border-top-right-radius: 2.8em;
+  margin-left: 2px;
 }
 
 /*# sourceMappingURL=ColorPicker.module.css.map */
