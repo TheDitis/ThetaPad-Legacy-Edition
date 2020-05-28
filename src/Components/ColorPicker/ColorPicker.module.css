@@ -57,9 +57,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  margin: -0.75em;
+  width: 1.2em;
+  height: 1.2em;
+  margin: -0.6em;
 }
 .swatchList > *:nth-of-type(1) {
   transform: rotate(0deg) translate(4.5em) rotate(0deg);
@@ -136,9 +136,9 @@
   max-width: 100%;
   border-radius: 50%;
   transition: 0.15s;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-  height: 1.3em;
-  width: 1.3em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  height: 1.2em;
+  width: 1.2em;
   alignItems: center;
 }
 .colorSwatch:hover, .colorSwatch:active {
@@ -147,7 +147,8 @@
 
 .blackWhiteContainer {
   position: relative;
-  right: 12px;
+  right: 0.9em;
+  bottom: 0.84em;
   width: 50px;
   display: flex;
 }
@@ -156,18 +157,23 @@
   background-color: black;
   border: 1px solid black;
   display: block;
-  border-radius: 50%;
-  height: 1.3em;
-  width: 1.3em;
+  height: 2.8em;
+  width: 1.4em;
+  border-bottom-left-radius: 2.8em;
+  border-top-left-radius: 2.8em;
+  margin-right: 2px;
 }
 
 .whiteSwatch {
   background-color: white;
   border: 1px solid black;
   display: block;
-  border-radius: 50%;
-  height: 1.3em;
-  width: 1.3em;
+  border-radius: 0 50% 50% 0;
+  height: 2.8em;
+  width: 1.4em;
+  border-bottom-right-radius: 2.8em;
+  border-top-right-radius: 2.8em;
+  margin-left: 2px;
 }
 
 /*# sourceMappingURL=ColorPicker.module.css.map */

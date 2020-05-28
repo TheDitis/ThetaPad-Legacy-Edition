@@ -77,7 +77,7 @@
 
 
 .swatchList {
-    @include on-circle($item-count: 23, $circle-size: 9em, $item-size: 1.5em);
+    @include on-circle($item-count: 23, $circle-size: 9em, $item-size: 1.2em);
     margin: -10em auto 0;
     background-color: white;
     border: solid 30px white;
@@ -97,11 +97,11 @@
     //filter: grayscale(100%);
     //border: solid 1px black;
     transition: .15s;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 
 
-    height: 1.3em;
-    width: 1.3em;
+    height: 1.2em;
+    width: 1.2em;
     alignItems: center;
 
     &:hover,
@@ -109,31 +109,40 @@
         transform: scale(1.2);
     }
 }
+$BnWSize: 1.4em;
 
 .blackWhiteContainer {
     position: relative;
     //bottom: 2px;
-    right: 12px;
+    right: 0.9em;
+    bottom: $BnWSize * 0.6;
     width: 50px;
     display: flex;
 }
+
 
 .blackSwatch {
     background-color: black;
     border: 1px solid black;
     display: block;
-    border-radius: 50%;
-    height: 1.3em;
-    width: 1.3em
+    //border-radius: 50% 0 0 50%;
+    height: $BnWSize * 2;
+    width: $BnWSize;
+    border-bottom-left-radius: $BnWSize * 2;
+    border-top-left-radius: $BnWSize * 2;
+    margin-right: 2px;
 }
 
 .whiteSwatch {
     background-color: white;
     border: 1px solid black;
     display: block;
-    border-radius: 50%;
-    height: 1.3em;
-    width: 1.3em
+    border-radius: 0 50% 50% 0;
+    height: $BnWSize * 2;
+    width: $BnWSize;
+    border-bottom-right-radius: $BnWSize * 2;
+    border-top-right-radius: $BnWSize * 2;
+    margin-left: 2px;
 }
 
 //.colorSwatch {
