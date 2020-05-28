@@ -11,9 +11,9 @@ const Lines = props => {
             if (_.has(data, 'x2')) {
                 switch (data.type) {
                     case 'line':
-                        return <StraightLine key={uuid()} {...data} {...props}/>;
+                        return <StraightLine key={uuid()} {...data} line={data} {...props}/>;
                     default:
-                        return <PolyLine key={uuid()} {...data} {...props}/>;
+                        return <PolyLine key={uuid()} {...data} line={data} {...props}/>;
                 }
             }
         })
