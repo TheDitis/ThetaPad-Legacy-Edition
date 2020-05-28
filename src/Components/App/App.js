@@ -15,7 +15,7 @@ import SideBar from "../SideBar/SideBar";
 
 const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
 
-const distance = (a, b) => {
+export const distance = (a, b) => {
     const [x1, y1] = a;
     const [x2, y2] = b;
     const xdist = Math.abs(x1 - x2);
@@ -183,24 +183,17 @@ function App() {
                 currentLine.angles[0] = angle;
             }
             else if (drawMode === 'poly') {
-                // for (let i; i++; i<)
-                let separatedLines = _.chunk(currentLine.points, 4);
-                console.log('separated:', separatedLines);
-                // currentLine.points.forEach(( coord, index ) => {
-                //
-                // });
                 length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
                     .toFixed(0)
-                    .toString();
 
                 const x1 = currentLine.points[currentLine.points.length - 4];
                 const x2 = currentLine.points[currentLine.points.length - 2];
                 const y1 = currentLine.points[currentLine.points.length - 3];
                 const y2 = currentLine.points[currentLine.points.length - 1];
-                console.log('points:', x1, y1, x2, y2);
+                // console.log('points:', x1, y1, x2, y2);
                 const angle = getAngle({ x: x1, y: y1 }, { x: x2, y: y2 });
                 const index = currentLine.points.length / 2 - 1;
-                console.log('angle: ', angle);
+                // console.log('angle: ', angle);
                 if (angle) {
                     currentLine.angles[currentLine.lineCount - 1] = angle;
                 }
