@@ -32,8 +32,6 @@ const UserImage = (props) => {
     )
 };
 
-const widthSub = window.innerWidth * 0.3;
-
 
 function App() {
     const [mouseX, setMouseX] = useState(null);
@@ -48,6 +46,9 @@ function App() {
     const [imgDims, setImgDims] = useState([0, 0]);
     const [cmdKey, setCmdKey] = useState(null);
     const [unit, setUnit] = useState(1);
+    const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
+
+    // const widthSub = window.innerWidth * 0.3;
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
@@ -128,6 +129,7 @@ function App() {
         });
         // console.log('post resize dims:', imgDims)
         prevWinDims = [window.innerWidth, window.innerHeight]
+        setWidthSub(window.innerWidth * 0.3)
     };
 
     const calcImgDims = () => {
@@ -155,7 +157,6 @@ function App() {
         setMouseX(e.clientX);
         setMouseY(e.clientY);
         if (mouseDown || inPolyDraw){
-            // console.log("in mouse Move")
             let currentLine = lineList[lineList.length - 1];
             currentLine.x2 = mouseX;
             currentLine.y2 = mouseY;
@@ -165,11 +166,6 @@ function App() {
                 currentLine.points.push(e.clientX - widthSub);
                 currentLine.points.push(e.clientY);
             }
-
-            // currentLine.points[currentLine.length - 2] = mouseX - widthSub;
-            // currentLine.points[currentLine.length - 1] = mouseY;
-            // currentLine.points[currentLine.length - 2] = 0
-            // currentLine.points[currentLine.length - 1] = 0
 
             let length;
 

@@ -55,7 +55,8 @@ const PolyLine = (props) => {
 
                     let angle;
                     if (props.angles[0]) {
-                        angle = index !== 0 ? props.angles[index] - props.angles[index-1] : props.angles[index]
+                        angle = index !== 0 ? Math.abs((props.angles[index] + props.angles[index-1] -90) % 180) : props.angles[index]
+                        // props.line.angles[index] = angle
                     }
 
                     return (
@@ -64,7 +65,7 @@ const PolyLine = (props) => {
                                 text={(dist / props.unit).toFixed(2)}
                                 x={xMid}
                                 y={yMid}
-                                rotation={props.angles[index]}
+                                rotation={(props.angles[index] % 180)}
                                 fontSize={15}
                                 fill={props.color}
                             />
