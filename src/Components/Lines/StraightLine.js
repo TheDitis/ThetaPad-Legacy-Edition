@@ -30,8 +30,8 @@ const StraightLine = (props) => {
             <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
             <Text
                 text={(props.length / props.unit).toFixed(2)}
-                x={xMid - 22}
-                y={yMid + 10}
+                x={xMid}
+                y={yMid}
                 rotation={props.angles[0]}
                 fontSize={15}
                 fill={props.color}
