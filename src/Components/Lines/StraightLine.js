@@ -1,6 +1,7 @@
 import React from "react";
 import uuid from "react-uuid";
 import {Line, Text} from "react-konva";
+import {distance, getAngle} from "../App/App";
 
 
 const StraightLine = (props) => {
@@ -8,6 +9,14 @@ const StraightLine = (props) => {
     const line = props.line;
     const points = [props.x1 - props.widthSub, props.y1, props.x2 - props.widthSub, props.y2];
 
+    const length = distance([line.x1, line.y1], [line.x2, line.y2])
+        .toFixed(0);
+    line.length = length;
+
+    const angle = getAngle(
+        {x: line.x1, y: line.y1}, {x: line.x2, y: line.y2}
+    );
+    line.angles[0] = angle;
 
     const findMidPoint = (a, b) => {
         const [x1, y1] = a;

@@ -13,7 +13,7 @@ import Lines from "../Lines/Lines";
 import SideBar from "../SideBar/SideBar";
 
 
-const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
+export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
 
 export const distance = (a, b) => {
     const [x1, y1] = a;
@@ -166,41 +166,8 @@ function App() {
                 currentLine.points.push(e.clientX - widthSub);
                 currentLine.points.push(e.clientY);
             }
-
-            let length;
-
-            if (drawMode === 'line') {
-                length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
-                    .toFixed(0)
-                    .toString();
-                const angle = getAngle(
-                    {x: currentLine.x1, y: currentLine.y1}, {x: currentLine.x2, y: currentLine.y2}
-                );
-                currentLine.angles[0] = angle;
-            }
-            else if (drawMode === 'poly') {
-                length = distance([currentLine.x1, currentLine.y1], [currentLine.x2, currentLine.y2])
-                    .toFixed(0)
-
-                const x1 = currentLine.points[currentLine.points.length - 4];
-                const x2 = currentLine.points[currentLine.points.length - 2];
-                const y1 = currentLine.points[currentLine.points.length - 3];
-                const y2 = currentLine.points[currentLine.points.length - 1];
-                // console.log('points:', x1, y1, x2, y2);
-                const angle = getAngle({ x: x1, y: y1 }, { x: x2, y: y2 });
-                const index = currentLine.points.length / 2 - 1;
-                // console.log('angle: ', angle);
-                if (angle) {
-                    currentLine.angles[currentLine.lineCount - 1] = angle;
-                }
-
-                console.log('line:', currentLine)
-            }
-
-            currentLine.length = length;
         }
     };
-
 
 
     const startLine = (x, y) => {
@@ -274,8 +241,15 @@ function App() {
 
     const stopPolyDraw = () => {
         const currentLine = lineList[lineList.length - 1];
-        currentLine.points.pop();
-        currentLine.points.pop();
+        if (currentLine.points.length < 5) {
+            const allLines = lineList
+            allLines.pop();
+            setLineList(allLines)
+        }
+        else {
+            currentLine.points.pop();
+            currentLine.points.pop();
+        }
         setInPolyDraw(false);
         setMouseDown(false);
     };
