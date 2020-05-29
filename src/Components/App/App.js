@@ -116,7 +116,7 @@ function App() {
         for (let line of lineList) {
             line.isUnit = false;
         }
-    }
+    };
 
     const resize = e => {
         handleMouseMove(e);
@@ -368,8 +368,6 @@ function App() {
                         </Layer>
                     </Stage>
                 </div>
-
-                {/*<img src={image} alt={'img'}/>*/}
             </div>
 
 
