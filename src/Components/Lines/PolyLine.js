@@ -49,9 +49,8 @@ const PolyLine = (props) => {
             return [[0, [0, 0]], [0, [0, 0]]]
         }
     };
-    // console.log("groupedLines:", groupedLines);
+
     const distsAndPts = makeDistancePoints(groupedLines);
-    // console.log("distsAndPts:", distsAndPts)
 
     return (
         <React.Fragment>

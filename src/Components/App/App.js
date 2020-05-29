@@ -333,8 +333,23 @@ function App() {
     return (
         <div className={styles.App}>
             <div className={styles.container}>
-                <SideBar undo={undo} handleUpload={handleUpload} lineList={lineList} updateColor={updateColor} removeLine={removeLine} setDrawMode={setDrawMode} unit={unit} setUnit={setUnit} unselectAllLines={unselectAllLines}/>
-                <div className={styles.drawingArea} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
+                <SideBar
+                    undo={undo}
+                    handleUpload={handleUpload}
+                    lineList={lineList}
+                    updateColor={updateColor}
+                    removeLine={removeLine}
+                    drawMode={drawMode}
+                    setDrawMode={setDrawMode}
+                    unit={unit} setUnit={setUnit}
+                    unselectAllLines={unselectAllLines}
+                />
+                <div
+                    className={styles.drawingArea}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                >
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>

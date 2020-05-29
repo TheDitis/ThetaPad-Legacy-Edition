@@ -2,13 +2,29 @@ import React from "react";
 import styles from './Sidebar.module.css'
 import ImageUploader from "react-images-upload";
 import Button from "@material-ui/core/Button";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import UndoIcon from '@material-ui/icons/Undo';
 import LineProfile from "../LineProfile/LineProfiles";
 import uuid from 'react-uuid'
-import {Undo} from "@material-ui/icons";
+
+
+const useStyles = makeStyles({
+    buttonUnselected : {
+        backgroundColor: "white",
+        margin: 10
+    },
+    buttonSelected: {
+        backgroundColor: "rgba(80, 80, 80, 1)",
+        color: 'white',
+        margin: 10
+    }
+});
 
 
 const SideBar = props => {
+
+    const classes = useStyles();
+
     return (
         <div className={styles.sidebar}>
             <hr style={{width: "100%"}}/>
@@ -23,8 +39,8 @@ const SideBar = props => {
                 buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
                 fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
             />
-            <Button onClick={() => props.setDrawMode('line')} style={ { backgroundColor: "white", margin: 10 }}>Line</Button>
-            <Button onClick={() => props.setDrawMode('poly')} style={ { backgroundColor: "white", margin: 10 }}>Poly</Button>
+            <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>
+            <Button onClick={() => props.setDrawMode('poly')} className={props.drawMode === 'poly' ? classes.buttonSelected : classes.buttonUnselected}>Poly</Button>
             <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10}}><UndoIcon/></Button>
             <hr style={{width: "100%"}}/>
             <div className={styles.profiles}>
