@@ -1,16 +1,25 @@
 .LineProfile {
     margin: auto;
-    width: 95%;
+    /*width: 95%;*/
     margin-top: 8px;
     /*background-color: #e9ebf0;*/
-    border-radius: 10px;
-    display: inline-flex;
+    /*border-radius: 10px;*/
+    /*display: inline-flex;*/
     box-shadow: 0 0 10px black;
 }
 
+.mainSection {
+    display: inline-flex;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
 .leftSide {
+    position: relative;
+    top: 3px;
     width: 5vw;
     border-right: 1px solid rgba(0, 0, 0, 0.3);
+    /*height: px;*/
+    margin: 0px;
 }
 
 .swatch {
@@ -32,8 +41,9 @@
 }
 
 .topSection {
-    height: 30px;
+    height: 40px;
     display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .lineTitle {
@@ -67,13 +77,15 @@
 .bottomSection {
     margin: 0px;
     margin-left: 7px;
-    height: 20px;
+    padding-top: 5px;
+    height: 25px;
     float: left;
     display: inline-flex;
 }
 
 .bottomSection a{
     text-align: left;
+    margin-top: 4px;
     margin-left: 8px;
 }
 
@@ -82,7 +94,7 @@
     width: 45px;
     border-radius: 5px;
     margin: 5px;
-    margin-top: 0px;
+    /*margin-top: 5px;*/
     float: bottom;
     padding: 0px;
 }
@@ -91,6 +103,31 @@
     margin: 0px;
 }
 
+.detailsSection {
+    margin-top: 0px;
+    display: block;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    max-height: 160px;
+    overflow: scroll;
+    /*animation: fade-in .5s;*/
+}
+
+.detailRow {
+    /*position: relative;*/
+    display: inline-flex;
+    width: 100%;
+    padding-left: 40px;
+    /*left: 40px;*/
+    margin-top: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+/*@keyframes fade-in {*/
+/*    0% { opacity: 0; transform: translate(-100px, 0px) scaleY(0.1)}*/
+/*    100% { opacity: 1; transform: translate(0px, 0px) scaleY(1)}*/
+/*}*/
 
 
 

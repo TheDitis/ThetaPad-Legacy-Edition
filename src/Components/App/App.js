@@ -9,7 +9,6 @@ import _ from 'lodash';
 import useImage from "use-image";
 import allColors from '../../colorOptions.json'
 import Lines from "../Lines/Lines";
-
 import SideBar from "../SideBar/SideBar";
 
 
@@ -154,9 +153,10 @@ function App() {
     };
 
     const handleMouseMove = e => {
-        setMouseX(e.clientX);
-        setMouseY(e.clientY);
         if (mouseDown || inPolyDraw){
+
+            setMouseX(e.clientX);
+            setMouseY(e.clientY);
             let currentLine = lineList[lineList.length - 1];
             currentLine.x2 = mouseX;
             currentLine.y2 = mouseY;
@@ -174,7 +174,7 @@ function App() {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
         const widthSub = window.innerWidth * 0.3;
-        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y], angles: [], isUnit: false};
+        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y], angles: [], isUnit: false, showDetails: false};
         setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
@@ -218,7 +218,7 @@ function App() {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
         const widthSub = window.innerWidth * 0.3;
-        let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 0};
+        let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 0, showDetails: false};
         line.points = [x - widthSub, y];
         // setMouseDown(true);
         allLines.push(line);
@@ -343,6 +343,7 @@ function App() {
                     setDrawMode={setDrawMode}
                     unit={unit} setUnit={setUnit}
                     unselectAllLines={unselectAllLines}
+                    refresh={refresh}
                 />
                 <div
                     className={styles.drawingArea}

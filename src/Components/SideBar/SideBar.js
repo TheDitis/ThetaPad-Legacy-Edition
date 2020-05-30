@@ -4,7 +4,8 @@ import ImageUploader from "react-images-upload";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import UndoIcon from '@material-ui/icons/Undo';
-import LineProfile from "../LineProfile/LineProfiles";
+import StraightLineProfile from "../LineProfiles/StraightLineProfile/StraightLineProfile";
+import PolyLineProfile from "../LineProfiles/PolyLineProfile/PolyLineProfile";
 import uuid from 'react-uuid'
 
 
@@ -45,14 +46,19 @@ const SideBar = props => {
             <hr style={{width: "100%"}}/>
             <div className={styles.profiles}>
                 {props.lineList.map( (line, index) => {
-                    return (
-                        <LineProfile key={uuid()} line={line} index={index} {...props}/>
-                    )
+                    switch (line.type) {
+                        case 'line':
+                            return <StraightLineProfile key={uuid()} line={line} index={index} {...props}/>;
+                        case 'poly':
+                            return <PolyLineProfile key={uuid()} line={line} index={index} {...props}/>;
+                        default:
+                            console.log("ERROR: Line type not recognized. See switch statement in SideBar Component")
+                            break;
+                    }
                 })}
             </div>
         </div>
     )
 };
-
 
 export default SideBar;

@@ -3,6 +3,7 @@
     width: 30vw;
     background-color: #282c34;
     display: block;
+    box-shadow: 0 0 25px black inset;
 }
 
 .profiles {

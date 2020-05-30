@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import styles from './LineProfiles.module.css'
+import styles from './StraightLineProfile.module.css'
 import uuid from "react-uuid";
-import ColorPicker from "../ColorPicker/ColorPicker";
+import ColorPicker from "../../ColorPicker/ColorPicker";
 import Button from '@material-ui/core/Button'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import _ from "lodash";
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 });
 
 
-const LineProfile = (props) => {
+const StraightLineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [colorPickerLocation, setColorPickerLocation] = useState(null);
     // const [isUnit, setIsUnit] = useState();
@@ -99,4 +99,4 @@ const LineProfile = (props) => {
 }
 
 
-export default LineProfile
+export default StraightLineProfile
