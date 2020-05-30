@@ -87,7 +87,7 @@ const PolyLineProfile = (props) => {
 
                             <a>Length: </a>
                             <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
+                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit).toFixed(2)}</h5>
                             </div>
 
                             <a>Angle</a>
@@ -101,12 +101,16 @@ const PolyLineProfile = (props) => {
                 </div>
                 {line.showDetails ? (
                     <div className={styles.detailsSection}>
-                        {line.angles.map((angle, index) => {
+                        {line.displayAngles.map((angle, index) => {
                             return (
                                 <div className={styles.detailRow} key={uuid()}>
                                     <a>Angle {index}</a>
-                                    <div className={styles.numberContainer}>
-                                        <h5 className={styles.number}>{angle.toFixed(0)}°</h5>
+                                    <div className={styles.numberContainerDetails}>
+                                        <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
+                                    </div>
+                                    <a>Length: </a>
+                                    <div className={styles.numberContainerDetails}>
+                                        <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(2)}</h5>
                                     </div>
                                 </div>
                             )

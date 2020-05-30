@@ -59,7 +59,6 @@ function App() {
     document.onkeydown = (e) => {
         if (e.key === 'Escape') {
             console.log('Escape Pressed');
-            setNewPolyLine(true);
             if (inPolyDraw) {
                 stopPolyDraw()
             }
@@ -245,6 +244,8 @@ function App() {
     };
 
     const stopPolyDraw = (fromButton) => {
+
+        setNewPolyLine(true);
         const currentLine = lineList[lineList.length - 1];
         if (currentLine.points.length < 5) {
             const allLines = lineList
@@ -258,6 +259,9 @@ function App() {
         if (fromButton) {
             currentLine.points.pop();
             currentLine.points.pop();
+        }
+        if (currentLine.distances) {
+            currentLine.distances.pop()
         }
         setInPolyDraw(false);
         setMouseDown(false);

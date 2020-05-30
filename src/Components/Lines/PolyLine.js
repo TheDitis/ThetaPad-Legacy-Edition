@@ -59,25 +59,20 @@ const PolyLine = (props) => {
                 const vec2 = [line2[1][0] - line2[0][0], line2[1][1]- line2[0][1]];
                 const mag1 = Math.sqrt(vec1[0] ** 2 + vec1[1] ** 2);
                 const mag2 = Math.sqrt(vec2[0] ** 2 + vec2[1] ** 2);
-                console.log('vec1', vec1, 'vec2', vec2);
                 const dot = nj.dot(vec1, vec2).selection.data[0];
-                console.log('dot', dot)
-                const magnitudes = mag1 * mag2
-                console.log('magnitude: ', magnitudes)
-                const radians = Math.acos(dot / magnitudes)
-                // console.log('angle:', angle)
-                // console.log('cosVersion:', cosVersion)
+                const magnitudes = mag1 * mag2;
+                const radians = Math.acos(dot / magnitudes);
                 return radians * (180 / Math.PI)
             }
             else {
                 return line.angles[0]
             }
         });
-        console.log("displayAngles", angles)
         return angles;
     };
 
     const distsAndPts = makeDistancePoints(groupedLines);
+    line.distances = _.map(distsAndPts, (list) => list[0])
     line.displayAngles = calculateAngles(groupedLines);
 
     return (
