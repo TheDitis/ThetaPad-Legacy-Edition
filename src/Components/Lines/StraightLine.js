@@ -10,7 +10,6 @@ const StraightLine = (props) => {
     const points = [props.x1 - props.widthSub, props.y1, props.x2 - props.widthSub, props.y2];
 
     const length = distance([line.x1, line.y1], [line.x2, line.y2])
-        .toFixed(0);
     line.length = length;
 
     const angle = getAngle(
@@ -36,15 +35,19 @@ const StraightLine = (props) => {
 
     return (
         <React.Fragment>
-            <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
-            <Text
-                text={(props.length / props.unit).toFixed(2)}
-                x={xMid}
-                y={yMid}
-                rotation={props.angles[0]}
-                fontSize={15}
-                fill={props.color}
-            />
+            {line.x2 ? (
+                <React.Fragment>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
+                    <Text
+                        text={(props.length / props.unit).toFixed(2)}
+                        x={xMid}
+                        y={yMid}
+                        rotation={props.angles[0]}
+                        fontSize={15}
+                        fill={props.color}
+                    />
+                </React.Fragment>
+            ) : null}
         </React.Fragment>
     );
 }

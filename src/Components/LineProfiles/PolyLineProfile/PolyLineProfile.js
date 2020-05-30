@@ -44,7 +44,7 @@ const PolyLineProfile = (props) => {
             line.isUnit = false;
         }
         else {
-            props.setUnit(line.length);
+            props.setUnit(_.sum(line.distances));
             props.unselectAllLines();
             line.isUnit = true
         }

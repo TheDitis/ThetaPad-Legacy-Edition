@@ -69,6 +69,7 @@ function App() {
         }
         else if (e.key === 'z') {
             console.log('z key pressed');
+            console.log('cmdKey:', cmdKey)
             if (cmdKey) {
                 undo();
                 refresh();
@@ -270,6 +271,8 @@ function App() {
     const handleMouseDown = e => {
         const x = Math.round(e.clientX);
         const y = Math.round(e.clientY);
+        setMouseX(x);
+        setMouseY(y);
         switch (drawMode) {
             case 'line':
                 startLine(x, y);
@@ -333,7 +336,11 @@ function App() {
     };
 
     const undo = () => {
-        // TODO: Add ctrl-z
+        console.log('undo')
+
+        if (inPolyDraw) {
+            stopPolyDraw()
+        }
         let allLines = lineList;
         allLines.pop();
         setLineList(allLines);

@@ -56,7 +56,7 @@ const StraightLineProfile = (props) => {
 
     return (
         <React.Fragment>
-            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', border: '3px solid black'} : {backgroundColor: "#e9ebf0"}}>
+            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', color: 'white', border: '3px solid black'} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.leftSide}>
                     <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
                     </div>
@@ -71,7 +71,7 @@ const StraightLineProfile = (props) => {
 
                     <hr/>
 
-                    <div className={styles.bottomSection}>
+                    <div className={styles.bottomSection} style={{color: 'black'}}>
                         <a>Length: </a>
                         <div className={styles.numberContainer}>
                             <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
