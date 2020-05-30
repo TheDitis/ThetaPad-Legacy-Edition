@@ -1,6 +1,8 @@
 import React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import styles from './App.module.css';
+import Button from '@material-ui/core/Button'
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import Konva from 'konva'
 import {Stage, Layer, Rect, Text, Circle, Line, Ellipse} from 'react-konva';
 import {Image as KonvaImage} from 'react-konva'
@@ -10,9 +12,13 @@ import useImage from "use-image";
 import allColors from '../../colorOptions.json'
 import Lines from "../Lines/Lines";
 import SideBar from "../SideBar/SideBar";
-
+import { Transition } from 'react-transition-group';
+import StopPolyDrawButton from "../StopPolyDrawButton";
 
 export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
+
+
+
 
 export const distance = (a, b) => {
     const [x1, y1] = a;
@@ -48,7 +54,6 @@ function App() {
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
 
     // const widthSub = window.innerWidth * 0.3;
-
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
     document.onkeydown = (e) => {
@@ -239,7 +244,7 @@ function App() {
         setLineList(allLines)
     };
 
-    const stopPolyDraw = () => {
+    const stopPolyDraw = (fromButton) => {
         const currentLine = lineList[lineList.length - 1];
         if (currentLine.points.length < 5) {
             const allLines = lineList
@@ -247,6 +252,10 @@ function App() {
             setLineList(allLines)
         }
         else {
+            currentLine.points.pop();
+            currentLine.points.pop();
+        }
+        if (fromButton) {
             currentLine.points.pop();
             currentLine.points.pop();
         }
@@ -351,12 +360,15 @@ function App() {
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
                 >
+                    <StopPolyDrawButton inProp={inPolyDraw} stopPolyDraw={stopPolyDraw}/>
+
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         <Layer>
                             <Lines list={lineList} unit={unit} widthSub={widthSub}/>
                         </Layer>
                     </Stage>
+
                 </div>
             </div>
 
