@@ -1,9 +1,9 @@
 .LineProfile {
-    margin: auto;
-    /*width: 95%;*/
+    margin: 0.6vw;
+    width: 95%;
     margin-top: 8px;
     /*background-color: #e9ebf0;*/
-    /*border-radius: 10px;*/
+    border-radius: 10px;
     display: inline-flex;
     box-shadow: 0 0 10px black;
 }

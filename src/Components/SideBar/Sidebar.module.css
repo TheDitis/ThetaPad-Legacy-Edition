@@ -7,7 +7,7 @@
 }
 
 .profiles {
-    height: 100%;
+    height: calc(100vh - 153px);
     position: relative;
     overflow-y: scroll;
 }

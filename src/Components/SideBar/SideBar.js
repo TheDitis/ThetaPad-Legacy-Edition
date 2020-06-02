@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 });
 
 
-const SideBar = props => {
+const SideBar = (props) => {
 
     const classes = useStyles();
 

@@ -13,7 +13,11 @@ const Lines = props => {
                     case 'line':
                         return <StraightLine key={uuid()} {...data} line={data} {...props}/>;
                     case 'poly':
-                        return <PolyLine key={uuid()} {...data} line={data} {...props}/>;
+                        if (data.points[0]) {
+                            console.log('points:', data.points)
+                            return <PolyLine key={uuid()} {...data} line={data} {...props}/>;
+                        }
+                        return null;
                     default:
                         return null
                 }

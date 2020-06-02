@@ -77,6 +77,7 @@ const PolyLine = (props) => {
 
     return (
         <React.Fragment>
+
             <Line x={0} y={0} stroke={line.color} points={line.points} strokeWidth={2}/>
             { !!distsAndPts ? distsAndPts.map( (list, index) => {
                 // console.log('list:', list)

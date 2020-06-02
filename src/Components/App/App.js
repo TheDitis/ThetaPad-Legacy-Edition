@@ -14,6 +14,8 @@ import Lines from "../Lines/Lines";
 import SideBar from "../SideBar/SideBar";
 import { Transition } from 'react-transition-group';
 import StopPolyDrawButton from "../StopPolyDrawButton";
+import useKeyPress from "../Hooks/useKeyPress";
+import useMultiKeyPress from "../Hooks/useMultiKeyPress";
 
 export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
 
@@ -53,7 +55,10 @@ function App() {
     const [unit, setUnit] = useState(1);
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
 
-    // const widthSub = window.innerWidth * 0.3;
+    // const cmdKey = useKeyPress('Meta');
+    // const escKey = useKeyPress('Escape');
+    // const cmdZ = useMultiKeyPress('Meta', 'z');
+
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
     document.onkeydown = (e) => {
@@ -67,7 +72,7 @@ function App() {
             setCmdKey(true);
             console.log("cmdKey: ", cmdKey)
         }
-        else if (e.key === 'z') {
+        if (e.key === 'z') {
             console.log('z key pressed');
             console.log('cmdKey:', cmdKey)
             if (cmdKey) {
@@ -76,12 +81,15 @@ function App() {
             }
         }
     };
+
     document.onkeyup = (e) => {
         if (e.key === 'Meta') {
             setCmdKey(false)
             console.log("cmdKey: ", cmdKey)
         }
     };
+
+
 
     useEffect(() => {
         window.addEventListener('resize', resize);
@@ -300,7 +308,6 @@ function App() {
             default:
                 break;
         }
-
     };
 
     const clearAll = () => {
@@ -335,6 +342,33 @@ function App() {
         fr.readAsDataURL(picture);
     };
 
+    const removePoint = (lineIndex, pointIndex) => {
+        const allLines = lineList;
+        let line = allLines[lineIndex];
+        if (line.points.length < 5) {
+            // undo()
+            allLines.splice(lineIndex, 1)
+        }
+        else {
+            if (pointIndex > 0) {
+                line.points.pop();
+                line.points.pop();
+                line.distances.pop();
+                line.displayAngles.pop();
+                line.angles.pop();
+            }
+            else {
+                line.points.shift();
+                line.points.shift();
+                line.distances.shift();
+                line.displayAngles.shift();
+                line.angles.shift();
+            }
+            setLineList(allLines);
+        }
+        refresh();
+    };
+
     const undo = () => {
         console.log('undo')
 
@@ -359,6 +393,7 @@ function App() {
                     lineList={lineList}
                     updateColor={updateColor}
                     removeLine={removeLine}
+                    removePoint={removePoint}
                     drawMode={drawMode}
                     setDrawMode={setDrawMode}
                     unit={unit} setUnit={setUnit}

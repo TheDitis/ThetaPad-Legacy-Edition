@@ -33,24 +33,22 @@ const StraightLine = (props) => {
     console.log("pt1:", props.x1, props.y1, "pt2", props.x2, props.y2);
     console.log("midpoint: ", xMid, yMid);
 
-    return (
-        <React.Fragment>
-            {line.x2 ? (
-                <React.Fragment>
-                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
-                    <Text
-                        text={(props.length / props.unit).toFixed(2)}
-                        x={xMid}
-                        y={yMid}
-                        rotation={props.angles[0]}
-                        fontSize={15}
-                        fill={props.color}
-                    />
-                </React.Fragment>
-            ) : null}
-        </React.Fragment>
-    );
-}
+    if (line.x2) {
+        return (
+            <React.Fragment>
+                <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
+                <Text
+                    text={(line.length / props.unit).toFixed(2)}
+                    x={xMid}
+                    y={yMid}
+                    rotation={line.angles[0]}
+                    fontSize={15}
+                    fill={props.color}
+                />
+            </React.Fragment>
+        )
+    }
+};
 
 
 export default StraightLine;

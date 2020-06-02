@@ -16,12 +16,30 @@ const useStyles = makeStyles({
         marginTop: '4px',
         height: '30px'
     },
+    unitSelectSmall: {
+        '&:hover': {
+            backgroundColor: 'gray'
+        },
+        marginLeft: '15px',
+        marginTop: '4px',
+        // height: '30px'
+    },
     unitSelectUnselected: {
         backgroundColor: "#e9ebf0",
     },
     unitSelectSelected: {
         backgroundColor: 'rgba(82, 82, 82, 1)',
         color: 'white'
+    },
+    rowNumber: {
+        margin: '0px',
+        marginRight: '10px',
+        padding: '0px'
+    },
+    deleteSegmentButton: {
+        marginLeft: '10px',
+        marginRight: '10px',
+        cursor: 'pointer'
     }
 });
 
@@ -38,26 +56,35 @@ const PolyLineProfile = (props) => {
 
     });
 
-    const toggleIsUnit = (e) => {
+    const toggleIsUnit = (index) => () => {
+        let len;
+        if (index === -1) {
+            len = _.sum(line.distances)
+        }
+        else {
+            len = line.distances[index]
+            line.unitSegmentIndex = index
+        }
         if (line.isUnit) {
             props.setUnit(1);
             line.isUnit = false;
+            line.unitSegmentIndex = -1
         }
         else {
-            props.setUnit(_.sum(line.distances));
+            props.setUnit(len);
             props.unselectAllLines();
             line.isUnit = true
         }
     };
 
     const toggleShowDetails = (e) => {
-        line.showDetails = !line.showDetails
+        line.showDetails = !line.showDetails;
         props.refresh()
     };
 
     const openColorPicker = (e) => {
         setColorPickerLocation([e.clientX, e.clientY]);
-        console.log('opening color picker')
+        console.log('opening color picker');
         setShowColorPicker(true)
     };
 
@@ -77,11 +104,11 @@ const PolyLineProfile = (props) => {
                             <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                             <Button
                                 className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`}
-                                size={'small'} variant={'outlined'} onClick={toggleIsUnit}>Unit</Button>
+                                size={'small'} variant={'outlined'} onClick={toggleIsUnit(-1)}>Unit
+                            </Button>
                             <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                         </div>
 
-                        {/*<hr/>*/}
 
                         <div className={styles.bottomSection}>
 
@@ -104,7 +131,8 @@ const PolyLineProfile = (props) => {
                         {line.displayAngles.map((angle, index) => {
                             return (
                                 <div className={styles.detailRow} key={uuid()}>
-                                    <a>Angle {index}</a>
+                                    <h5 className={classes.rowNumber}>{index}</h5>
+                                    <a>Angle: </a>
                                     <div className={styles.numberContainerDetails}>
                                         <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
                                     </div>
@@ -112,6 +140,16 @@ const PolyLineProfile = (props) => {
                                     <div className={styles.numberContainerDetails}>
                                         <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(2)}</h5>
                                     </div>
+
+                                    <Button
+                                        className={`${classes.unitSelectSmall} ${line.unitSegmentIndex === index ? classes.unitSelectSelected : classes.unitSelectUnselected}`}
+                                        size={'small'} variant={'outlined'} onClick={toggleIsUnit(index)}>Unit
+                                    </Button>
+                                    {index === 0 ? (
+                                        <a className={classes.deleteSegmentButton} onClick={() => props.removePoint(props.index, 0)}>×</a>
+                                    ) : index === line.distances.length - 1 ? (
+                                        <a className={classes.deleteSegmentButton} onClick={() => props.removePoint(props.index, index)}>×</a>
+                                    ) : null}
                                 </div>
                             )
                         })}
@@ -127,7 +165,6 @@ const PolyLineProfile = (props) => {
                     {...props}
                 />
                 ) : null}
-            {/*<ColorPicker/>*/}
         </React.Fragment>
     )
 }
