@@ -26,6 +26,7 @@ const useStyles = makeStyles({
     },
     unitSelectUnselected: {
         backgroundColor: "#e9ebf0",
+        height: '30px',
     },
     unitSelectSelected: {
         backgroundColor: 'rgba(82, 82, 82, 1)',
@@ -90,7 +91,7 @@ const PolyLineProfile = (props) => {
 
     return (
         <React.Fragment>
-            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', color: "white", border: '3px solid black'} : {backgroundColor: "#e9ebf0"}}>
+            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.mainSection}>
                     <div className={styles.leftSide}>
                         <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>

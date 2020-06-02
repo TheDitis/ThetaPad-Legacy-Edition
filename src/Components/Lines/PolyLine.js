@@ -10,15 +10,12 @@ const PolyLine = (props) => {
 
     const line = props.line;
 
-    const length = distance([line.x1, line.y1], [line.x2, line.y2])
-        .toFixed(0)
-
     const x1 = line.points[line.points.length - 4];
     const x2 = line.points[line.points.length - 2];
     const y1 = line.points[line.points.length - 3];
     const y2 = line.points[line.points.length - 1];
     const angle = getAngle({ x: x1, y: y1 }, { x: x2, y: y2 });
-    const index = line.points.length / 2 - 1;
+    // const index = line.points.length / 2 - 1;
     if (angle) {
         line.angles[line.lineCount - 1] = angle;
     }
@@ -86,10 +83,6 @@ const PolyLine = (props) => {
                     const [pt1, pt2] = pts;
                     const [xMid, yMid] = findMidPoint(pt1,pt2);
 
-                    // let angle;
-                    // if (line.angles[0]) {
-                    //     angle = index !== 0 ? Math.abs((line.angles[index] + line.angles[index-1] -90) % 180) : line.angles[index]
-                    // }
                     let angle;
                     if (line.displayAngles[0]) {
                         angle = line.displayAngles[index]

@@ -28,22 +28,24 @@ const SideBar = (props) => {
 
     return (
         <div className={styles.sidebar}>
-            <hr style={{width: "100%"}}/>
-            <ImageUploader
-                buttonText='Choose image'
-                onChange={props.handleUpload}
-                imgExtension={['.jpg', '.jpeg', '.gif', '.png', '.gif']}
-                maxFileSize={20971520}
-                withIcon={false}
-                withLabel={false}
-                singleImage={false}
-                buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
-                fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
-            />
-            <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>
-            <Button onClick={() => props.setDrawMode('poly')} className={props.drawMode === 'poly' ? classes.buttonSelected : classes.buttonUnselected}>Poly</Button>
-            <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10}}><UndoIcon/></Button>
-            <hr style={{width: "100%"}}/>
+            <div className={styles.topSection}>
+                <hr style={{width: "100%"}}/>
+                <ImageUploader
+                    buttonText='Choose image'
+                    onChange={props.handleUpload}
+                    imgExtension={['.jpg', '.jpeg', '.gif', '.png', '.gif']}
+                    maxFileSize={20971520}
+                    withIcon={false}
+                    withLabel={false}
+                    singleImage={false}
+                    buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
+                    fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
+                />
+                <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>
+                <Button onClick={() => props.setDrawMode('poly')} className={props.drawMode === 'poly' ? classes.buttonSelected : classes.buttonUnselected}>Poly</Button>
+                <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10} }><UndoIcon/></Button>
+                <hr style={{width: "100%"}}/>
+            </div>
             <div className={styles.profiles}>
                 {props.lineList.map( (line, index) => {
                     switch (line.type) {
