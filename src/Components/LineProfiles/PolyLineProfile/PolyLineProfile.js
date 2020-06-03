@@ -5,6 +5,7 @@ import ColorPicker from "../../ColorPicker/ColorPicker";
 import Button from '@material-ui/core/Button'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import _ from "lodash";
+import {Transition} from "react-transition-group";
 import Fade from 'react-reveal/Fade';
 
 const useStyles = makeStyles({
@@ -60,14 +61,10 @@ const useStyles = makeStyles({
 const PolyLineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [colorPickerLocation, setColorPickerLocation] = useState(null);
-    // const [showDetails, setShowDetails] = useState(false);
+    const [detailsView, setDetailsView] = useState(false);
 
     const line = props.line;
     const classes = useStyles();
-
-    useEffect(() => {
-
-    });
 
     const toggleIsUnit = (index) => () => {
         let len;
@@ -135,7 +132,9 @@ const PolyLineProfile = (props) => {
                                 <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
                             </div>
 
-                            <a className={styles.showDetailsArrow} onClick={toggleShowDetails}>▶</a>
+                            {/*<a className={styles.showDetailsArrow} onClick={toggleShowDetails}>▶</a>*/}
+                            <ExpandArrow toggleShowDetails={toggleShowDetails} in={line.showDetails}/>
+
                         </div>
                     </div>
                 </div>
@@ -181,6 +180,41 @@ const PolyLineProfile = (props) => {
                 />
                 ) : null}
         </React.Fragment>
+    )
+};
+
+const defaultStyle = {
+    transition: `transform 1s ease-in-out`,
+    position: 'absolute',
+    cursor: 'pointer',
+    right: '30px',
+    transform: 'scaleX(0.7) rotate(0deg)'
+};
+
+const transitionStyles = {
+    entering: { transform: 'scaleX(0.7) rotate(0deg)' },
+    entered:  { transform: 'scaleY(0.7) rotate(90deg)' },
+    exiting:  { transform: 'scaleY(0.7) rotate(90deg)' },
+    exited:  { transform: 'scaleX(0.7) rotate(0deg)' },
+};
+
+const ExpandArrow = props => {
+
+    return (
+        <Transition in={props.in} timeout={{
+            appear: 500,
+            enter: 300,
+            exit: 500,
+        }}>
+            {state => (
+                <a onClick={props.toggleShowDetails} style={{
+                    ...defaultStyle,
+                    ...transitionStyles[state]
+                }}>
+                    ▶
+                </a>
+            )}
+        </Transition>
     )
 }
 

@@ -55,10 +55,6 @@ function App() {
     const [unit, setUnit] = useState(1);
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
 
-    // const cmdKey = useKeyPress('Meta');
-    // const escKey = useKeyPress('Escape');
-    // const cmdZ = useMultiKeyPress('Meta', 'z');
-
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
     document.onkeydown = (e) => {
@@ -84,12 +80,10 @@ function App() {
 
     document.onkeyup = (e) => {
         if (e.key === 'Meta') {
-            setCmdKey(false)
+            setCmdKey(false);
             console.log("cmdKey: ", cmdKey)
         }
     };
-
-
 
     useEffect(() => {
         window.addEventListener('resize', resize);
