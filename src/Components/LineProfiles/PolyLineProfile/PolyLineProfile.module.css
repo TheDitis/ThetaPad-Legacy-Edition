@@ -18,7 +18,7 @@
 .leftSide {
     position: relative;
     top: 3px;
-    width: 5vw;
+    width: 65px;
     border-right: 1px solid rgba(0, 0, 0, 0.3);
     /*height: px;*/
     margin: 0px;
@@ -26,11 +26,16 @@
 
 .swatch {
     margin: auto;
-    margin-top: 6px;
+    margin-top: 5px;
     border-radius: 5px;
     height: 80%;
     width: 80%;
     cursor: pointer;
+}
+
+.swatch:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
 }
 
 .rightSide {
@@ -70,9 +75,9 @@
 }
 
 .deleteButton {
-    font-size: 16pt;
+    font-size: 18pt;
     position: absolute;
-    right: 1vw;
+    right: 1.2vw;
     cursor: pointer;
     /*float: right;*/
 }
@@ -102,9 +107,15 @@
     padding: 1px 6px 3px 6px;
 }
 
+.numberSectionDetails {
+    display: flex;
+    margin-top: 7px;
+}
+
 .numberContainerDetails {
     background-color: white;
     width: 55px;
+    height: 20px;
     border-radius: 5px;
     margin: 0px 10px 5px 10px;
     float: bottom;
@@ -130,8 +141,23 @@
     /*position: relative;*/
     display: inline-flex;
     width: 100%;
-    padding-left: 10px;
+    padding-left: 0px;
     /*left: 40px;*/
     margin-top: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rowNumber {
+    margin: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding-top: 6px;
+    margin-left: 10px;
+    /*padding-left: 10px;*/
+    font-size: 14px;
+    /*padding: 0px;*/
+    width: 25px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }

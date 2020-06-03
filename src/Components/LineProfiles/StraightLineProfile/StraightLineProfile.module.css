@@ -10,17 +10,22 @@
 }
 
 .leftSide {
-    width: 5vw;
+    width: 65px;
     border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .swatch {
     margin: auto;
-    margin-top: 6px;
+    margin-top: 7px;
     border-radius: 5px;
     height: 80%;
     width: 80%;
     cursor: pointer;
+}
+
+.swatch:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
 }
 
 .rightSide {
@@ -75,8 +80,8 @@
 }
 
 .bottomSection a{
-    text-align: left;
-    margin-left: 8px;
+    /*text-align: left;*/
+    /*margin-left: 8px;*/
 }
 
 .numberContainer {

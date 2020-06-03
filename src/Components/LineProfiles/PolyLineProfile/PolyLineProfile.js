@@ -21,24 +21,36 @@ const useStyles = makeStyles({
             backgroundColor: 'gray'
         },
         marginLeft: '15px',
-        marginTop: '4px',
+        marginTop: '2px',
+        marginBottom: '9px',
+        // height: '15px',
         // height: '30px'
     },
     unitSelectUnselected: {
         backgroundColor: "#e9ebf0",
         height: '30px',
+        marginBottom: '10px'
     },
     unitSelectSelected: {
         backgroundColor: 'rgba(82, 82, 82, 1)',
-        color: 'white'
+        color: 'white',
+        marginBottom: '10px'
     },
     rowNumber: {
         margin: '0px',
         marginRight: '10px',
-        padding: '0px'
+        marginBottom: '10px',
+        paddingTop: '6px',
+        paddingLeft: '10px',
+        fontSize: '14px',
+        padding: '0px',
+        width: '25px',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderTopRightRadius: '10px'
     },
     deleteSegmentButton: {
-        marginLeft: '10px',
+        fontSize: '18pt',
+        marginLeft: '20px',
         marginRight: '10px',
         cursor: 'pointer'
     }
@@ -91,7 +103,7 @@ const PolyLineProfile = (props) => {
 
     return (
         <React.Fragment>
-            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
+            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(100, 100, 100, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.mainSection}>
                     <div className={styles.leftSide}>
                         <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
@@ -132,14 +144,16 @@ const PolyLineProfile = (props) => {
                         {line.displayAngles.map((angle, index) => {
                             return (
                                 <div className={styles.detailRow} key={uuid()}>
-                                    <h5 className={classes.rowNumber}>{index}</h5>
-                                    <a>Angle: </a>
-                                    <div className={styles.numberContainerDetails}>
-                                        <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
-                                    </div>
-                                    <a>Length: </a>
-                                    <div className={styles.numberContainerDetails}>
-                                        <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(2)}</h5>
+                                    <h5 className={styles.rowNumber}>{index}</h5>
+                                    <div className={styles.numberSectionDetails}>
+                                        <a>Angle: </a>
+                                        <div className={styles.numberContainerDetails}>
+                                            <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
+                                        </div>
+                                        <a>Length: </a>
+                                        <div className={styles.numberContainerDetails}>
+                                            <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(2)}</h5>
+                                        </div>
                                     </div>
 
                                     <Button

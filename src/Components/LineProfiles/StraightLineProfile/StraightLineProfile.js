@@ -22,6 +22,16 @@ const useStyles = makeStyles({
     unitSelectSelected: {
         backgroundColor: 'rgba(82, 82, 82, 1)',
         color: 'white'
+    },
+    numberLabelsUnselected: {
+        textAlign: 'left',
+        marginLeft: '8px',
+        color: 'black',
+    },
+    numberLabelsSelected: {
+        textAlign: 'left',
+        marginLeft: '8px',
+        color: 'white',
     }
 });
 
@@ -56,7 +66,7 @@ const StraightLineProfile = (props) => {
 
     return (
         <React.Fragment>
-            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(120, 120, 120, 1)', color: 'white'} : {backgroundColor: "#e9ebf0"}}>
+            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(100, 100, 100, 1)', color: 'white'} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.leftSide}>
                     <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
                     </div>
@@ -72,12 +82,12 @@ const StraightLineProfile = (props) => {
                     <hr/>
 
                     <div className={styles.bottomSection} style={{color: 'black'}}>
-                        <a>Length: </a>
+                        <a className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected}>Length: </a>
                         <div className={styles.numberContainer}>
                             <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
                         </div>
                         <React.Fragment>
-                            <a>Angle</a>
+                            <a className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected}>Angle: </a>
                             <div className={styles.numberContainer}>
                                 <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
                             </div>
