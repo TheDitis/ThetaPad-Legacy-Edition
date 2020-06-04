@@ -102,11 +102,11 @@ const PolyLineProfile = (props) => {
         <React.Fragment>
             <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(100, 100, 100, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.mainSection}>
+
                     <div className={styles.leftSide}>
                         <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
                         </div>
                     </div>
-
 
                     <div className={styles.rightSide}>
 
@@ -118,7 +118,6 @@ const PolyLineProfile = (props) => {
                             </Button>
                             <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                         </div>
-
 
                         <div className={styles.bottomSection}>
 
@@ -132,9 +131,7 @@ const PolyLineProfile = (props) => {
                                 <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
                             </div>
 
-                            {/*<a className={styles.showDetailsArrow} onClick={toggleShowDetails}>▶</a>*/}
                             <ExpandArrow toggleShowDetails={toggleShowDetails} in={line.showDetails}/>
-
                         </div>
                     </div>
                 </div>
@@ -195,11 +192,11 @@ const transitionStyles = {
     entering: { transform: 'scaleX(0.7) rotate(0deg)' },
     entered:  { transform: 'scaleY(0.7) rotate(90deg)' },
     exiting:  { transform: 'scaleY(0.7) rotate(90deg)' },
-    exited:  { transform: 'scaleX(0.7) rotate(0deg)' },
+    exited:  { transform: 'scaleX(0.7) rotate(0deg)' }
 };
 
-const ExpandArrow = props => {
 
+const ExpandArrow = props => {
     return (
         <Transition in={props.in} timeout={{
             appear: 500,
@@ -216,7 +213,7 @@ const ExpandArrow = props => {
             )}
         </Transition>
     )
-}
+};
 
 
-export default PolyLineProfile
+export default PolyLineProfile;

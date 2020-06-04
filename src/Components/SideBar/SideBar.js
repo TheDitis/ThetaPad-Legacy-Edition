@@ -54,10 +54,15 @@ const SideBar = (props) => {
                         case 'poly':
                             return <PolyLineProfile key={uuid()} line={line} index={index} {...props}/>;
                         default:
-                            console.log("ERROR: Line type not recognized. See switch statement in SideBar Component")
+                            console.log("ERROR: Line type not recognized. See switch statement in SideBar Component");
                             break;
                     }
                 })}
+            </div>
+            <div className={styles.gridMenu}>
+                <Button onClick={() => props.setGridOn(!props.gridOn)} className={`${styles.gridButton} ${props.gridOn ? classes.buttonSelected : classes.buttonUnselected}`}>
+                    Grid
+                </Button>
             </div>
         </div>
     )

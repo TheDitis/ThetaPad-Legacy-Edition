@@ -11,7 +11,19 @@
 }
 
 .profiles {
-    height: calc(100vh - 146px);
+    height: calc(100vh - 146px - 80px);
     position: relative;
     overflow-y: scroll;
+}
+
+.gridMenu {
+    display: flex;
+    border-top: 2px solid white;
+    height: 80px;
+}
+
+.gridButton {
+    position: absolute;
+    left: 10px;
+    color: red;
 }

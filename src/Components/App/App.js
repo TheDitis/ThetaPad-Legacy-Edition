@@ -1,25 +1,16 @@
 import React from 'react';
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import styles from './App.module.css';
-import Button from '@material-ui/core/Button'
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import Konva from 'konva'
 import {Stage, Layer, Rect, Text, Circle, Line, Ellipse} from 'react-konva';
 import {Image as KonvaImage} from 'react-konva'
-import uuid from 'react-uuid';
-import _ from 'lodash';
 import useImage from "use-image";
 import allColors from '../../colorOptions.json'
 import Lines from "../Lines/Lines";
 import SideBar from "../SideBar/SideBar";
-import { Transition } from 'react-transition-group';
 import StopPolyDrawButton from "../StopPolyDrawButton";
-import useKeyPress from "../Hooks/useKeyPress";
-import useMultiKeyPress from "../Hooks/useMultiKeyPress";
+import Grid from "../Grid/Grid";
 
 export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
-
-
 
 
 export const distance = (a, b) => {
@@ -53,7 +44,9 @@ function App() {
     const [imgDims, setImgDims] = useState([0, 0]);
     const [cmdKey, setCmdKey] = useState(null);
     const [unit, setUnit] = useState(1);
+    const [gridOn, setGridOn] = useState(false);
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
+    const [gridProps, setGridProps] = useState({color: 'black', nLinesV: 6, nLinesH: 18, width: window.innerWidth - widthSub, height: window.innerHeight});
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
@@ -140,12 +133,15 @@ function App() {
 
     const calcImgDims = () => {
         if (origImgDims) {
-            const preDims = origImgDims;
-            // console.log('calculating target dimensions')
             const canvasDims = [window.innerWidth * 0.7, window.innerHeight];
             const ratio = getSizeRatio(origImgDims, canvasDims);
             // console.log('ratio:', ratio);
             setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);
+            setGridProps({
+                ...gridProps,
+                width: origImgDims[0] * ratio,
+                height: origImgDims[1] * ratio
+            })
         }
     };
 
@@ -393,6 +389,8 @@ function App() {
                     unit={unit} setUnit={setUnit}
                     unselectAllLines={unselectAllLines}
                     refresh={refresh}
+                    gridOn={gridOn}
+                    setGridOn={setGridOn}
                 />
                 <div
                     className={styles.drawingArea}
@@ -404,6 +402,7 @@ function App() {
 
                     <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
+                        {gridOn ? <Grid {...gridProps}/> : null}
                         <Layer>
                             <Lines list={lineList} unit={unit} widthSub={widthSub}/>
                         </Layer>
