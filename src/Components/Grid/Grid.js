@@ -85,8 +85,6 @@ const Grid = (props) => {
 
     const [verticalLines, horizontalLines] = makeFlatLines(props.nLinesV, props.nLinesH, props.width, props.height);
 
-
-    // makeDiagonalLines(verticalLines, horizontalLines)
     const diagonalUpLines= makeDiagonalLines(verticalLines, horizontalLines);
 
     return (
@@ -114,6 +112,6 @@ const Grid = (props) => {
             {/*})}*/}
         </Layer>
     )
-}
+};
 
 export default Grid;
