@@ -83,7 +83,7 @@ const Grid = (props) => {
         return _.flatten([_.flatten(upLines), _.flatten(downLines)])
     };
 
-    const [verticalLines, horizontalLines] = makeFlatLines(props.nLinesV, props.nLinesH, props.width, props.height);
+    const [verticalLines, horizontalLines] = makeFlatLines(props.nColumns, props.nRows, props.width, props.height);
 
     const diagonalUpLines= makeDiagonalLines(verticalLines, horizontalLines);
 

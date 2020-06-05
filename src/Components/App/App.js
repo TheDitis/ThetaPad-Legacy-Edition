@@ -10,6 +10,7 @@ import SideBar from "../SideBar/SideBar";
 import StopPolyDrawButton from "../StopPolyDrawButton";
 import Grid from "../Grid/Grid";
 
+
 export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
 
 
@@ -46,7 +47,7 @@ function App() {
     const [unit, setUnit] = useState(1);
     const [gridOn, setGridOn] = useState(false);
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
-    const [gridProps, setGridProps] = useState({color: 'black', nLinesV: 8, nLinesH: 12, width: window.innerWidth - widthSub, height: window.innerHeight});
+    const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - widthSub, height: window.innerHeight});
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
