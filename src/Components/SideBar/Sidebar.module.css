@@ -15,15 +15,3 @@
     position: relative;
     overflow-y: scroll;
 }
-
-.gridMenu {
-    display: flex;
-    border-top: 2px solid white;
-    height: 80px;
-}
-
-.gridButton {
-    position: absolute;
-    left: 10px;
-    color: red;
-}

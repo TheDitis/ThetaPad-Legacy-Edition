@@ -391,6 +391,8 @@ function App() {
                     refresh={refresh}
                     gridOn={gridOn}
                     setGridOn={setGridOn}
+                    gridProps={gridProps}
+                    setGridProps={setGridProps}
                 />
                 <div
                     className={styles.drawingArea}

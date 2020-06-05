@@ -1,0 +1,26 @@
+.gridMenu {
+    display: flex;
+    border-top: 2px solid white;
+    height: 80px;
+}
+
+.gridButton {
+    position: absolute;
+    left: 10px;
+    color: red;
+}
+
+.swatch {
+    margin: auto;
+    /*margin-top: 7px;*/
+    margin-left: 25px;
+    border-radius: 5px;
+    height: 60px;
+    width: 60px;
+    cursor: pointer;
+}
+
+.swatch:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}

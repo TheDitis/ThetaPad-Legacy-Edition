@@ -43,8 +43,6 @@ const StraightLineProfile = (props) => {
 
     const line = props.line;
 
-
-
     const classes = useStyles();
 
     const toggleIsUnit = (e) => {
@@ -103,7 +101,6 @@ const StraightLineProfile = (props) => {
                     {...props}
                 />
                 ) : null}
-            {/*<ColorPicker/>*/}
         </React.Fragment>
     )
 }

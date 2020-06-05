@@ -91,25 +91,19 @@ const Grid = (props) => {
         <Layer>
             {horizontalLines.map((line) => {
                 return (
-                    <Line key={uuid()} x={0} y={0} stroke={'black'} points={line} strokeWidth={2}/>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={2}/>
                 )
             })}
             {verticalLines.map((line) => {
                 return (
-                    <Line key={uuid()} x={0} y={0} stroke={'black'} points={line} strokeWidth={2}/>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={2}/>
                 )
             })}
             {diagonalUpLines.map((line) => {
                 return (
-                    <Line key={uuid()} x={0} y={0} stroke={'black'} points={line} strokeWidth={2}/>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={2}/>
                 )
             })}
-            {/*{diagonalDownLines.map((line) => {*/}
-            {/*    console.log('hi there', line)*/}
-            {/*    return (*/}
-            {/*        <Line key={uuid()} x={0} y={0} stroke={'black'} points={line} strokeWidth={2}/>*/}
-            {/*    )*/}
-            {/*})}*/}
         </Layer>
     )
 };
