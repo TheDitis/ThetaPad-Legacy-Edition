@@ -48,6 +48,7 @@ function App() {
     const [gridOn, setGridOn] = useState(false);
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
     const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - widthSub, height: window.innerHeight});
+    const [canvasSize, sizeCanvasSize] = useState(null)
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
