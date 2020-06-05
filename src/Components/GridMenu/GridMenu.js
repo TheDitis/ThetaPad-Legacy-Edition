@@ -20,8 +20,9 @@ const useStyles = makeStyles({
         position: 'relative',
         width: 45,
         color: 'white',
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 8,
+        marginRight: 8,
+        marginTop: 10,
         float: 'left'
     },
     inputLabel: {
@@ -39,6 +40,7 @@ const GridMenu = (props) => {
     const [colorPickerLocation, setColorPickerLocation] = useState(null);
     const [nRows, setNRows] = useState(6);
     const [nColumns, setNColumns] = useState(6);
+    const [thickness, setThickness] = useState(1);
 
     const classes = useStyles();
 
@@ -55,6 +57,13 @@ const GridMenu = (props) => {
             nColumns: nColumns
         })
     }, [nColumns]);
+
+    useEffect(() => {
+        props.setGridProps({
+            ...props.gridProps,
+            strokeWidth: thickness
+        })
+    }, [thickness]);
 
     const openColorPicker = (e) => {
         setColorPickerLocation([e.clientX, e.clientY]);
@@ -87,7 +96,7 @@ const GridMenu = (props) => {
                     updateColor={updateColor}
                 />
             ) : null}
-            <div className={styles.numInputs}>
+            {/*<div className={styles.numInputs}>*/}
                 <ThemeProvider theme={theme}>
                     <TextField
                         className={classes.numberField}
@@ -117,13 +126,40 @@ const GridMenu = (props) => {
                         size={'small'}
                     />
                     <TextField
+                    className={classes.numberField}
+                    id="standard-number"
+                    label="Columns"
+                    type="number"
+                    defaultValue={5}
+                    value={nColumns}
+                    InputLabelProps={{
+                        shrink: true,
+                        className: classes.inputLabel
+                    }}
+                    inputProps={{
+                        className: classes.input
+                    }}
+                    onChange={(e) => {
+                        let val = parseInt(e.target.value);
+                        if (val < -1) {
+                            val = -1
+                        }
+                        else if (val > 40) {
+                            val = 40
+                        }
+                        setNColumns(val)
+                    }}
+                    disabled={!props.gridOn}
+                    size={'small'}
+                />
+                    <TextField
                         className={classes.numberField}
                         id="standard-number"
-                        label="Columns"
+                        label="Thickness"
                         type="number"
-                        defaultValue={5}
+                        defaultValue={1}
                         color={'secondary'}
-                        value={nColumns}
+                        value={thickness}
                         InputLabelProps={{
                             shrink: true,
                             className: classes.inputLabel
@@ -133,19 +169,19 @@ const GridMenu = (props) => {
                         }}
                         onChange={(e) => {
                             let val = parseInt(e.target.value);
-                            if (val < -1) {
-                                val = -1
+                            if (val < 1) {
+                                val = 1
                             }
-                            else if (val > 40) {
-                                val = 40
+                            else if (val > 60) {
+                                val = 60
                             }
-                            setNColumns(val)
+                            setThickness(val)
                         }}
                         disabled={!props.gridOn}
                         size={'small'}
                     />
                 </ThemeProvider>
-            </div>
+            {/*</div>*/}
         </div>
     )
 };

@@ -28,7 +28,7 @@ const SideBar = (props) => {
     const classes = useStyles();
 
     return (
-        <div className={styles.sidebar}>
+        <div className={styles.sidebar} style={{width: props.sideBarWidth}}>
             <div className={styles.topSection}>
                 <hr style={{width: "100%"}}/>
                 <ImageUploader
