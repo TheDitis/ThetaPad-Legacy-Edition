@@ -46,9 +46,9 @@ const SideBar = (props) => {
                         withLabel={false}
                         singleImage={false}
                         buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
-                        fileContainerStyle={{backgroundColor: 'transparent', height: 10, width: 140, marginLeft: "34.3%", marginTop: 8, marginBottom: 0}}
+                        fileContainerStyle={{backgroundColor: 'transparent', height: 10, width: 140, margin: 'auto', marginTop: 8, marginBottom: 0}}
                     />
-                    <Button onClick={props.undo} style={ { backgroundColor: "white", height: 30, marginTop: 19, marginLeft: props.sideBarWidth - 100, position: 'absolute'} }><UndoIcon/></Button>
+                    <Button onClick={props.undo} style={ { backgroundColor: "white", height: 30, marginTop: 18, marginLeft: props.sideBarWidth - (props.sideBarWidth * 0.25), position: 'absolute'} }><UndoIcon/></Button>
 
                 </div>
                 <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>
