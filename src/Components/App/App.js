@@ -39,7 +39,7 @@ function App() {
     const [mouseDown, setMouseDown] = useState(false);
     const [drawMode, setDrawMode] = useState('line');
     const [inPolyDraw, setInPolyDraw] = useState(false);
-    const [newPolyLine, setNewPolyLine] = useState(true)
+    const [newPolyLine, setNewPolyLine] = useState(true);
     const [image, setImage] = useState(null);
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
@@ -47,7 +47,8 @@ function App() {
     const [unit, setUnit] = useState(1);
     const [gridOn, setGridOn] = useState(false);
     const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
-    const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - widthSub, height: window.innerHeight});
+    const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - widthSub, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
+    const [canvasSize, sizeCanvasSize] = useState(null);
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
@@ -72,6 +73,14 @@ function App() {
         }
     };
 
+    const getSideBarWidth = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        console.log('winsize', window.innerWidth, 'x', window.innerHeight);
+        const min = 850
+        const max = 0
+    }
+
     document.onkeyup = (e) => {
         if (e.key === 'Meta') {
             setCmdKey(false);
@@ -81,6 +90,8 @@ function App() {
 
     useEffect(() => {
         window.addEventListener('resize', resize);
+        getSideBarWidth();
+
         return () => {
             window.removeEventListener('resize', resize)
         }
@@ -121,6 +132,7 @@ function App() {
     const resize = e => {
         handleMouseMove(e);
         e.preventDefault();
+        getSideBarWidth();
         // console.log('here');
         const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);
         // console.log('ratio', ratio);
@@ -128,7 +140,7 @@ function App() {
             return [dims[0] * ratio, dims[1] * ratio]
         });
         // console.log('post resize dims:', imgDims)
-        prevWinDims = [window.innerWidth, window.innerHeight]
+        prevWinDims = [window.innerWidth, window.innerHeight];
         setWidthSub(window.innerWidth * 0.3)
     };
 
@@ -394,6 +406,7 @@ function App() {
                     setGridOn={setGridOn}
                     gridProps={gridProps}
                     setGridProps={setGridProps}
+                    sideBarWidth={'30vw'}
                 />
                 <div
                     className={styles.drawingArea}

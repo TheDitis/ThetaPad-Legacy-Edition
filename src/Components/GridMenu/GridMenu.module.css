@@ -1,19 +1,21 @@
 .GridMenu {
     display: flex;
     border-top: 2px solid white;
+    justify-content: space-evenly;
     height: 80px;
+    overflow-y: scroll;
 }
 
 .gridButton {
-    position: absolute;
-    left: 5px;
+    /*position: absolute;*/
+    /*left: 5px;*/
     color: red;
 }
 
 .swatch {
-    margin: auto;
-    /*margin-top: 7px;*/
-    margin-left: 10px;
+    /*margin: auto;*/
+    margin-top: 10px;
+    /*margin-left: 10px;*/
     border-radius: 5px;
     height: 60px;
     width: 60px;
@@ -32,8 +34,9 @@
 /*}*/
 
 .numInputs {
-    position: absolute;
+    /*position: absolute;*/
     display: block;
     padding-top: 10px;
-    left: 160px;
+    justify-content: space-evenly;
+    /*left: 160px;*/
 }

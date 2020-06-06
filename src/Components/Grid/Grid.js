@@ -13,12 +13,11 @@ const Grid = (props) => {
          const horizontalYs = Array.from(range(numHor + 1), x => x * hInterval);
 
          const verticalLines = _.map(verticalXs, (x) => {
-             return [x, 0, x, height]
+             return [Math.round(x), 0, Math.round(x), Math.round(height)]
          });
         const horizontalLines = _.map(horizontalYs, (y) => {
-            return [0, y, width, y]
+            return [0, Math.round(y), Math.round(width), Math.round(y)]
         });
-
         return [verticalLines, horizontalLines]
     };
 
@@ -26,8 +25,9 @@ const Grid = (props) => {
         const sides = [vertical, horizontal];
         const [longer, shorter] = sides.sort((a, b) => b.length - a.length);
 
+        let list = []
         const upLines = _.map(longer, (_, index) => {
-            if (index < shorter.length) {
+            if (index < shorter.length - 1) {
                 const line1 = [
                     longer[index][0],
                     longer[index][1],
@@ -44,7 +44,7 @@ const Grid = (props) => {
             }
             else {
                 const altIndex = (index - shorter.length + 1) % longer.length;
-                const line1 = [
+                let line1 = [
                     longer[index][0],
                     longer[index][1],
                     longer[altIndex][2],
@@ -53,8 +53,9 @@ const Grid = (props) => {
                 return [line1, null]
             }
         });
+
         const downLines = _.map(longer, (_, index) => {
-            if (index < shorter.length) {
+            if (index < shorter.length - 1) {
                 const line1 = [
                     longer[index][2],
                     longer[index][3],
@@ -80,28 +81,30 @@ const Grid = (props) => {
                 return [line1, null]
             }
         });
-        return _.flatten([_.flatten(upLines), _.flatten(downLines)])
+        let allLines = _.flatten([_.flatten(upLines), _.flatten(downLines)]);
+        return allLines;
     };
 
     const [verticalLines, horizontalLines] = makeFlatLines(props.nColumns, props.nRows, props.width, props.height);
 
-    const diagonalUpLines= makeDiagonalLines(verticalLines, horizontalLines);
+    let diagonalLines= makeDiagonalLines(verticalLines, horizontalLines);
+
 
     return (
         <Layer>
             {horizontalLines.map((line) => {
                 return (
-                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={2}/>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={props.strokeWidth} opacity={props.opacity}/>
                 )
             })}
             {verticalLines.map((line) => {
                 return (
-                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={2}/>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={props.strokeWidth} opacity={props.opacity}/>
                 )
             })}
-            {diagonalUpLines.map((line) => {
+            {diagonalLines.map((line) => {
                 return (
-                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={2}/>
+                    <Line key={uuid()} x={0} y={0} stroke={props.color} points={line} strokeWidth={props.strokeWidth} opacity={props.opacity}/>
                 )
             })}
         </Layer>

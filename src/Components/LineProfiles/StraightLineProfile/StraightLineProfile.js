@@ -5,7 +5,10 @@ import ColorPicker from "../../ColorPicker/ColorPicker";
 import Button from '@material-ui/core/Button'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import _ from "lodash";
-
+// import LengthIcon from '../../../Assets/Icons/LengthIcon.svg'
+import LengthIcon from "../../Icons/LengthIcon";
+import AngleIcon from "../../Icons/AngleIcon";
+import StraightLineIcon from "../../Icons/StraightLineIcon";
 
 const useStyles = makeStyles({
     unitSelect: {
@@ -26,12 +29,13 @@ const useStyles = makeStyles({
     numberLabelsUnselected: {
         textAlign: 'left',
         marginLeft: '8px',
-        color: 'black',
+        fill: 'black',
     },
     numberLabelsSelected: {
         textAlign: 'left',
         marginLeft: '8px',
-        color: 'white',
+        fill: 'white',
+        stroke: 'white'
     }
 });
 
@@ -72,20 +76,26 @@ const StraightLineProfile = (props) => {
 
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
+                        <div className={styles.lineTypeIcon}>
+                            <StraightLineIcon/>
+                        </div>
                         <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                         <Button className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`} size={'small'} variant={'outlined'} onClick={toggleIsUnit}>Unit</Button>
                         <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                     </div>
 
-                    <hr/>
+                    {/*<hr/>*/}
 
                     <div className={styles.bottomSection} style={{color: 'black'}}>
-                        <a className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected}>Length: </a>
+                        {/*<img className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected} src={LengthIcon} alt={'Length:'} width={30}/>*/}
+                        <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                         <div className={styles.numberContainer}>
-                            <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
+                            <h5 className={styles.number}>{(line.length / props.unit) < 30 ? (line.length / props.unit).toFixed(2) : (line.length / props.unit).toFixed(0)}</h5>
                         </div>
                         <React.Fragment>
-                            <a className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected}>Angle: </a>
+                            <div style={{marginLeft: 10}}>
+                                <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
+                            </div>
                             <div className={styles.numberContainer}>
                                 <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
                             </div>
