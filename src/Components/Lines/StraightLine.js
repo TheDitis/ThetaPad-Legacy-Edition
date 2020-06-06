@@ -7,7 +7,7 @@ import {distance, getAngle} from "../App/App";
 const StraightLine = (props) => {
 
     const line = props.line;
-    const points = [props.x1 - props.widthSub, props.y1, props.x2 - props.widthSub, props.y2];
+    const points = [props.x1 - props.sideBarWidth, props.y1, props.x2 - props.sideBarWidth, props.y2];
 
     const length = distance([line.x1, line.y1], [line.x2, line.y2])
     line.length = length;
@@ -21,7 +21,7 @@ const StraightLine = (props) => {
         const [x1, y1] = a;
         const [x2, y2] = b;
 
-        const xMid = (x1 + x2) / 2 - props.widthSub;
+        const xMid = (x1 + x2) / 2 - props.sideBarWidth;
         const yMid = (y1 + y2) / 2;
 
         return [xMid, yMid]
@@ -29,9 +29,9 @@ const StraightLine = (props) => {
 
     const [xMid, yMid] = findMidPoint([props.x1, props.y1], [props.x2, props.y2]);
 
-    console.log(props.widthSub);
-    console.log("pt1:", props.x1, props.y1, "pt2", props.x2, props.y2);
-    console.log("midpoint: ", xMid, yMid);
+    console.log('Sidebar width:', props.sideBarWidth);
+    // console.log("pt1:", props.x1, props.y1, "pt2", props.x2, props.y2);
+    // console.log("midpoint: ", xMid, yMid);
 
     if (line.x2) {
         return (

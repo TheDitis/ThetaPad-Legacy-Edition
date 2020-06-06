@@ -46,8 +46,8 @@ function App() {
     const [cmdKey, setCmdKey] = useState(null);
     const [unit, setUnit] = useState(1);
     const [gridOn, setGridOn] = useState(false);
-    const [widthSub, setWidthSub] = useState(window.innerWidth * 0.3);
-    const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - widthSub, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
+    const [sideBarWidth, setSideBarWidth] = useState(window.innerWidth * 0.3);
+    const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - sideBarWidth, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
     const [canvasSize, sizeCanvasSize] = useState(null);
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
@@ -75,10 +75,19 @@ function App() {
 
     const getSideBarWidth = () => {
         const width = window.innerWidth;
-        const height = window.innerHeight;
+        // const height = window.innerHeight;
         console.log('winsize', window.innerWidth, 'x', window.innerHeight);
-        const min = 850
-        const max = 0
+        const min = 1050
+        const max = 1460
+        if (width <= min) {
+            setSideBarWidth(min * 0.3)
+        }
+        else if (width >= max) {
+            setSideBarWidth(max * 0.3)
+        }
+        else {
+            setSideBarWidth(width * 0.3)
+        }
     }
 
     document.onkeyup = (e) => {
@@ -141,7 +150,7 @@ function App() {
         });
         // console.log('post resize dims:', imgDims)
         prevWinDims = [window.innerWidth, window.innerHeight];
-        setWidthSub(window.innerWidth * 0.3)
+        // setSideBarWidth(window.innerWidth * 0.3)
     };
 
     const calcImgDims = () => {
@@ -179,7 +188,7 @@ function App() {
             if (currentLine.points.length > 2) {
                 currentLine.points.pop();
                 currentLine.points.pop();
-                currentLine.points.push(e.clientX - widthSub);
+                currentLine.points.push(e.clientX - sideBarWidth);
                 currentLine.points.push(e.clientY);
             }
         }
@@ -189,8 +198,7 @@ function App() {
     const startLine = (x, y) => {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
-        const widthSub = window.innerWidth * 0.3;
-        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - widthSub, y], angles: [], isUnit: false, showDetails: false};
+        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - sideBarWidth, y], angles: [], isUnit: false, showDetails: false};
         setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
@@ -203,7 +211,7 @@ function App() {
         if (mouseDown) {
             let allLines = lineList;
             let currentLine = allLines[allLines.length - 1];
-            currentLine.points.push(x - widthSub);
+            currentLine.points.push(x - sideBarWidth);
             currentLine.points.push(y)
             currentLine.x2 = x;
             currentLine.y2 = y;
@@ -232,9 +240,8 @@ function App() {
     const startPoly = (x, y) => {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];
-        const widthSub = window.innerWidth * 0.3;
         let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 0, showDetails: false};
-        line.points = [x - widthSub, y];
+        line.points = [x - sideBarWidth, y];
         // setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
@@ -248,7 +255,7 @@ function App() {
     const addPolyPoint = (x, y) => {
         let allLines = lineList;
         let currentLine = allLines[allLines.length - 1];
-        currentLine.points.push(x - widthSub);
+        currentLine.points.push(x - sideBarWidth);
         currentLine.points.push(y);
         currentLine.lineCount ++
         setLineList(allLines)
@@ -405,7 +412,7 @@ function App() {
                     setGridOn={setGridOn}
                     gridProps={gridProps}
                     setGridProps={setGridProps}
-                    sideBarWidth={'30vw'}
+                    sideBarWidth={sideBarWidth}
                 />
                 <div
                     className={styles.drawingArea}
@@ -415,11 +422,11 @@ function App() {
                 >
                     <StopPolyDrawButton inProp={inPolyDraw} stopPolyDraw={stopPolyDraw}/>
 
-                    <Stage width={window.innerWidth * 0.7} height={window.innerHeight}>
+                    <Stage width={window.innerWidth - sideBarWidth} height={window.innerHeight}>
                         {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         {gridOn ? <Grid {...gridProps}/> : null}
                         <Layer>
-                            <Lines list={lineList} unit={unit} widthSub={widthSub}/>
+                            <Lines list={lineList} unit={unit} sideBarWidth={sideBarWidth}/>
                         </Layer>
                     </Stage>
 
