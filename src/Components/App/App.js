@@ -63,13 +63,22 @@ function App() {
             setCmdKey(true);
             console.log("cmdKey: ", cmdKey)
         }
-        if (e.key === 'z') {
+        else if (e.key === 'z') {
             console.log('z key pressed');
             console.log('cmdKey:', cmdKey)
             if (cmdKey) {
                 undo();
                 refresh();
             }
+        }
+        else if (e.key === 'l') {
+            if (inPolyDraw) {
+                stopPolyDraw()
+            }
+            setDrawMode('line')
+        }
+        else if (e.key === 'p') {
+            setDrawMode('poly')
         }
     };
 
