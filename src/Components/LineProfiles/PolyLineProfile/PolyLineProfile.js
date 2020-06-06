@@ -81,19 +81,28 @@ const PolyLineProfile = (props) => {
             len = _.sum(line.distances)
         }
         else {
-            len = line.distances[index]
+            len = line.distances[index];
             line.unitSegmentIndex = index
         }
         if (line.isUnit) {
-            console.log('here')
+            console.log('here');
             props.setUnit(1);
             if (segment) {
-                line.unitSegmentIndex = index;
-                props.setUnit(line.distances[index])
-                console.log('segment true')
+                console.log('index:', index)
+                if (line.unitSegmentIndex === index) {
+                    props.setUnit(1);
+                    line.isUnit = false;
+                    line.unitSegmentIndex = -1
+                }
+                else {
+                    line.unitSegmentIndex = index;
+                    props.setUnit(line.distances[index])
+                    console.log('segment true')
+                }
+
             }
             else {
-                console.log('segment false')
+                console.log('segment false');
                 line.isUnit = false;
                 line.unitSegmentIndex = -1
             }

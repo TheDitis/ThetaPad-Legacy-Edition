@@ -15,7 +15,7 @@
     position: relative;
     margin: auto;
     width: 95%;
-    margin-top: 8px;
+    margin-top: 10px;
     margin-bottom: 2px;
     border-radius: 10px;
     padding: 0;
@@ -42,7 +42,7 @@
     width: 4.8vw;
     max-width: 65px;
     min-width: 48px;
-    border-right: 2px solid rgba(0, 0, 0, 0.3);
+    /*border-right: 2px solid rgba(0, 0, 0, 0.3);*/
 }
 
 .swatch {
@@ -67,6 +67,7 @@
     justify-content: left;
     /*height: 105%;*/
     /*height: 90px;*/
+    border-left: 2px solid rgba(0, 0, 0, 0.3);
 }
 
 .topSection {
@@ -163,8 +164,8 @@
 
 
 .detailsSection {
-    margin-top: -4px;
     display: block;
+    margin-top: -4px;
     /*padding-bottom: 20px;*/
     border-top: 1px solid rgba(0, 0, 0, 0.3);
     max-height: 160px;
