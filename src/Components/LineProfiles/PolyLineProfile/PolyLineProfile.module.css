@@ -1,4 +1,5 @@
 .LineProfile {
+    position: relative;
     margin: auto;
     width: 95%;
     margin-top: 5px;
@@ -7,18 +8,22 @@
     /*background-color: #e9ebf0;*/
     border-radius: 10px;
     padding: 0;
-    /*height: 75px;*/
+    height: 74px;
     /*display: inline-flex;*/
     box-shadow: 0 0 10px black;
 }
 
 .mainSection {
+    position: relative;
     display: inline-flex;
     border-top: 1px solid rgba(0, 0, 0, 0.3);
-    height: 70px;
-    height: 100%;
-    width: 100%;
-    max-height: 70px;
+    /*border:1px solid red;*/
+    border-radius: 10px;
+    height: 74px;
+    /*height: 101%;*/
+    width: 99.8%;
+    /*max-height: 70px;*/
+    /*overflow: hidden;*/
     margin: 0;
     padding: 0;
 }
@@ -27,6 +32,7 @@
     width: 4.8vw;
     max-width: 65px;
     /*border-radius: 10px;*/
+    /*margin-bottom: -4px;*/
 
     border-right: 2px solid rgba(0, 0, 0, 0.3);
 }
@@ -34,7 +40,7 @@
 .swatch {
     margin: auto;
 
-    margin-top: 8px;
+    margin-top: 7px;
     border-radius: 5px;
     height: 80%;
     width: 80%;
@@ -88,7 +94,7 @@
 .deleteButton {
     font-size: 18pt;
     position: absolute;
-    right: 1.6vw;
+    right: 0.8vw;
     cursor: pointer;
     /*float: right;*/
 }

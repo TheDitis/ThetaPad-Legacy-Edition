@@ -224,7 +224,6 @@ function App() {
             addPolyPoint(x, y)
         }
         else {
-            // startLine(x, y);
             addPolyPoint(x, y)
         }
 
@@ -259,16 +258,16 @@ function App() {
 
         setNewPolyLine(true);
         const currentLine = lineList[lineList.length - 1];
+        if (fromButton) {
+            currentLine.points.pop();
+            currentLine.points.pop();
+        }
         if (currentLine.points.length < 5) {
             const allLines = lineList
             allLines.pop();
             setLineList(allLines)
         }
         else {
-            currentLine.points.pop();
-            currentLine.points.pop();
-        }
-        if (fromButton) {
             currentLine.points.pop();
             currentLine.points.pop();
         }

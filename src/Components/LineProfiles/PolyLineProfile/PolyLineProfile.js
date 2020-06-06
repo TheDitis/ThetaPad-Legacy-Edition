@@ -211,7 +211,7 @@ const defaultStyle = {
     // right: '20px',
     transform: 'scaleX(0.7) rotate(0deg)',
     marginTop: 10,
-    right: '1.6vw'
+    right: '0.8vw'
 };
 
 const transitionStyles = {
