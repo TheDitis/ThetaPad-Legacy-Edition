@@ -71,12 +71,11 @@ const useStyles = makeStyles({
 const PolyLineProfile = (props) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [colorPickerLocation, setColorPickerLocation] = useState(null);
-    const [detailsView, setDetailsView] = useState(false);
 
     const line = props.line;
     const classes = useStyles();
 
-    const toggleIsUnit = (index) => () => {
+    const toggleIsUnit = (index, segment) => () => {
         let len;
         if (index === -1) {
             len = _.sum(line.distances)
@@ -86,9 +85,18 @@ const PolyLineProfile = (props) => {
             line.unitSegmentIndex = index
         }
         if (line.isUnit) {
+            console.log('here')
             props.setUnit(1);
-            line.isUnit = false;
-            line.unitSegmentIndex = -1
+            if (segment) {
+                line.unitSegmentIndex = index;
+                props.setUnit(line.distances[index])
+                console.log('segment true')
+            }
+            else {
+                console.log('segment false')
+                line.isUnit = false;
+                line.unitSegmentIndex = -1
+            }
         }
         else {
             props.setUnit(len);
@@ -108,6 +116,8 @@ const PolyLineProfile = (props) => {
         setShowColorPicker(true)
     };
 
+
+
     return (
         <React.Fragment>
             <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(100, 100, 100, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
@@ -126,7 +136,7 @@ const PolyLineProfile = (props) => {
                             <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                             <Button
                                 className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`}
-                                size={'small'} variant={'outlined'} onClick={toggleIsUnit(-1)}>Unit
+                                size={'small'} variant={'outlined'} onClick={toggleIsUnit(-1, false)}>Unit
                             </Button>
                             <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                         </div>
@@ -135,7 +145,7 @@ const PolyLineProfile = (props) => {
 
                             <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                             <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit).toFixed(0)}</h5>
+                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit) < 20 ? (_.sum(line.distances) / props.unit).toFixed(2) : Math.round((_.sum(line.distances) / props.unit))}</h5>
                             </div>
 
                             <div style={{marginLeft: 10}}>
@@ -154,26 +164,21 @@ const PolyLineProfile = (props) => {
                         {line.displayAngles.map((angle, index) => {
                             return (
                                 <div className={styles.detailRow} key={uuid()}>
-                                    <h5 className={`${styles.rowNumber} ${line.unitSegmentIndex === index ? classes.rowNumberSelected : classes.rowNumberUnselected}`} onClick={toggleIsUnit(index)}>{index}</h5>
+                                    <h5 className={`${styles.rowNumber} ${line.unitSegmentIndex === index ? classes.rowNumberSelected : classes.rowNumberUnselected}`} onClick={toggleIsUnit(index, true)}>{index}</h5>
                                     <div className={styles.numberSectionDetails}>
                                         <div style={{marginLeft: 10}}>
                                             <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                                         </div>
                                         <div className={styles.numberContainerDetails}>
-                                            <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(0)}</h5>
+                                            <h5 className={styles.number}>{(line.distances[index] / props.unit) < 20 ? (line.distances[index] / props.unit).toFixed(2) : Math.round((line.distances[index] / props.unit))}</h5>
                                         </div>
-                                        <div style={{marginLeft: 22}}>
+                                        <div style={{marginLeft: 10}}>
                                             <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                                         </div>
                                         <div className={styles.numberContainerDetails}>
                                             <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
                                         </div>
                                     </div>
-
-                                    {/*<Button*/}
-                                    {/*    className={`${classes.unitSelectSmall} ${line.unitSegmentIndex === index ? classes.unitSelectSelected : classes.unitSelectUnselected}`}*/}
-                                    {/*    size={'small'} variant={'outlined'} onClick={toggleIsUnit(index)}>Unit*/}
-                                    {/*</Button>*/}
                                     {index === 0 ? (
                                         <a className={classes.deleteSegmentButton} onClick={() => props.removePoint(props.index, 0)}>×</a>
                                     ) : index === line.distances.length - 1 ? (
