@@ -92,14 +92,12 @@ const StraightLineProfile = (props) => {
                         <div className={styles.numberContainer}>
                             <h5 className={styles.number}>{(line.length / props.unit) < 30 ? (line.length / props.unit).toFixed(2) : (line.length / props.unit).toFixed(0)}</h5>
                         </div>
-                        <React.Fragment>
-                            <div style={{marginLeft: 10}}>
-                                <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
-                            </div>
-                            <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
-                            </div>
-                        </React.Fragment>
+                        <div style={{marginLeft: 10}}>
+                            <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
+                        </div>
+                        <div className={styles.numberContainer}>
+                            <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
+                        </div>
                     </div>
                 </div>
             </div>

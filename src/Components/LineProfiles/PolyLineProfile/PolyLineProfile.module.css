@@ -1,15 +1,25 @@
-.LineProfile {
+.LineProfileClosed{
     position: relative;
     margin: auto;
     width: 95%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    /*margin-top: 8px;*/
-    /*background-color: #e9ebf0;*/
+    margin-top: 10px;
+    /*margin-bottom: 2px;*/
     border-radius: 10px;
     padding: 0;
     height: 74px;
-    /*display: inline-flex;*/
+    box-shadow: 0 0 10px black;
+    overflow: hidden;
+}
+
+.LineProfileOpened {
+    position: relative;
+    margin: auto;
+    width: 95%;
+    margin-top: 8px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    padding: 0;
+    /*height: 74px;*/
     box-shadow: 0 0 10px black;
 }
 
@@ -31,20 +41,17 @@
 .leftSide {
     width: 4.8vw;
     max-width: 65px;
-    /*border-radius: 10px;*/
-    /*margin-bottom: -4px;*/
-
     border-right: 2px solid rgba(0, 0, 0, 0.3);
 }
 
 .swatch {
     margin: auto;
-
     margin-top: 7px;
     border-radius: 5px;
     height: 80%;
     width: 80%;
     cursor: pointer;
+    transition: transform 80ms ease-in-out;
 }
 
 
@@ -97,6 +104,11 @@
     right: 0.8vw;
     cursor: pointer;
     /*float: right;*/
+    transition: transform 80ms ease-in-out;
+}
+
+.deleteButton:hover {
+    transform: scale(1.2);
 }
 
 .bottomSection {
@@ -147,7 +159,7 @@
 
 
 .detailsSection {
-    margin-top: 0px;
+    margin-top: -4px;
     display: block;
     /*padding-bottom: 20px;*/
     border-top: 1px solid rgba(0, 0, 0, 0.3);
@@ -179,6 +191,7 @@
     /*background-color: rgba(0, 0, 0, 0.2);*/
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    transition: transform 80ms ease-in-out;
 }
 
 .rowNumber:hover {

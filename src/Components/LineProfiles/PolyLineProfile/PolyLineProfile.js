@@ -120,7 +120,7 @@ const PolyLineProfile = (props) => {
 
     return (
         <React.Fragment>
-            <div className={styles.LineProfile} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(100, 100, 100, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
+            <div className={line.showDetails ? styles.LineProfileOpened : styles.LineProfileClosed} key={uuid()} style={line.isUnit ? {backgroundColor: 'rgba(100, 100, 100, 1)', color: "white"} : {backgroundColor: "#e9ebf0"}}>
                 <div className={styles.mainSection}>
 
                     <div className={styles.leftSide}>
