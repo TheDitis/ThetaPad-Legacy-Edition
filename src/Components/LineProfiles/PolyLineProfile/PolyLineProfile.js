@@ -9,6 +9,7 @@ import {Transition} from "react-transition-group";
 import Fade from 'react-reveal/Fade';
 import AngleIcon from "../../Icons/AngleIcon";
 import LengthIcon from "../../Icons/LengthIcon";
+import PolyLineIcon from "../../Icons/PolyLineIcon";
 
 const useStyles = makeStyles({
     unitSelect: {
@@ -114,12 +115,14 @@ const PolyLineProfile = (props) => {
 
                     <div className={styles.leftSide}>
                         <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
+
                         </div>
                     </div>
 
                     <div className={styles.rightSide}>
 
                         <div className={styles.topSection}>
+                            <PolyLineIcon/>
                             <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                             <Button
                                 className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`}

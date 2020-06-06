@@ -8,6 +8,7 @@ import _ from "lodash";
 // import LengthIcon from '../../../Assets/Icons/LengthIcon.svg'
 import LengthIcon from "../../Icons/LengthIcon";
 import AngleIcon from "../../Icons/AngleIcon";
+import StraightLineIcon from "../../Icons/StraightLineIcon";
 
 const useStyles = makeStyles({
     unitSelect: {
@@ -75,6 +76,7 @@ const StraightLineProfile = (props) => {
 
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
+                        <StraightLineIcon />
                         <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                         <Button className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`} size={'small'} variant={'outlined'} onClick={toggleIsUnit}>Unit</Button>
                         <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
