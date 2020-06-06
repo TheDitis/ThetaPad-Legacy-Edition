@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     },
     input: {
         background: 'white',
-        paddingLeft: 10
+        paddingLeft: 4
     }
 });
 

@@ -7,6 +7,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import _ from "lodash";
 import {Transition} from "react-transition-group";
 import Fade from 'react-reveal/Fade';
+import AngleIcon from "../../Icons/AngleIcon";
+import LengthIcon from "../../Icons/LengthIcon";
 
 const useStyles = makeStyles({
     unitSelect: {
@@ -121,12 +123,14 @@ const PolyLineProfile = (props) => {
 
                         <div className={styles.bottomSection}>
 
-                            <a>Length: </a>
+                            <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                             <div className={styles.numberContainer}>
                                 <h5 className={styles.number}>{(_.sum(line.distances) / props.unit).toFixed(2)}</h5>
                             </div>
 
-                            <a>Angle</a>
+                            <div style={{marginLeft: 10}}>
+                                <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
+                            </div>
                             <div className={styles.numberContainer}>
                                 <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
                             </div>
@@ -142,13 +146,17 @@ const PolyLineProfile = (props) => {
                                 <div className={styles.detailRow} key={uuid()}>
                                     <h5 className={styles.rowNumber}>{index}</h5>
                                     <div className={styles.numberSectionDetails}>
-                                        <a>Angle: </a>
-                                        <div className={styles.numberContainerDetails}>
-                                            <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
+                                        <div style={{marginLeft: 10}}>
+                                            <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                                         </div>
-                                        <a>Length: </a>
                                         <div className={styles.numberContainerDetails}>
                                             <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(2)}</h5>
+                                        </div>
+                                        <div style={{marginLeft: 10}}>
+                                            <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
+                                        </div>
+                                        <div className={styles.numberContainerDetails}>
+                                            <h5 className={styles.number}>{angle.toFixed(1)}°</h5>
                                         </div>
                                     </div>
 
@@ -184,7 +192,7 @@ const defaultStyle = {
     transition: `transform 1s ease-in-out`,
     position: 'absolute',
     cursor: 'pointer',
-    right: '30px',
+    right: '20px',
     transform: 'scaleX(0.7) rotate(0deg)'
 };
 

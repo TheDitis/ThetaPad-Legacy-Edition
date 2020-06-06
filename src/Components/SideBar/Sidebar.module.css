@@ -14,4 +14,5 @@
     height: calc(100vh - 146px - 80px);
     position: relative;
     overflow-y: scroll;
+    overflow-x: hidden;
 }

@@ -73,6 +73,14 @@ function App() {
         }
     };
 
+    const getSideBarWidth = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        console.log('winsize', window.innerWidth, 'x', window.innerHeight);
+        const min = 850
+        const max = 0
+    }
+
     document.onkeyup = (e) => {
         if (e.key === 'Meta') {
             setCmdKey(false);
@@ -82,7 +90,7 @@ function App() {
 
     useEffect(() => {
         window.addEventListener('resize', resize);
-
+        getSideBarWidth();
 
         return () => {
             window.removeEventListener('resize', resize)
@@ -124,6 +132,7 @@ function App() {
     const resize = e => {
         handleMouseMove(e);
         e.preventDefault();
+        getSideBarWidth();
         // console.log('here');
         const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);
         // console.log('ratio', ratio);

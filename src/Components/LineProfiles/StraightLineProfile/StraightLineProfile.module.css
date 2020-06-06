@@ -74,7 +74,7 @@
 .bottomSection {
     margin: 0px;
     margin-left: 7px;
-    height: 20px;
+    height: 25px;
     float: left;
     display: inline-flex;
 }
@@ -92,6 +92,7 @@
     margin-top: 0px;
     float: bottom;
     padding: 0px;
+    padding-top: 2px;
 }
 
 .number {
