@@ -139,7 +139,7 @@ const PolyLineProfile = (props) => {
                                 <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                             </div>
                             <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(0) : 0}°</h5>
+                                <h5 className={styles.number}>{line.angles.length > 0 ? line.angles[0].toFixed(1) : 0}°</h5>
                             </div>
 
                             <ExpandArrow toggleShowDetails={toggleShowDetails} in={line.showDetails}/>
@@ -159,7 +159,7 @@ const PolyLineProfile = (props) => {
                                         <div className={styles.numberContainerDetails}>
                                             <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(0)}</h5>
                                         </div>
-                                        <div style={{marginLeft: 10}}>
+                                        <div style={{marginLeft: 22}}>
                                             <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                                         </div>
                                         <div className={styles.numberContainerDetails}>
