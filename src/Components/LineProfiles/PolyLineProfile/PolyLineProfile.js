@@ -54,7 +54,7 @@ const useStyles = makeStyles({
     },
     deleteSegmentButton: {
         fontSize: '18pt',
-        marginLeft: '20px',
+        marginLeft: '8px',
         marginRight: '10px',
         cursor: 'pointer'
     },
@@ -125,14 +125,15 @@ const PolyLineProfile = (props) => {
 
                     <div className={styles.leftSide}>
                         <div className={styles.swatch} style={{backgroundColor: line.color}} onClick={openColorPicker}>
-
                         </div>
                     </div>
 
                     <div className={styles.rightSide}>
 
                         <div className={styles.topSection}>
-                            <PolyLineIcon/>
+                            <div className={styles.lineTypeIcon}>
+                                <PolyLineIcon/>
+                            </div>
                             <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                             <Button
                                 className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`}
@@ -145,7 +146,7 @@ const PolyLineProfile = (props) => {
 
                             <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                             <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit) < 20 ? (_.sum(line.distances) / props.unit).toFixed(2) : Math.round((_.sum(line.distances) / props.unit))}</h5>
+                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit) < 30 ? (_.sum(line.distances) / props.unit).toFixed(2) : Math.round((_.sum(line.distances) / props.unit))}</h5>
                             </div>
 
                             <div style={{marginLeft: 10}}>
@@ -170,7 +171,7 @@ const PolyLineProfile = (props) => {
                                             <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                                         </div>
                                         <div className={styles.numberContainerDetails}>
-                                            <h5 className={styles.number}>{(line.distances[index] / props.unit) < 20 ? (line.distances[index] / props.unit).toFixed(2) : Math.round((line.distances[index] / props.unit))}</h5>
+                                            <h5 className={styles.number}>{(line.distances[index] / props.unit) < 30 ? (line.distances[index] / props.unit).toFixed(2) : Math.round((line.distances[index] / props.unit))}</h5>
                                         </div>
                                         <div style={{marginLeft: 10}}>
                                             <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
@@ -207,8 +208,10 @@ const defaultStyle = {
     transition: `transform 1s ease-in-out`,
     position: 'absolute',
     cursor: 'pointer',
-    right: '20px',
-    transform: 'scaleX(0.7) rotate(0deg)'
+    // right: '20px',
+    transform: 'scaleX(0.7) rotate(0deg)',
+    marginTop: 10,
+    right: '1.6vw'
 };
 
 const transitionStyles = {

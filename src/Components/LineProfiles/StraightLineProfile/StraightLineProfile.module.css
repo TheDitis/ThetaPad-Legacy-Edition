@@ -4,14 +4,18 @@
     margin-top: 5px;
     margin-bottom: 5px;
     /*background-color: #e9ebf0;*/
+    background-color: rgba(0, 0, 0, 0.3);
+
     border-radius: 10px;
     display: inline-flex;
     box-shadow: 0 0 10px black;
 }
 
 .leftSide {
-    width: 65px;
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    width: 5vw;
+    max-width: 65px;
+    /*border-radius: 10px;*/
+    border-right: 2px solid rgba(0, 0, 0, 0.3);
 }
 
 .swatch {
@@ -33,14 +37,14 @@
     justify-content: left;
 }
 
-.lineProfile hr{
-    border-top: 1px solid black;
-    margin: 0px;
+.topSection {
+    height: 38px;
+    display: flex;
 }
 
-.topSection {
-    height: 30px;
-    display: flex;
+.lineTypeIcon {
+    height: 100%;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .lineTitle {
@@ -64,33 +68,31 @@
 }
 
 .deleteButton {
-    font-size: 16pt;
+    font-size: 18pt;
     position: absolute;
-    right: 1vw;
+    right: 1.6vw;
     cursor: pointer;
     /*float: right;*/
 }
 
 .bottomSection {
     margin: 0px;
-    margin-left: 7px;
-    height: 25px;
+    padding-left: 7px;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    width: 120%;
+    height: 35px;
     float: left;
     display: inline-flex;
-}
-
-.bottomSection a{
-    /*text-align: left;*/
-    /*margin-left: 8px;*/
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .numberContainer {
     background-color: white;
     width: 45px;
     border-radius: 5px;
-    margin: 5px;
-    margin-top: 0px;
-    margin-left: 8px;
+    margin: 8px;
+    /*margin-top: 0px;*/
+    /*margin-left: 8px;*/
     float: bottom;
     padding: 0px;
     padding-top: 2px;
@@ -99,16 +101,6 @@
 .number {
     margin: 0px;
 }
-
-.lineNumber {
-    font-size: 30px;
-    position: relative;
-
-    margin-top: 8px;
-    top: 10px;
-    /*margin-left: 15px;*/
-}
-
 
 
 

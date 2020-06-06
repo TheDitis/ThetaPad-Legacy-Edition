@@ -76,19 +76,21 @@ const StraightLineProfile = (props) => {
 
                 <div className={styles.rightSide}>
                     <div className={styles.topSection}>
-                        <StraightLineIcon />
+                        <div className={styles.lineTypeIcon}>
+                            <StraightLineIcon/>
+                        </div>
                         <h3 className={styles.lineTitle}>{_.startCase(_.camelCase(line.type))} {props.index}</h3>
                         <Button className={`${classes.unitSelect} ${line.isUnit ? classes.unitSelectSelected : classes.unitSelectUnselected}`} size={'small'} variant={'outlined'} onClick={toggleIsUnit}>Unit</Button>
                         <a className={styles.deleteButton} onClick={() => props.removeLine(props.index)}>×</a>
                     </div>
 
-                    <hr/>
+                    {/*<hr/>*/}
 
                     <div className={styles.bottomSection} style={{color: 'black'}}>
                         {/*<img className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected} src={LengthIcon} alt={'Length:'} width={30}/>*/}
                         <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                         <div className={styles.numberContainer}>
-                            <h5 className={styles.number}>{(line.length / props.unit).toFixed(0)}</h5>
+                            <h5 className={styles.number}>{(line.length / props.unit) < 30 ? (line.length / props.unit).toFixed(2) : (line.length / props.unit).toFixed(0)}</h5>
                         </div>
                         <React.Fragment>
                             <div style={{marginLeft: 10}}>
