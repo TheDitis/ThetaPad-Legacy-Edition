@@ -13,12 +13,16 @@ import GridMenu from "../GridMenu/GridMenu";
 const useStyles = makeStyles({
     buttonUnselected : {
         backgroundColor: "white",
-        margin: 10
+        margin: 10,
+        marginLeft: 20,
+        marginRight: 20
     },
     buttonSelected: {
         backgroundColor: "rgba(80, 80, 80, 1)",
         color: 'white',
-        margin: 10
+        margin: 10,
+        marginLeft: 20,
+        marginRight: 20
     }
 });
 
@@ -31,20 +35,25 @@ const SideBar = (props) => {
         <div className={styles.sidebar} style={{width: props.sideBarWidth}}>
             <div className={styles.topSection}>
                 <hr style={{width: "100%"}}/>
-                <ImageUploader
-                    buttonText='Choose image'
-                    onChange={props.handleUpload}
-                    imgExtension={['.jpg', '.jpeg', '.gif', '.png', '.gif']}
-                    maxFileSize={20971520}
-                    withIcon={false}
-                    withLabel={false}
-                    singleImage={false}
-                    buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
-                    fileContainerStyle={{backgroundColor: 'transparent', height: 10}}
-                />
+                <div className={styles.upperControlsTopRow}>
+
+                    <ImageUploader
+                        buttonText='Choose image'
+                        onChange={props.handleUpload}
+                        imgExtension={['.jpg', '.jpeg', '.gif', '.png', '.gif']}
+                        maxFileSize={20971520}
+                        withIcon={false}
+                        withLabel={false}
+                        singleImage={false}
+                        buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
+                        fileContainerStyle={{backgroundColor: 'transparent', height: 10, width: 140, marginLeft: "34.3%", marginTop: 8, marginBottom: 0}}
+                    />
+                    <Button onClick={props.undo} style={ { backgroundColor: "white", height: 30, marginTop: 19, marginLeft: props.sideBarWidth - 100, position: 'absolute'} }><UndoIcon/></Button>
+
+                </div>
                 <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>
                 <Button onClick={() => props.setDrawMode('poly')} className={props.drawMode === 'poly' ? classes.buttonSelected : classes.buttonUnselected}>Poly</Button>
-                <Button onClick={props.undo} style={ { backgroundColor: "white", margin: 10} }><UndoIcon/></Button>
+
                 <hr style={{width: "100%"}}/>
             </div>
             <div className={styles.profiles}>

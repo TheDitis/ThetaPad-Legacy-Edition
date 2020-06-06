@@ -202,7 +202,7 @@ function App() {
         setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
-        if (allLines.length > 50) {
+        if (allLines.length > 200) {
             allLines.shift();
         }
     };
