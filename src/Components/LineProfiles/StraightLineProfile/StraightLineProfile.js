@@ -86,7 +86,7 @@ const StraightLineProfile = (props) => {
                         {/*<img className={line.isUnit ? classes.numberLabelsSelected : classes.numberLabelsUnselected} src={LengthIcon} alt={'Length:'} width={30}/>*/}
                         <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                         <div className={styles.numberContainer}>
-                            <h5 className={styles.number}>{(line.length / props.unit).toFixed(2)}</h5>
+                            <h5 className={styles.number}>{(line.length / props.unit).toFixed(0)}</h5>
                         </div>
                         <React.Fragment>
                             <div style={{marginLeft: 10}}>

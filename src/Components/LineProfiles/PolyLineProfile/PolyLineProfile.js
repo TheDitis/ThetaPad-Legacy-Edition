@@ -56,6 +56,13 @@ const useStyles = makeStyles({
         marginLeft: '20px',
         marginRight: '10px',
         cursor: 'pointer'
+    },
+    rowNumberSelected: {
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+        color: 'black'
+    },
+    rowNumberUnselected: {
+        backgroundColor: "rgba(0, 0, 0, 0.2)"
     }
 });
 
@@ -125,7 +132,7 @@ const PolyLineProfile = (props) => {
 
                             <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                             <div className={styles.numberContainer}>
-                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit).toFixed(2)}</h5>
+                                <h5 className={styles.number}>{(_.sum(line.distances) / props.unit).toFixed(0)}</h5>
                             </div>
 
                             <div style={{marginLeft: 10}}>
@@ -144,13 +151,13 @@ const PolyLineProfile = (props) => {
                         {line.displayAngles.map((angle, index) => {
                             return (
                                 <div className={styles.detailRow} key={uuid()}>
-                                    <h5 className={styles.rowNumber}>{index}</h5>
+                                    <h5 className={`${styles.rowNumber} ${line.unitSegmentIndex === index ? classes.rowNumberSelected : classes.rowNumberUnselected}`} onClick={toggleIsUnit(index)}>{index}</h5>
                                     <div className={styles.numberSectionDetails}>
                                         <div style={{marginLeft: 10}}>
                                             <LengthIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
                                         </div>
                                         <div className={styles.numberContainerDetails}>
-                                            <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(2)}</h5>
+                                            <h5 className={styles.number}>{(line.distances[index] / props.unit).toFixed(0)}</h5>
                                         </div>
                                         <div style={{marginLeft: 10}}>
                                             <AngleIcon color={line.isUnit ? '#ffffff' : '#000000'} size={0.23}/>
@@ -160,10 +167,10 @@ const PolyLineProfile = (props) => {
                                         </div>
                                     </div>
 
-                                    <Button
-                                        className={`${classes.unitSelectSmall} ${line.unitSegmentIndex === index ? classes.unitSelectSelected : classes.unitSelectUnselected}`}
-                                        size={'small'} variant={'outlined'} onClick={toggleIsUnit(index)}>Unit
-                                    </Button>
+                                    {/*<Button*/}
+                                    {/*    className={`${classes.unitSelectSmall} ${line.unitSegmentIndex === index ? classes.unitSelectSelected : classes.unitSelectUnselected}`}*/}
+                                    {/*    size={'small'} variant={'outlined'} onClick={toggleIsUnit(index)}>Unit*/}
+                                    {/*</Button>*/}
                                     {index === 0 ? (
                                         <a className={classes.deleteSegmentButton} onClick={() => props.removePoint(props.index, 0)}>×</a>
                                     ) : index === line.distances.length - 1 ? (
