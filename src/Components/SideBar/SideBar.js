@@ -7,7 +7,8 @@ import UndoIcon from '@material-ui/icons/Undo';
 import StraightLineProfile from "../LineProfiles/StraightLineProfile/StraightLineProfile";
 import PolyLineProfile from "../LineProfiles/PolyLineProfile/PolyLineProfile";
 import uuid from 'react-uuid'
-import ToolsMenu from "../GridMenu/ToolsMenu";
+import ToolsMenu from "../ToolsMenu/ToolsMenu";
+import Tooltip from '@material-ui/core/Tooltip'
 
 
 const useStyles = makeStyles({
@@ -48,8 +49,15 @@ const SideBar = (props) => {
                         buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
                         fileContainerStyle={{backgroundColor: 'transparent', height: 10, width: 140, margin: 'auto', marginTop: 8, marginBottom: 0}}
                     />
-                    <Button onClick={props.undo} style={ { backgroundColor: "white", height: 30, marginTop: 18, marginLeft: props.sideBarWidth - (props.sideBarWidth * 0.25), position: 'absolute'} }><UndoIcon/></Button>
-
+                    <Tooltip title={"Undo"} enterDelay={1300}>
+                        <Button onClick={props.undo} style={{
+                            backgroundColor: "white",
+                            height: 30,
+                            marginTop: 18,
+                            marginLeft: props.sideBarWidth - (props.sideBarWidth * 0.25),
+                            position: 'absolute'
+                        }}><UndoIcon/></Button>
+                    </Tooltip>
                 </div>
                 <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>
                 <Button onClick={() => props.setDrawMode('poly')} className={props.drawMode === 'poly' ? classes.buttonSelected : classes.buttonUnselected}>Poly</Button>
