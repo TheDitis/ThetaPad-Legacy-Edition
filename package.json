@@ -14,6 +14,8 @@
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.6.1",
     "firebase-tools": "^8.4.0",
+    "framer": "^1.2.2",
+    "framer-motion": "^1.11.0",
     "konva": "^6.0.0",
     "less": "^3.11.1",
     "lodash": "^4.17.15",

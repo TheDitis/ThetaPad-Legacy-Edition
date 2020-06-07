@@ -85,10 +85,8 @@ const PolyLineProfile = (props) => {
             line.unitSegmentIndex = index
         }
         if (line.isUnit) {
-            console.log('here');
             props.setUnit(1);
             if (segment) {
-                console.log('index:', index)
                 if (line.unitSegmentIndex === index) {
                     props.setUnit(1);
                     line.isUnit = false;
@@ -96,13 +94,11 @@ const PolyLineProfile = (props) => {
                 }
                 else {
                     line.unitSegmentIndex = index;
-                    props.setUnit(line.distances[index])
-                    console.log('segment true')
+                    props.setUnit(line.distances[index]);
                 }
 
             }
             else {
-                console.log('segment false');
                 line.isUnit = false;
                 line.unitSegmentIndex = -1
             }
@@ -121,7 +117,6 @@ const PolyLineProfile = (props) => {
 
     const openColorPicker = (e) => {
         setColorPickerLocation([e.clientX, e.clientY]);
-        console.log('opening color picker');
         setShowColorPicker(true)
     };
 

@@ -11,10 +11,11 @@
 }
 
 .profiles {
-    height: calc(100vh - 146px - 80px);
+    height: calc(100vh - 146px - 50px);
     position: relative;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding-bottom: 50px;
 }
 
 .upperControlsTopRow {

@@ -7,7 +7,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import StraightLineProfile from "../LineProfiles/StraightLineProfile/StraightLineProfile";
 import PolyLineProfile from "../LineProfiles/PolyLineProfile/PolyLineProfile";
 import uuid from 'react-uuid'
-import GridMenu from "../GridMenu/GridMenu";
+import ToolsMenu from "../GridMenu/ToolsMenu";
 
 
 const useStyles = makeStyles({
@@ -69,7 +69,7 @@ const SideBar = (props) => {
                     }
                 })}
             </div>
-            <GridMenu {...props} classes={classes}/>
+            <ToolsMenu {...props} classes={classes}/>
         </div>
     )
 };

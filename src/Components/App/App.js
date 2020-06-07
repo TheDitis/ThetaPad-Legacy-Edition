@@ -254,7 +254,7 @@ function App() {
         // setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
-        console.log('first line:', line)
+        // console.log('first line:', line)
         refresh()
         if (allLines.length > 50) {
             allLines.shift();

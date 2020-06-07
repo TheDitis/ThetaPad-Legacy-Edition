@@ -29,7 +29,7 @@ const StraightLine = (props) => {
 
     const [xMid, yMid] = findMidPoint([props.x1, props.y1], [props.x2, props.y2]);
 
-    console.log('Sidebar width:', props.sideBarWidth);
+    // console.log('Sidebar width:', props.sideBarWidth);
     // console.log("pt1:", props.x1, props.y1, "pt2", props.x2, props.y2);
     // console.log("midpoint: ", xMid, yMid);
 
