@@ -1,9 +1,14 @@
 .ToolProfile {
   background-color: lightgray;
+  position: relative;
+  width: 95%;
+  margin: auto;
   margin-top: 16px;
+  border-radius: 10px;
 }
 
 .mainSection {
+  display: flex;
   padding-left: 14px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 }
@@ -12,6 +17,13 @@
   background-color: rgba(0, 0, 0, 0.1);
   padding-left: 25px;
   padding-bottom: 10px;
+}
+
+.showMoreArrowDiv {
+  width: 15px;
+  position: absolute;
+  margin-top: 50px;
+  right: 18px;
 }
 
 /*# sourceMappingURL=ToolProfile.module.css.map */

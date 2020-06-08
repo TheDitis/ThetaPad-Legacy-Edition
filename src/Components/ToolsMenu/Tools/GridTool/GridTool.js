@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import ToolProfile from "../../ToolProfile/ToolProfile";
 import Button from "@material-ui/core/Button";
 import GridIcon from "../../../Icons/GridIcon";
@@ -47,18 +47,19 @@ const useStyles = makeStyles({
 
 
 const GridTool = (props) => {
+    const [isActive, setIsActive] = useState(false);
+
     const classes = useStyles();
+    console.log('show picker', props.openColorPicker);
 
     return (
-        <ToolProfile>
+        <ToolProfile isActive={props.gridOn}>
             <div className={styles.mainSection} key={'main'}>
-                <Tooltip title={"Undo"} enterDelay={1300}>
-                    <Button onClick={() => props.setGridOn(!props.gridOn)}
-                            className={`${classes.gridButton} ${props.gridOn ? props.classes.buttonSelected : props.classes.buttonUnselected}`}>
+                <Button onClick={() => props.setGridOn(!props.gridOn)}
+                        className={`${classes.gridButton} ${props.gridOn ? props.classes.buttonSelected : props.classes.buttonUnselected}`}>
 
-                            <GridIcon color={props.gridOn ? 'white' : 'black'}/>
-                    </Button>
-                </Tooltip>
+                        <GridIcon color={props.gridOn ? 'white' : 'black'}/>
+                </Button>
                 <div className={styles.swatch} style={{backgroundColor: props.gridProps.color}}
                      onClick={props.openColorPicker}>
                 </div>
