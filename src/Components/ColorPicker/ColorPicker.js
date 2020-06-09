@@ -16,7 +16,9 @@ const ColorPicker = props => {
         if (props.showColorPicker) {
             props.setShowColorPicker(false)
         }
-    }
+    };
+
+    console.log('props:', props)
 
     return (
         <div className={styles.overlay} 

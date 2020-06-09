@@ -45,34 +45,10 @@ const useStyles = makeStyles({
 
 const ToolsMenu = (props) => {
     const [menuHeight, setMenuHeight] = useState(0);
-    const [showColorPicker, setShowColorPicker] = useState(false);
-    const [colorPickerLocation, setColorPickerLocation] = useState(null);
-    const [nRows, setNRows] = useState(6);
-    const [nColumns, setNColumns] = useState(6);
-    const [thickness, setThickness] = useState(1);
 
     const classes = useStyles();
 
-    useEffect(() => {
-        props.setGridProps({
-            ...props.gridProps,
-            nRows: nRows
-        })
-    }, [nRows]);
 
-    useEffect(() => {
-        props.setGridProps({
-            ...props.gridProps,
-            nColumns: nColumns
-        })
-    }, [nColumns]);
-
-    useEffect(() => {
-        props.setGridProps({
-            ...props.gridProps,
-            strokeWidth: thickness
-        })
-    }, [thickness]);
 
 
     const toggleShowMenu = (menuBody) => {
@@ -98,18 +74,7 @@ const ToolsMenu = (props) => {
         }
     };
 
-    const openColorPicker = (e) => {
-        setColorPickerLocation([e.clientX, e.clientY - 480]);
-        console.log("opening color picker")
-        setShowColorPicker(true)
-    };
 
-    const updateColor = (color, index) => {
-        props.setGridProps({
-            ...props.gridProps,
-            color: color
-            })
-    };
 
 
 
@@ -131,9 +96,7 @@ const ToolsMenu = (props) => {
                 </div>
                 <div className={styles.mainSection}>
 
-                    <GridTool {...props} updateColor={updateColor} openColorPicker={openColorPicker} nRows={nRows}
-                              setNRows={setNRows} nColumns={nColumns} setNColumns={setNColumns} thickness={thickness}
-                              setThickness={setThickness}/>
+                    <GridTool {...props}/>
                 </div>
             </div>
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import ToolProfile from "../../ToolProfile/ToolProfile";
 import Button from "@material-ui/core/Button";
 import GridIcon from "../../../Icons/GridIcon";
@@ -23,15 +23,27 @@ const theme = createMuiTheme({
 const useStyles = makeStyles({
     numberField: {
         position: 'relative',
-        width: 45,
+        width: 50,
         color: 'black',
-        marginLeft: 18,
-        marginRight: 8,
-        marginTop: 10,
+        marginLeft: 15,
+        marginRight: 0,
+        marginTop: 13,
+        marginBottom: 10,
+        float: 'left'
+    },
+    numberFieldWider: {
+        position: 'relative',
+        width: 50,
+        color: 'black',
+        marginLeft: 15,
+        marginRight: 0,
+        marginTop: 13,
+        marginBottom: 10,
         float: 'left'
     },
     inputLabel: {
-        color: 'black'
+        color: 'black',
+        textAlign: 'center'
     },
     input: {
         background: 'white',
@@ -40,37 +52,84 @@ const useStyles = makeStyles({
     gridButton: {
         height: 60,
         padding: 0,
-        margin: 0
+        margin: 0,
         // color: red;
     }
 });
 
 
 const GridTool = (props) => {
-    const [isActive, setIsActive] = useState(false);
+    const [showColorPicker, setShowColorPicker] = useState(false);
+    const [colorPickerLocation, setColorPickerLocation] = useState(null);
+    const [nRows, setNRows] = useState(6);
+    const [nColumns, setNColumns] = useState(6);
+    const [thickness, setThickness] = useState(1);
+    const [opacity, setOpacity] = useState(80);
+
+    useEffect(() => {
+        props.setGridProps({
+            ...props.gridProps,
+            nRows: nRows
+        })
+    }, [nRows]);
+
+    useEffect(() => {
+        props.setGridProps({
+            ...props.gridProps,
+            nColumns: nColumns
+        })
+    }, [nColumns]);
+
+    useEffect(() => {
+        props.setGridProps({
+            ...props.gridProps,
+            strokeWidth: thickness
+        })
+    }, [thickness]);
+
+    useEffect(() => {
+        props.setGridProps({
+            ...props.gridProps,
+            opacity: opacity / 100
+        })
+    }, [opacity])
 
     const classes = useStyles();
-    console.log('show picker', props.openColorPicker);
+
+    const openColorPicker = (e) => {
+        console.log(showColorPicker)
+        setColorPickerLocation([e.clientX, e.clientY - 847]);
+        console.log("opening color picker");
+        setShowColorPicker(true)
+    };
+
+    const updateColor = (color, index) => {
+        props.setGridProps({
+            ...props.gridProps,
+            color: color
+        })
+    };
 
     return (
         <ToolProfile isActive={props.gridOn}>
-            <div className={styles.mainSection} key={'main'}>
+            <React.Fragment key={'main'}>
                 <Button onClick={() => props.setGridOn(!props.gridOn)}
-                        className={`${classes.gridButton} ${props.gridOn ? props.classes.buttonSelected : props.classes.buttonUnselected}`}>
+                        className={`${classes.gridButton} ${props.gridOn ? props.classes.buttonSelected : 
+                            props.classes.buttonUnselected}`}
+                >
 
                         <GridIcon color={props.gridOn ? 'white' : 'black'}/>
                 </Button>
-                <div className={styles.swatch} style={{backgroundColor: props.gridProps.color}}
-                     onClick={props.openColorPicker}>
+                <div className={styles.swatch} style={{backgroundColor: props.gridProps.color, width: props.sideBarWidth * 0.08, height: props.sideBarWidth * 0.08, marginTop: 20 + (1800 / props.sideBarWidth)}}
+                     onClick={openColorPicker}>
                 </div>
-                {props.showColorPicker ? (
+                {showColorPicker ? (
                     <ColorPicker
-
-                        {...props}
-                        showColorPicker={props.showColorPicker}
-                        setShowColorPicker={props.setShowColorPicker}
-                        location={props.colorPickerLocation}
-                        updateColor={props.updateColor}
+                        showColorPicker={showColorPicker}
+                        setShowColorPicker={setShowColorPicker}
+                        openColorPicker={openColorPicker}
+                        location={colorPickerLocation}
+                        updateColor={updateColor}
                     />
                 ) : null}
                 <TextField
@@ -78,8 +137,8 @@ const GridTool = (props) => {
                     id="standard-number"
                     label="Rows"
                     type="number"
-                    defaultValue={5}
-                    value={props.nRows}
+                    // defaultValue={5}
+                    value={nRows}
                     InputLabelProps={{
                         shrink: true,
                         className: classes.inputLabel
@@ -94,7 +153,7 @@ const GridTool = (props) => {
                         } else if (val > 40) {
                             val = 40
                         }
-                        props.setNRows(val)
+                        setNRows(val)
                     }}
                     disabled={!props.gridOn}
                     size={'small'}
@@ -104,8 +163,8 @@ const GridTool = (props) => {
                     id="standard-number"
                     label="Columns"
                     type="number"
-                    defaultValue={5}
-                    value={props.nColumns}
+                    // defaultValue={5}
+                    value={nColumns}
                     InputLabelProps={{
                         shrink: true,
                         className: classes.inputLabel
@@ -120,77 +179,25 @@ const GridTool = (props) => {
                         } else if (val > 40) {
                             val = 40
                         }
-                        props.setNColumns(val)
+                        setNColumns(val)
                     }}
                     disabled={!props.gridOn}
                     size={'small'}
                 />
-            </div>
+            </React.Fragment>
 
-            <div className={styles.controlSection} key={'controls'}>
+            <React.Fragment key={'controls'}>
 
                 {/*<div className={styles.numInputs}>*/}
                 <ThemeProvider theme={theme}>
+
                     <TextField
                         className={classes.numberField}
-                        id="standard-number"
-                        label="Rows"
-                        type="number"
-                        defaultValue={5}
-                        value={props.nRows}
-                        InputLabelProps={{
-                            shrink: true,
-                            className: classes.inputLabel
-                        }}
-                        inputProps={{
-                            className: classes.input
-                        }}
-                        onChange={(e) => {
-                            let val = parseInt(e.target.value);
-                            if (val < -1) {
-                                val = -1
-                            } else if (val > 40) {
-                                val = 40
-                            }
-                            props.setNRows(val)
-                        }}
-                        disabled={!props.gridOn}
-                        size={'small'}
-                    />
-                    <TextField
-                        className={classes.numberField}
-                        id="standard-number"
-                        label="Columns"
-                        type="number"
-                        defaultValue={5}
-                        value={props.nColumns}
-                        InputLabelProps={{
-                            shrink: true,
-                            className: classes.inputLabel
-                        }}
-                        inputProps={{
-                            className: classes.input
-                        }}
-                        onChange={(e) => {
-                            let val = parseInt(e.target.value);
-                            if (val < -1) {
-                                val = -1
-                            } else if (val > 40) {
-                                val = 40
-                            }
-                            props.setNColumns(val)
-                        }}
-                        disabled={!props.gridOn}
-                        size={'small'}
-                    />
-                    <TextField
-                        className={classes.numberField}
-                        id="standard-number"
                         label="Thickness"
                         type="number"
                         defaultValue={1}
                         color={'secondary'}
-                        value={props.thickness}
+                        value={thickness}
                         InputLabelProps={{
                             shrink: true,
                             className: classes.inputLabel
@@ -205,13 +212,41 @@ const GridTool = (props) => {
                             } else if (val > 60) {
                                 val = 60
                             }
-                            props.setThickness(val)
+                            setThickness(val)
+                        }}
+                        disabled={!props.gridOn}
+                        size={'small'}
+                    />
+                    <TextField
+                        className={classes.numberFieldWider}
+                        label="Opacity"
+                        type="number"
+                        // defaultValue={1}
+                        color={'secondary'}
+                        value={opacity}
+                        // step={0.01}
+                        InputLabelProps={{
+                            shrink: true,
+                            className: classes.inputLabel
+                        }}
+                        inputProps={{
+                            className: classes.input,
+                            step: 5
+                        }}
+                        onChange={(e) => {
+                            let val = parseFloat(e.target.value);
+                            if (val < 4) {
+                                val = 5
+                            } else if (val > 100) {
+                                val = 100
+                            }
+                            setOpacity(val)
                         }}
                         disabled={!props.gridOn}
                         size={'small'}
                     />
                 </ThemeProvider>
-            </div>
+            </React.Fragment>
         </ToolProfile>
     )
 };

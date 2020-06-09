@@ -1,6 +1,7 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import styles from './App.module.css';
+import Konva from "konva";
 import {Stage, Layer, Rect, Text, Circle, Line, Ellipse} from 'react-konva';
 import {Image as KonvaImage} from 'react-konva'
 import useImage from "use-image";
@@ -23,10 +24,13 @@ export const distance = (a, b) => {
 };
 
 const UserImage = (props) => {
-    const [image] = useImage(props.url);
+    const [image] = useImage(props.url,);
     return (
         <Layer>
-            <KonvaImage ref={props.imgRef} image={image} {...props}/>
+            <KonvaImage
+                filters={[Konva.Filters.Blur]}
+                blurRadius={10}
+                image={image} {...props}/>
         </Layer>
     )
 };
@@ -49,6 +53,10 @@ function App() {
     const [sideBarWidth, setSideBarWidth] = useState(window.innerWidth * 0.3);
     const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - sideBarWidth, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
     const [canvasSize, sizeCanvasSize] = useState(null);
+
+    const [hookImage] = useImage(image)
+
+
 
     let prevWinDims = [window.innerWidth, window.innerHeight];
 
@@ -82,6 +90,15 @@ function App() {
         }
     };
 
+
+
+    document.onkeyup = (e) => {
+        if (e.key === 'Meta') {
+            setCmdKey(false);
+            console.log("cmdKey: ", cmdKey)
+        }
+    };
+
     const getSideBarWidth = () => {
         const width = window.innerWidth;
         // const height = window.innerHeight;
@@ -99,13 +116,6 @@ function App() {
         }
     }
 
-    document.onkeyup = (e) => {
-        if (e.key === 'Meta') {
-            setCmdKey(false);
-            console.log("cmdKey: ", cmdKey)
-        }
-    };
-
     useEffect(() => {
         window.addEventListener('resize', resize);
         getSideBarWidth();
@@ -117,7 +127,12 @@ function App() {
 
     useEffect(() => {
         calcImgDims();
+
     }, [image]);
+
+    useEffect(() => {
+        console.log('hookImage Updated', hookImage)
+    }, [hookImage])
 
     const refresh = () => {
         setMouseX(window.innerWidth * 0.5 + Math.random());
@@ -130,6 +145,7 @@ function App() {
         setLineList(allLines);
         refresh()
     };
+
     
     const removeLine = (index) => {
         let allLines = lineList;
@@ -353,6 +369,8 @@ function App() {
                 setOrigImgDims([img.width, img.height]);
                 setImgDims([img.width, img.height]);
                 setImage(url);
+            //     const hookImage = LoadImage(url);
+            //     setImage(hookImage)
             };
             img.src = fr.result;
             imageObj = img
