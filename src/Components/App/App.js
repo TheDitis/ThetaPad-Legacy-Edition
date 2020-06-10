@@ -11,7 +11,6 @@ import SideBar from "../SideBar/SideBar";
 import StopPolyDrawButton from "../StopPolyDrawButton";
 import Grid from "../Grid/Grid";
 
-
 export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
 
 
@@ -26,7 +25,8 @@ export const distance = (a, b) => {
 const UserImage = (props) => {
     const [image] = useImage(props.url,);
     return (
-        <Layer>
+
+        <Layer >
             <KonvaImage
                 filters={[Konva.Filters.Blur]}
                 blurRadius={10}
@@ -52,9 +52,9 @@ function App() {
     const [gridOn, setGridOn] = useState(false);
     const [sideBarWidth, setSideBarWidth] = useState(window.innerWidth * 0.3);
     const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - sideBarWidth, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
-    const [canvasSize, sizeCanvasSize] = useState(null);
 
-    const [hookImage] = useImage(image)
+    const [canvasSize, sizeCanvasSize] = useState(null);
+    const [imageStyle, setImageStyle] = useState({})
 
 
 
@@ -89,8 +89,6 @@ function App() {
             setDrawMode('poly')
         }
     };
-
-
 
     document.onkeyup = (e) => {
         if (e.key === 'Meta') {
@@ -129,10 +127,13 @@ function App() {
         calcImgDims();
 
     }, [image]);
+    
+    // useEffect(() => {
+    //     setImageStyle({
+    //         filter: `grayscale(${grayscaleAmt}%) contrast(${contrastAmt}%)`
+    //     })
+    // }, [grayscaleAmt, contrastAmt]);
 
-    useEffect(() => {
-        console.log('hookImage Updated', hookImage)
-    }, [hookImage])
 
     const refresh = () => {
         setMouseX(window.innerWidth * 0.5 + Math.random());
@@ -420,6 +421,9 @@ function App() {
         refresh()
     };
 
+    let fromColor = [1, 0, 1];
+    let toColor = [1, 1, 0];
+
     return (
         <div className={styles.App}>
             <div className={styles.container}>
@@ -439,6 +443,7 @@ function App() {
                     setGridOn={setGridOn}
                     gridProps={gridProps}
                     setGridProps={setGridProps}
+                    setImageStyle={setImageStyle}
                     sideBarWidth={sideBarWidth}
                 />
                 <div
@@ -448,14 +453,18 @@ function App() {
                     onMouseMove={handleMouseMove}
                 >
                     <StopPolyDrawButton inProp={inPolyDraw} stopPolyDraw={stopPolyDraw}/>
+                    <Stage width={window.innerWidth - sideBarWidth} height={window.innerHeight} style={{position: 'absolute', ...imageStyle}}>
+
+                        {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]} imgStyle={{filter: "grayscale(100%)"}}/> : null}
+                    </Stage>
 
                     <Stage width={window.innerWidth - sideBarWidth} height={window.innerHeight}>
-                        {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]}/> : null}
                         {gridOn ? <Grid {...gridProps}/> : null}
                         <Layer>
                             <Lines list={lineList} unit={unit} sideBarWidth={sideBarWidth}/>
                         </Layer>
                     </Stage>
+
 
                 </div>
             </div>

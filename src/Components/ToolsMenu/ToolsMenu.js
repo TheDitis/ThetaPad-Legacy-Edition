@@ -11,6 +11,7 @@ import {ThemeProvider} from "@material-ui/styles";
 import {motion} from 'framer-motion';
 import GridIcon from "../Icons/GridIcon";
 import GridTool from "./Tools/GridTool/GridTool";
+import ImageFilterTool from "./Tools/ImageFilterTool/ImageFilterTool";
 
 const theme = createMuiTheme({
     palette: {
@@ -97,6 +98,7 @@ const ToolsMenu = (props) => {
                 <div className={styles.mainSection}>
 
                     <GridTool {...props}/>
+                    <ImageFilterTool {...props}/>
                 </div>
             </div>
 
