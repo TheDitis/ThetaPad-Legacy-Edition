@@ -5,6 +5,7 @@ import GridIcon from "../../../Icons/GridIcon";
 import styles from "./ImageFilterTool.module.scss"
 import ColorPicker from "../../../ColorPicker/ColorPicker";
 import {ThemeProvider} from "@material-ui/styles";
+import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField/TextField";
 import Slider from "@material-ui/core/Slider";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -12,9 +13,6 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import cyan from "@material-ui/core/colors/cyan";
 import lime from "@material-ui/core/colors/lime";
 import Tooltip from "@material-ui/core/Tooltip";
-
-
-
 
 const useStyles = makeStyles({
     numberField: {
@@ -53,7 +51,6 @@ const useStyles = makeStyles({
     }
 });
 
-
 const ImageFilterTool = (props) => {
     const [saturation, setSaturation] = useState(100);
     const [contrast, setContrast] = useState(100);
@@ -65,7 +62,7 @@ const ImageFilterTool = (props) => {
 
     useEffect(() => {
         props.setImageStyle({
-            filter: `brightness(${brightness}%) saturate(${saturation}%) contrast(${contrast}%) `
+            filter: `hue-rotate(${hue}deg) brightness(${brightness}%) saturate(${saturation}%) contrast(${contrast}%) `
         })
     }, [saturation, contrast, brightness, hue, blur]);
 
@@ -84,14 +81,6 @@ const ImageFilterTool = (props) => {
                     color: 'black'
                 }
             }
-        },
-        palette: {
-            primary: cyan,
-            secondary: lime
-        },
-        saturationSlider: {
-            selectionColor: '#000000',
-            handleFillColor: '#ff0000'
         }
     });
 
@@ -111,14 +100,6 @@ const ImageFilterTool = (props) => {
                     color: 'black'
                 }
             }
-        },
-        palette: {
-            primary: cyan,
-            secondary: lime
-        },
-        saturationSlider: {
-            selectionColor: '#000000',
-            handleFillColor: '#ff0000'
         }
     });
 
@@ -127,25 +108,36 @@ const ImageFilterTool = (props) => {
             MuiSlider: {
                 thumb: {
                     color: 'white',
-                    filter: `brightness(${contrast + 40}%)`,
+                    filter: `brightness(${brightness / 2}%)`,
                     // border: '1px solid black'
                 },
                 track: {
                     color: "white",
-                    filter: `brightness(${70 - contrast /2}%)`
+                    filter: `brightness(${brightness / 2}%)`
                 },
                 rail: {
                     color: 'black'
                 }
             }
-        },
-        palette: {
-            primary: cyan,
-            secondary: lime
-        },
-        saturationSlider: {
-            selectionColor: '#000000',
-            handleFillColor: '#ff0000'
+        }
+    });
+
+    const hueSliderTheme = createMuiTheme({
+        overrides: {
+            MuiSlider: {
+                thumb: {
+                    color: 'red',
+                    filter: `hue-rotate(${hue}deg)`,
+                    // border: '1px solid black'
+                },
+                track: {
+                    color: "red",
+                    filter: `hue-rotate(${hue}deg)`,
+                },
+                rail: {
+                    color: 'black'
+                }
+            }
         }
     });
 
@@ -245,49 +237,80 @@ const ImageFilterTool = (props) => {
                 <div className={styles.sliders}>
 
                     <ThemeProvider theme={saturationSliderTheme}>
-                        <Slider
-                            value={saturation}
-                            min={0}
-                            max={400}
-                            onChange={(e, val) => {
-                                setSaturation(parseInt(val))
-                            }}
-                        >
-                        </Slider>
-                        <ThemeProvider theme={contrastSliderTheme}>
+                        <div className={styles.sliderControl}>
+                            <Typography className={styles.sliderControlLabel}>
+                                Saturation
+                            </Typography>
                             <Slider
-                                value={contrast}
+                                value={saturation}
                                 min={0}
-                                max={200}
+                                max={400}
                                 onChange={(e, val) => {
-                                    setContrast(parseInt(val))
+                                    setSaturation(parseInt(val))
                                 }}
                             >
                             </Slider>
-                        </ThemeProvider>
+                        </div>
                         <ThemeProvider theme={contrastSliderTheme}>
-                            <Slider
-                                // value={brightness}
-                                defaultValue={100}
-                                min={0}
-                                max={200}
-                                scale={(x) => {
-                                    if (x <= 100) {
-                                        setBrightness(x);
-                                        return x
-                                    }
-                                    else {
-                                        x = x + 3 * (x - 100);
-                                        setBrightness(x);
-                                        return x
-                                    }
-                                }}
-                                getAriaValueText={(val) => val}
-                                valueLabelFormat={(val) => val}
-                                valueLabelDisplay="auto"
-                                aria-labelledby="non-linear-slider"
-                            >
-                            </Slider>
+                            <div className={styles.sliderControl}>
+                                <Typography className={styles.sliderControlLabel}>
+                                    Contrast
+                                </Typography>
+                                <Slider
+                                    value={contrast}
+                                    min={0}
+                                    max={200}
+                                    onChange={(e, val) => {
+                                        setContrast(parseInt(val))
+                                    }}
+                                >
+                                </Slider>
+                            </div>
+                        </ThemeProvider>
+                        <ThemeProvider theme={brightnessSliderTheme}>
+                            <div className={styles.sliderControl}>
+                                <Typography className={styles.sliderControlLabel}>
+                                    Brightness
+                                </Typography>
+                                <Slider
+                                    // value={brightness}
+                                    defaultValue={100}
+                                    min={0}
+                                    max={200}
+                                    scale={(x) => {
+                                        if (x <= 100) {
+                                            setBrightness(x);
+                                            return x
+                                        } else {
+                                            x = x + 3 * (x - 100);
+                                            setBrightness(x);
+                                            return x
+                                        }
+                                    }}
+                                    // getAriaValueText={(val) => val}
+                                    // valueLabelFormat={(val) => val}
+                                    // valueLabelDisplay="auto"
+                                    // aria-labelledby="non-linear-slider"
+                                >
+                                </Slider>
+                            </div>
+                        </ThemeProvider>
+                        <ThemeProvider theme={hueSliderTheme}>
+                            <div className={styles.sliderControl}>
+                                <Typography className={styles.sliderControlLabel}>
+                                    Hue
+                                </Typography>
+                                <Slider
+                                    // value={brightness}
+                                    defaultValue={0}
+                                    min={-180}
+                                    max={180}
+                                    onChange={(e, val) => {
+                                        setHue(parseInt(val))
+                                    }}
+                                >
+                                </Slider>
+                            </div>
                         </ThemeProvider>
                     </ThemeProvider>
                     <Button/>
