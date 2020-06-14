@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import ToolProfile from "../../ToolProfile/ToolProfile";
 import Button from "@material-ui/core/Button";
 import GridIcon from "../../../Icons/GridIcon";
+import ImageFilterIcon from "../../../Icons/ImageFilterIcon";
 import styles from "./ImageFilterTool.module.scss"
 import ColorPicker from "../../../ColorPicker/ColorPicker";
 import {ThemeProvider} from "@material-ui/styles";
@@ -52,6 +53,7 @@ const useStyles = makeStyles({
 });
 
 const ImageFilterTool = (props) => {
+    const [filtersOn, setFiltersOn] = useState(true);
     const [saturation, setSaturation] = useState(100);
     const [contrast, setContrast] = useState(100);
     const [brightness, setBrightness] = useState(100);
@@ -61,10 +63,15 @@ const ImageFilterTool = (props) => {
     const classes = useStyles();
 
     useEffect(() => {
-        props.setImageStyle({
-            filter: `hue-rotate(${hue}deg) brightness(${brightness}%) saturate(${saturation}%) contrast(${contrast}%) `
-        })
-    }, [saturation, contrast, brightness, hue, blur]);
+        if (filtersOn) {
+            props.setImageStyle({
+                filter: `hue-rotate(${hue}deg) brightness(${brightness}%) saturate(${saturation}%) contrast(${contrast}%) `
+            })
+        }
+        else {
+            props.setImageStyle({filter: null})
+        }
+    }, [saturation, contrast, brightness, hue, blur, filtersOn]);
 
     const saturationSliderTheme = createMuiTheme({
         overrides: {
@@ -143,13 +150,13 @@ const ImageFilterTool = (props) => {
 
 
     return (
-        <ToolProfile isActive={true}>
+        <ToolProfile isActive={filtersOn}>
             <React.Fragment key={'main'}>
                 <Button
-                    className={`${classes.gridButton} ${props.gridOn ? props.classes.buttonSelected : props.classes.buttonUnselected}`}
+                    onClick={() => setFiltersOn(!filtersOn)}
+                    className={`${classes.gridButton} ${filtersOn ? props.classes.buttonSelected : props.classes.buttonUnselected}`}
                 >
-                    FILTERS
-                    {/*<GridIcon color={props.gridOn ? 'white' : 'black'}/>*/}
+                    <ImageFilterIcon color={filtersOn ? 'white' : 'black'}/>
                 </Button>
                 <TextField
                     className={classes.numberField}
@@ -202,35 +209,8 @@ const ImageFilterTool = (props) => {
                         }
                         setContrast(val)
                     }}
-                    // disabled={!props.gridOn}
                     size={'small'}
                 />
-                {/*<TextField*/}
-                {/*    className={classes.numberField}*/}
-                {/*    id="standard-number"*/}
-                {/*    label="Columns"*/}
-                {/*    type="number"*/}
-                {/*    // defaultValue={5}*/}
-                {/*    value={nColumns}*/}
-                {/*    InputLabelProps={{*/}
-                {/*        shrink: true,*/}
-                {/*        className: classes.inputLabel*/}
-                {/*    }}*/}
-                {/*    inputProps={{*/}
-                {/*        className: classes.input*/}
-                {/*    }}*/}
-                {/*    onChange={(e) => {*/}
-                {/*        let val = parseInt(e.target.value);*/}
-                {/*        if (val < -1) {*/}
-                {/*            val = -1*/}
-                {/*        } else if (val > 40) {*/}
-                {/*            val = 40*/}
-                {/*        }*/}
-                {/*        setNColumns(val)*/}
-                {/*    }}*/}
-                {/*    disabled={!props.gridOn}*/}
-                {/*    size={'small'}*/}
-                {/*/>*/}
             </React.Fragment>
 
             <React.Fragment key={'controls'}>
@@ -274,17 +254,28 @@ const ImageFilterTool = (props) => {
                                 </Typography>
                                 <Slider
                                     // value={brightness}
-                                    defaultValue={100}
+                                    value={brightness}
                                     min={0}
                                     max={200}
-                                    scale={(x) => {
-                                        if (x <= 100) {
-                                            setBrightness(x);
-                                            return x
+                                    // scale={(x) => {
+                                    //     if (x <= 100) {
+                                    //         setBrightness(x);
+                                    //         return x
+                                    //     } else {
+                                    //         x = x + 3 * (x - 100);
+                                    //         setBrightness(x);
+                                    //         return x
+                                    //     }
+                                    // }}
+                                    onChange={(e, val) => {
+                                        val = parseInt(val);
+                                        if (val <= 100) {
+                                            setBrightness(val);
+                                            // return x
                                         } else {
-                                            x = x + 3 * (x - 100);
-                                            setBrightness(x);
-                                            return x
+                                            val = val + 3 * (val - 100);
+                                            setBrightness(val);
+                                            // return x
                                         }
                                     }}
                                     // getAriaValueText={(val) => val}
@@ -301,8 +292,7 @@ const ImageFilterTool = (props) => {
                                     Hue
                                 </Typography>
                                 <Slider
-                                    // value={brightness}
-                                    defaultValue={0}
+                                    value={hue}
                                     min={-180}
                                     max={180}
                                     onChange={(e, val) => {
