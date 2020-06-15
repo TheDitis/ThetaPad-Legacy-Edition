@@ -1,6 +1,6 @@
 import React from "react";
 import uuid from "react-uuid";
-import {Line, Text} from "react-konva";
+import {Line, Text, Group} from "react-konva";
 import {distance, getAngle} from "../App/App";
 
 
@@ -29,22 +29,25 @@ const StraightLine = (props) => {
 
     const [xMid, yMid] = findMidPoint([props.x1, props.y1], [props.x2, props.y2]);
 
-    // console.log('Sidebar width:', props.sideBarWidth);
-    // console.log("pt1:", props.x1, props.y1, "pt2", props.x2, props.y2);
-    // console.log("midpoint: ", xMid, yMid);
-
     if (line.x2) {
+        const textRotation = line.angles[0] <= -90 || line.angles[0] > 90 ? line.angles[0] + 180 : line.angles[0];
+        const lengthText = props.unit === 1 ? (line.length / props.unit).toFixed(0) : (line.length / props.unit).toFixed(2);
         return (
             <React.Fragment>
                 <Line key={uuid()} x={0} y={0} stroke={props.color} points={points} strokeWidth={2}/>
-                <Text
-                    text={(line.length / props.unit).toFixed(2)}
+                <Group
                     x={xMid}
                     y={yMid}
-                    rotation={line.angles[0]}
-                    fontSize={15}
-                    fill={props.color}
-                />
+                    rotation={textRotation}
+                >
+                    <Text
+                        y={5}
+                        x={-10}
+                        text={lengthText}
+                        fontSize={15}
+                        fill={props.color}
+                    />
+                </Group>
             </React.Fragment>
         )
     }

@@ -48,10 +48,13 @@ function App() {
     const [origImgDims, setOrigImgDims] = useState(null);
     const [imgDims, setImgDims] = useState([0, 0]);
     const [cmdKey, setCmdKey] = useState(null);
+    const [shiftKey, setShiftKey] = useState(null);
     const [unit, setUnit] = useState(1);
     const [gridOn, setGridOn] = useState(false);
     const [sideBarWidth, setSideBarWidth] = useState(window.innerWidth * 0.3);
     const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - sideBarWidth, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
+    const [redoBuffer, setRedoBuffer] = useState([]);
+
 
     const [canvasSize, sizeCanvasSize] = useState(null);
     const [imageStyle, setImageStyle] = useState({})
@@ -71,11 +74,19 @@ function App() {
             setCmdKey(true);
             console.log("cmdKey: ", cmdKey)
         }
+        else if (e.key === 'Shift') {
+            setShiftKey(true);
+            console.log('shiftKey:', shiftKey)
+        }
         else if (e.key === 'z') {
             console.log('z key pressed');
             console.log('cmdKey:', cmdKey)
-            if (cmdKey) {
+            if (cmdKey && !shiftKey) {
                 undo();
+                refresh();
+            }
+            else if (cmdKey && shiftKey) {
+                redo();
                 refresh();
             }
         }
@@ -94,6 +105,10 @@ function App() {
         if (e.key === 'Meta') {
             setCmdKey(false);
             console.log("cmdKey: ", cmdKey)
+        }
+        else if (e.key === 'Shift') {
+            setShiftKey(false);
+            console.log("shiftKey: ", shiftKey)
         }
     };
 
@@ -288,7 +303,7 @@ function App() {
     };
 
     const stopPolyDraw = (fromButton) => {
-
+        let lineRemoved = false;
         setNewPolyLine(true);
         const currentLine = lineList[lineList.length - 1];
         if (fromButton) {
@@ -298,7 +313,8 @@ function App() {
         if (currentLine.points.length < 5) {
             const allLines = lineList
             allLines.pop();
-            setLineList(allLines)
+            setLineList(allLines);
+            lineRemoved = true;
         }
         else {
             currentLine.points.pop();
@@ -309,6 +325,7 @@ function App() {
         }
         setInPolyDraw(false);
         setMouseDown(false);
+        return lineRemoved;
     };
 
     const handleMouseDown = e => {
@@ -407,19 +424,35 @@ function App() {
     };
 
     const undo = () => {
-        console.log('undo')
-
+        console.log('undo');
+        let lineRemoved;
         if (inPolyDraw) {
-            stopPolyDraw()
+            lineRemoved = stopPolyDraw()
         }
-        let allLines = lineList;
-        allLines.pop();
-        setLineList(allLines);
+        if (!lineRemoved) {
+            let allLines = lineList;
+            let buffer = redoBuffer;
+            buffer.push(allLines.pop());
+            setRedoBuffer(buffer);
+            console.log(redoBuffer);
+
+            setLineList(allLines);
+        }
         // for some reason it wont update until you mouse over canvas unless I have these:
         setMouseX(window.innerWidth * 0.5 + Math.random());
         setMouseY(window.innerHeight * 0.5 + Math.random());
         refresh()
     };
+
+    const redo = () => {
+        if (redoBuffer.length > 0) {
+            let allLines = lineList;
+            let buffer = redoBuffer;
+            allLines.push(buffer.pop());
+            setRedoBuffer(buffer);
+            setLineList(allLines)
+        }
+    }
 
     let fromColor = [1, 0, 1];
     let toColor = [1, 1, 0];

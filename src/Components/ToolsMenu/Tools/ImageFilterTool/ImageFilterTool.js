@@ -182,7 +182,7 @@ const ImageFilterTool = (props) => {
                         }
                         setSaturation(val)
                     }}
-                    // disabled={!props.gridOn}
+                    disabled={!filtersOn}
                     size={'small'}
                 />
                 <TextField
@@ -209,6 +209,7 @@ const ImageFilterTool = (props) => {
                         }
                         setContrast(val)
                     }}
+                    disabled={!filtersOn}
                     size={'small'}
                 />
             </React.Fragment>

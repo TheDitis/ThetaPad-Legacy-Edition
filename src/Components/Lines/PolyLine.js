@@ -51,7 +51,7 @@ const PolyLine = (props) => {
     const calculateAngles = (lineList) => {
         const angles = _.map(lineList, (line2, index) => {
             if (index !== 0) {
-                const line1 = lineList[index - 1]
+                const line1 = lineList[index - 1];
                 const vec1 = [line1[0][0] - line1[1][0], line1[0][1] - line1[1][1]];
                 const vec2 = [line2[1][0] - line2[0][0], line2[1][1]- line2[0][1]];
                 const mag1 = Math.sqrt(vec1[0] ** 2 + vec1[1] ** 2);
@@ -74,7 +74,6 @@ const PolyLine = (props) => {
 
     return (
         <React.Fragment>
-
             <Line x={0} y={0} stroke={line.color} points={line.points} strokeWidth={2}/>
             { !!distsAndPts ? distsAndPts.map( (list, index) => {
                 // console.log('list:', list)
@@ -87,13 +86,13 @@ const PolyLine = (props) => {
                     if (line.displayAngles[0]) {
                         angle = line.displayAngles[index]
                     }
-
+                    const textRotation = line.angles[index] <= -90 || line.angles[index] > 90 ? line.angles[index] + 180 : line.angles[index];
                     return (
                         <React.Fragment key={uuid()}>
                             <Group
                                 x={xMid}
                                 y={yMid}
-                                rotation={(line.angles[index] % 180)}
+                                rotation={textRotation}
                             >
                                 <Text
                                     text={(dist / props.unit).toFixed(2)}
@@ -124,9 +123,7 @@ const PolyLine = (props) => {
                         </React.Fragment>
                     )
                 }
-
             }) : null}
-
         </React.Fragment>
     );
 };
