@@ -4,6 +4,7 @@ import ImageUploader from "react-images-upload";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
 import StraightLineProfile from "../LineProfiles/StraightLineProfile/StraightLineProfile";
 import PolyLineProfile from "../LineProfiles/PolyLineProfile/PolyLineProfile";
 import uuid from 'react-uuid'
@@ -38,6 +39,16 @@ const SideBar = (props) => {
                 <hr style={{width: "100%"}}/>
                 <div className={styles.upperControlsTopRow}>
 
+                    <Tooltip title={"Undo"} enterDelay={1300}>
+                        <Button onClick={props.undo} style={{
+                            backgroundColor: "white",
+                            height: 30,
+                            width: 20,
+                            marginTop: 18,
+                            marginLeft: props.sideBarWidth * 0.25 - 65,  // (props.sideBarWidth * 0.1),
+                            position: 'absolute'
+                        }}><UndoIcon/></Button>
+                    </Tooltip>
                     <ImageUploader
                         buttonText='Choose image'
                         onChange={props.handleUpload}
@@ -49,14 +60,14 @@ const SideBar = (props) => {
                         buttonStyles={{backgroundColor: 'rgb(0, 150, 255)'}}
                         fileContainerStyle={{backgroundColor: 'transparent', height: 10, width: 140, margin: 'auto', marginTop: 8, marginBottom: 0}}
                     />
-                    <Tooltip title={"Undo"} enterDelay={1300}>
-                        <Button onClick={props.undo} style={{
+                    <Tooltip title={"Redo"} enterDelay={1300}>
+                        <Button onClick={props.redo} style={{
                             backgroundColor: "white",
                             height: 30,
                             marginTop: 18,
                             marginLeft: props.sideBarWidth - (props.sideBarWidth * 0.25),
                             position: 'absolute'
-                        }}><UndoIcon/></Button>
+                        }}><RedoIcon/></Button>
                     </Tooltip>
                 </div>
                 <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>

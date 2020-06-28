@@ -184,11 +184,16 @@ function App() {
         e.preventDefault();
         getSideBarWidth();
         // console.log('here');
-        const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);
-        // console.log('ratio', ratio);
-        setImgDims((dims) => {
-            return [dims[0] * ratio, dims[1] * ratio]
-        });
+
+
+        // const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);
+        // // console.log('ratio', ratio);
+        // setImgDims((dims) => {
+        //     return [dims[0] * ratio, dims[1] * ratio]
+        // });
+        calcImgDims()
+
+
         // console.log('post resize dims:', imgDims)
         prevWinDims = [window.innerWidth, window.innerHeight];
         // setSideBarWidth(window.innerWidth * 0.3)
@@ -196,9 +201,8 @@ function App() {
 
     const calcImgDims = () => {
         if (origImgDims) {
-            const canvasDims = [window.innerWidth * 0.7, window.innerHeight];
+            const canvasDims = [window.innerWidth - sideBarWidth, window.innerHeight];
             const ratio = getSizeRatio(origImgDims, canvasDims);
-            // console.log('ratio:', ratio);
             setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);
             setGridProps({
                 ...gridProps,
@@ -220,7 +224,6 @@ function App() {
 
     const handleMouseMove = e => {
         if (mouseDown || inPolyDraw){
-
             setMouseX(e.clientX);
             setMouseY(e.clientY);
             let currentLine = lineList[lineList.length - 1];
@@ -234,7 +237,6 @@ function App() {
             }
         }
     };
-
 
     const startLine = (x, y) => {
         let allLines = lineList;
@@ -283,11 +285,9 @@ function App() {
         const color = allColors[Math.floor(Math.random() * allColors.length)];
         let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 0, showDetails: false};
         line.points = [x - sideBarWidth, y];
-        // setMouseDown(true);
         allLines.push(line);
         setLineList(allLines);
-        // console.log('first line:', line)
-        refresh()
+        refresh();
         if (allLines.length > 50) {
             allLines.shift();
         }
@@ -371,7 +371,6 @@ function App() {
 
     const handleUpload = (pictures) => {
         const picture = pictures[pictures.length - 1];
-        // console.log(pictures);
         clearAll();
         imageFromFile(picture)
     };
@@ -387,8 +386,6 @@ function App() {
                 setOrigImgDims([img.width, img.height]);
                 setImgDims([img.width, img.height]);
                 setImage(url);
-            //     const hookImage = LoadImage(url);
-            //     setImage(hookImage)
             };
             img.src = fr.result;
             imageObj = img
@@ -452,16 +449,15 @@ function App() {
             setRedoBuffer(buffer);
             setLineList(allLines)
         }
-    }
-
-    let fromColor = [1, 0, 1];
-    let toColor = [1, 1, 0];
+        refresh();
+    };
 
     return (
         <div className={styles.App}>
             <div className={styles.container}>
                 <SideBar
                     undo={undo}
+                    redo={redo}
                     handleUpload={handleUpload}
                     lineList={lineList}
                     updateColor={updateColor}
