@@ -42,7 +42,6 @@ function App() {
     const [mouseDown, setMouseDown] = useState(false);  // boolean representing whether or not the mouse is clicked
     const [drawMode, setDrawMode] = useState('line');  // string representing the type of line that is being drawn
     const [inPolyDraw, setInPolyDraw] = useState(false);  // boolean: whether or not you are in the middle of drawing a poly line
-    const [newPolyLine, setNewPolyLine] = useState(true);  //  boolean: whether or not the next click will start a new poly line
     const [image, setImage] = useState(null);  // the image uploaded by the user
     const [origImgDims, setOrigImgDims] = useState(null);  // the dimensions of the users image before transformation
     const [imgDims, setImgDims] = useState([0, 0]);  // dimensions of the image after transformation
@@ -264,37 +263,50 @@ function App() {
     // start a new straight line
     const startLine = (x, y) => {
         let allLines = lineList;
-        const color = allColors[Math.floor(Math.random() * allColors.length)];
-        let line = {x1: x, y1: y, color: color, type: drawMode, points: [x - sideBarWidth, y], angles: [], isUnit: false, showDetails: false};
+        const color = allColors[Math.floor(Math.random() * allColors.length)];  // get a random color from our list of colors
+        // initialize line
+        let line = {
+            x1: x,
+            y1: y,
+            color: color,
+            type: drawMode,
+            points: [x - sideBarWidth, y],
+            angles: [],
+            isUnit: false,
+            showDetails: false
+        };
         setMouseDown(true);
-        allLines.push(line);
-        setLineList(allLines);
+        allLines.push(line);  // add new line to list
+        setLineList(allLines);  // update list
+        // enforcing maximum length of line-list to 200:
         if (allLines.length > 200) {
             allLines.shift();
         }
     };
 
+    // run when in 'line' mode and the mouse button is lifted. Ends the current line if you are drawing one
     const endLine = (x, y) => {
+        // if the mouseDown state is true (if you were drawing a line):
         if (mouseDown) {
             let allLines = lineList;
-            let currentLine = allLines[allLines.length - 1];
-            currentLine.points.push(x - sideBarWidth);
-            currentLine.points.push(y)
-            currentLine.x2 = x;
-            currentLine.y2 = y;
-            allLines[allLines.length - 1] = currentLine;
-            if (!(currentLine.length) || Math.round(currentLine.length) === 0) {
-                allLines.pop();
+            let currentLine = allLines[allLines.length - 1];  // get line currently being drawn
+            currentLine.points.push(x - sideBarWidth);  // add the given x coordinate (correcting for sidebar) to line points
+            currentLine.points.push(y);  // add given y coordinate to line points
+            currentLine.x2 = x;  // set endpoint x to given x
+            currentLine.y2 = y;  // set endpoint y to given y
+            allLines[allLines.length - 1] = currentLine;  // assign modified line to its position in list
+            if (!(currentLine.length) || Math.round(currentLine.length) === 0) {  // if the length of the line is 0 or non-existent:
+                allLines.pop();  // remove it from the list
             }
             setMouseDown(false);
-            setLineList(allLines);
+            setLineList(allLines);  // update line list state
         }
     };
 
+
     const drawPoly = (x, y) => {
-        if (newPolyLine) {
+        if (!inPolyDraw) {
             setInPolyDraw(true);
-            setNewPolyLine(false);
             startPoly(x, y);
             addPolyPoint(x, y)
         }
@@ -328,7 +340,6 @@ function App() {
 
     const stopPolyDraw = (fromButton) => {
         let lineRemoved = false;
-        setNewPolyLine(true);
         const currentLine = lineList[lineList.length - 1];
         if (fromButton) {
             currentLine.points.pop();
