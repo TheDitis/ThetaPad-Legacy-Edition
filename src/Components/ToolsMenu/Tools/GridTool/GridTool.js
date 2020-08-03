@@ -98,7 +98,7 @@ const GridTool = (props) => {
 
     const openColorPicker = (e) => {
         console.log(showColorPicker)
-        setColorPickerLocation([e.clientX, e.clientY - 847]);
+        setColorPickerLocation([e.clientX, e.clientY]);
         console.log("opening color picker");
         setShowColorPicker(true)
     };

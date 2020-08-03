@@ -15,18 +15,17 @@ export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) 
 
 
 export const distance = (a, b) => {
-    const [x1, y1] = a;
+    const [x1, y1] = a;  // separate x and y from each coordinate
     const [x2, y2] = b;
-    const xdist = Math.abs(x1 - x2);
+    const xdist = Math.abs(x1 - x2);  // get the difference of each dimension (x & y)
     const ydist = Math.abs(y1 - y2);
-    return Math.sqrt(xdist ** 2 + ydist ** 2);
+    return Math.sqrt(xdist ** 2 + ydist ** 2);  // use pythagorean theorem to find absolute distance
 };
 
 const UserImage = (props) => {
     const [image] = useImage(props.url,);
     return (
-
-        <Layer >
+        <Layer>
             <KonvaImage
                 filters={[Konva.Filters.Blur]}
                 blurRadius={10}
@@ -37,47 +36,59 @@ const UserImage = (props) => {
 
 
 function App() {
-    const [mouseX, setMouseX] = useState(null);
-    const [mouseY, setMouseY] = useState(null);
-    const [lineList, setLineList] = useState([]);
-    const [mouseDown, setMouseDown] = useState(false);
-    const [drawMode, setDrawMode] = useState('line');
-    const [inPolyDraw, setInPolyDraw] = useState(false);
-    const [newPolyLine, setNewPolyLine] = useState(true);
-    const [image, setImage] = useState(null);
-    const [origImgDims, setOrigImgDims] = useState(null);
-    const [imgDims, setImgDims] = useState([0, 0]);
-    const [cmdKey, setCmdKey] = useState(null);
-    const [shiftKey, setShiftKey] = useState(null);
-    const [unit, setUnit] = useState(1);
-    const [gridOn, setGridOn] = useState(false);
-    const [sideBarWidth, setSideBarWidth] = useState(window.innerWidth * 0.3);
-    const [gridProps, setGridProps] = useState({color: 'black', nColumns: 8, nRows: 12, width: window.innerWidth - sideBarWidth, height: window.innerHeight, strokeWidth: 1, opacity: 0.8});
-    const [redoBuffer, setRedoBuffer] = useState([]);
+    const [mouseX, setMouseX] = useState(null);  // mouse location in the x dimension
+    const [mouseY, setMouseY] = useState(null);  // mouse location in the y dimension
+    const [lineList, setLineList] = useState([]);  // list of all lines to be drawn
+    const [mouseDown, setMouseDown] = useState(false);  // boolean representing whether or not the mouse is clicked
+    const [drawMode, setDrawMode] = useState('line');  // string representing the type of line that is being drawn
+    const [inPolyDraw, setInPolyDraw] = useState(false);  // boolean: whether or not you are in the middle of drawing a poly line
+    const [newPolyLine, setNewPolyLine] = useState(true);  //  boolean: whether or not the next click will start a new poly line
+    const [image, setImage] = useState(null);  // the image uploaded by the user
+    const [origImgDims, setOrigImgDims] = useState(null);  // the dimensions of the users image before transformation
+    const [imgDims, setImgDims] = useState([0, 0]);  // dimensions of the image after transformation
+    const [cmdKey, setCmdKey] = useState(false);  // boolean: whether or not Cmd / Ctrl key is pressed
+    const [shiftKey, setShiftKey] = useState(null);  // boolean: whether or not shift key is pressed
+    const [unit, setUnit] = useState(1);  // The base unit that we measure all lines relative to
+    const [gridOn, setGridOn] = useState(false);  // boolean: whether or not the grid overlay should be shown
+    const [sideBarWidth, setSideBarWidth] = useState(window.innerWidth * 0.3);  // the width of the sidebar
+    const [gridProps, setGridProps] = useState({
+        color: 'black',
+        nColumns: 8,
+        nRows: 12,
+        width: window.innerWidth - sideBarWidth,
+        height: window.innerHeight,
+        strokeWidth: 1,
+        opacity: 0.8
+    });  // all of the parameters of the grid
+    const [redoBuffer, setRedoBuffer] = useState([]);  // buffer of lines that you undid
 
 
     const [canvasSize, sizeCanvasSize] = useState(null);
-    const [imageStyle, setImageStyle] = useState({})
+    const [imageStyle, setImageStyle] = useState({});
 
 
+    let prevWinDims = [window.innerWidth, window.innerHeight]; // window dimensions that are compared when the window is resized
 
-    let prevWinDims = [window.innerWidth, window.innerHeight];
-
+    // adding keydown listener:
     document.onkeydown = (e) => {
+        // if you press escape and are currently in a poly-line draw, end the drawing of that line
         if (e.key === 'Escape') {
             console.log('Escape Pressed');
             if (inPolyDraw) {
                 stopPolyDraw()
             }
         }
+        // set CmdKey to true when cmd / ctrl is pressed
         else if (e.key === 'Meta') {
             setCmdKey(true);
             console.log("cmdKey: ", cmdKey)
         }
+        //  set shiftKey to true when it's pressed
         else if (e.key === 'Shift') {
             setShiftKey(true);
             console.log('shiftKey:', shiftKey)
         }
+        // if z is pressed, undo if cmd is pressed and shift is not, and redo if cmd & shift are both pressed
         else if (e.key === 'z') {
             console.log('z key pressed');
             console.log('cmdKey:', cmdKey)
@@ -90,22 +101,27 @@ function App() {
                 refresh();
             }
         }
+        // go into straight line drawing mode when l is pressed
         else if (e.key === 'l') {
             if (inPolyDraw) {
                 stopPolyDraw()
             }
             setDrawMode('line')
         }
+        // go into poly line drawing mode when p is pressed
         else if (e.key === 'p') {
             setDrawMode('poly')
         }
     };
 
+    // adding keyup listeners
     document.onkeyup = (e) => {
+        // set cmdKey to false when cmd / ctrl is lifted
         if (e.key === 'Meta') {
             setCmdKey(false);
             console.log("cmdKey: ", cmdKey)
         }
+        // set shift to false when it is lifted
         else if (e.key === 'Shift') {
             setShiftKey(false);
             console.log("shiftKey: ", shiftKey)
@@ -113,97 +129,100 @@ function App() {
     };
 
     const getSideBarWidth = () => {
-        const width = window.innerWidth;
-        // const height = window.innerHeight;
+        const width = window.innerWidth;  // get current width
         console.log('winsize', window.innerWidth, 'x', window.innerHeight);
-        const min = 1050
-        const max = 1460
-        if (width <= min) {
-            setSideBarWidth(min * 0.3)
+        const min = 1050;  // window width below which the sidebar will no longer shrink
+        const max = 1460;  // window width above which the sidebar will no longer grow wider
+        if (width <= min) {  // if the width is less than or equal to the minimum:
+            setSideBarWidth(min * 0.3)  // set sideBarWidth to 30% of the minimum window size
         }
-        else if (width >= max) {
-            setSideBarWidth(max * 0.3)
+        else if (width >= max) {   // if the width is greater than or equal to the maximum:
+            setSideBarWidth(max * 0.3)  // set sideBarWidth to 30% of the maximum window size
         }
-        else {
-            setSideBarWidth(width * 0.3)
+        else {  // otherwise:
+            setSideBarWidth(width * 0.3)  // set sideBarWidth to 30% of the current width
         }
-    }
+    };
 
+    // on mount:
     useEffect(() => {
-        window.addEventListener('resize', resize);
-        getSideBarWidth();
+        window.addEventListener('resize', handleResize);  // add event listener for resize, and pass my custom resize function
+        getSideBarWidth();  // calculate the sidebar width
 
         return () => {
-            window.removeEventListener('resize', resize)
+            window.removeEventListener('resize', handleResize)  // remove the event listener on unmount
         }
     }, []);
 
+    // on changing image state:
     useEffect(() => {
-        calcImgDims();
-
+        calcImgDims();  // recalculate image dimensions
     }, [image]);
-    
-    // useEffect(() => {
-    //     setImageStyle({
-    //         filter: `grayscale(${grayscaleAmt}%) contrast(${contrastAmt}%)`
-    //     })
-    // }, [grayscaleAmt, contrastAmt]);
 
-
+    // used to ensure that rerender occurs, ensuring real-time reactivity
     const refresh = () => {
-        setMouseX(window.innerWidth * 0.5 + Math.random());
-        setMouseY(window.innerHeight * 0.5 + Math.random());
+        setMouseX(window.innerWidth * 0.5 + Math.random());  // set mouseX to center of screen plus a random amount
+        setMouseY(window.innerHeight * 0.5 + Math.random());  // set mouseY to center of screen plus a random amount
     };
 
+    // to update color of line in linelist at given index to the given color
     const updateColor = (color, index) => {
         let allLines = lineList;
         allLines[index].color = color;
         setLineList(allLines);
-        refresh()
+        refresh();
     };
 
-    
+    // remove line at given index from lineList
     const removeLine = (index) => {
         let allLines = lineList;
-        if (allLines[index].isUnit) {
-            setUnit(1)
+        if (allLines[index].isUnit) {  // if the line you are removing is set as the unit:
+            setUnit(1)  // reset the unit to 1
         }
-        allLines.splice(index, 1);
+        allLines.splice(index, 1);  // remove the line
         setLineList(allLines);
         refresh();
     };
 
+    // remove "unit" status from all lines
     const unselectAllLines = () => {
         for (let line of lineList) {
             line.isUnit = false;
         }
     };
 
-    const resize = e => {
+    // run every time the window is resized
+    const handleResize = e => {
         handleMouseMove(e);
         e.preventDefault();
-        getSideBarWidth();
-        // console.log('here');
+        getSideBarWidth();  // recalculate sidebar width
 
-
-        // const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);
-        // // console.log('ratio', ratio);
-        // setImgDims((dims) => {
-        //     return [dims[0] * ratio, dims[1] * ratio]
-        // });
-        calcImgDims()
-
-
-        // console.log('post resize dims:', imgDims)
-        prevWinDims = [window.innerWidth, window.innerHeight];
-        // setSideBarWidth(window.innerWidth * 0.3)
+        // TODO: FIX IMAGE RESIZING
+        const ratio = getSizeRatio(prevWinDims, [window.innerWidth, window.innerHeight]);  // get ratio between previous & new window sizes
+        // console.log('ratio', ratio);
+        setImgDims((dims) => {
+            return [dims[0] * ratio, dims[1] * ratio]  // multiply each dimension by the calculated ratio
+        });
+        prevWinDims = [window.innerWidth, window.innerHeight];  // set previous window dimensions to current dimensions
     };
 
+    // run every time a new image is chosen.  Sizes image to fit the canvas
     const calcImgDims = () => {
+        // if original dimensions have already been set:
         if (origImgDims) {
-            const canvasDims = [window.innerWidth - sideBarWidth, window.innerHeight];
-            const ratio = getSizeRatio(origImgDims, canvasDims);
-            setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);
+            const canvasDims = [window.innerWidth - sideBarWidth, window.innerHeight];  // get dimensions of canvas
+            const ratio = getSizeRatio(origImgDims, canvasDims);  // get size ratio between the original image and the canvas
+            setImgDims([origImgDims[0] * ratio, origImgDims[1] * ratio]);  // set the image dimensions to each original dimension x ratio
+
+            // let diffs = [0, 0];
+            // let dimsInds = [0, 1];
+            // for (const index of dimsInds) {
+            //     diffs[index] = canvasDims[index] - origImgDims[index]
+            // }
+            //
+            // setImgDims([origImgDims[0] + 10, origImgDims[1] + 10])
+
+            // setting grid size to match that of the image
             setGridProps({
                 ...gridProps,
                 width: origImgDims[0] * ratio,
@@ -212,32 +231,37 @@ function App() {
         }
     };
 
+    // finds the closer of the 2 dimensions, and returns ratio of that dimension between the given dimensions
     const getSizeRatio = (imageDims, canvasDims) => {
-        let diffs = [0, 0];
-        let dimsInds = [0, 1];
-        for (const index of dimsInds) {
-            diffs[index] = canvasDims[index] - imageDims[index]
+        let diffs = [0, 0];  // initializing diffenrences for each demension (x & y)
+        // for each index of diffs (x and y):
+        for (let i = 0; i < 2; i++) {
+            diffs[i] = canvasDims[i] - imageDims[i]  // assign that index of diffs to the difference between the given dimensions at that index (x or y)
         }
-        const closerDimInd = diffs.indexOf(Math.min(...diffs));
-        return canvasDims[closerDimInd] / imageDims[closerDimInd];
+        const closerDimInd = diffs.indexOf(Math.min(...diffs));  // get the index of the dimension (x or y) with the lesser distance
+        return canvasDims[closerDimInd] / imageDims[closerDimInd];  // calculate and return the ratio between the given sizes in the determined dimension
     };
 
+    // run whenever the mouse moves
     const handleMouseMove = e => {
-        if (mouseDown || inPolyDraw){
-            setMouseX(e.clientX);
-            setMouseY(e.clientY);
-            let currentLine = lineList[lineList.length - 1];
-            currentLine.x2 = mouseX;
-            currentLine.y2 = mouseY;
+        // if the mouse is down or you are in the middle of a poly-line draw:
+        if (mouseDown || inPolyDraw) {
+            setMouseX(e.clientX);  // set mouseX to current mouse x position
+            setMouseY(e.clientY);  // set mouseY to current mouse y position
+            let currentLine = lineList[lineList.length - 1];  // get the most recent line
+            currentLine.x2 = mouseX;  // set the x endpoint of that line to mouseX
+            currentLine.y2 = mouseY;  // set the y endpoint of that line to mouseY
+            // if the line has more than 2 points:
             if (currentLine.points.length > 2) {
+                currentLine.points.pop();  // delete the last two points
                 currentLine.points.pop();
-                currentLine.points.pop();
-                currentLine.points.push(e.clientX - sideBarWidth);
-                currentLine.points.push(e.clientY);
+                currentLine.points.push(e.clientX - sideBarWidth);  // replace deleted x point with mouse x position, corrected for the sidebar width
+                currentLine.points.push(e.clientY);  // replace deleted y point with the mouse y position
             }
         }
     };
 
+    // start a new straight line
     const startLine = (x, y) => {
         let allLines = lineList;
         const color = allColors[Math.floor(Math.random() * allColors.length)];

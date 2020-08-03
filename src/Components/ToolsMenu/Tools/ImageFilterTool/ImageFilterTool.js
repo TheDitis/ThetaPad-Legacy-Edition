@@ -177,8 +177,8 @@ const ImageFilterTool = (props) => {
                         let val = parseInt(e.target.value);
                         if (val < 0) {
                             val = 0
-                        } else if (val > 100) {
-                            val = 100
+                        } else if (val > 400) {
+                            val = 400
                         }
                         setSaturation(val)
                     }}
