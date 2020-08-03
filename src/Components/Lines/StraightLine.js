@@ -1,7 +1,7 @@
 import React from "react";
 import uuid from "react-uuid";
 import {Line, Text, Group} from "react-konva";
-import {distance, getAngle} from "../App/App";
+import {distance, getAngle} from "../../HelperFunctions"
 
 
 const StraightLine = (props) => {

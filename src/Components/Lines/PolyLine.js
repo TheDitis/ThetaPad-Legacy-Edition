@@ -2,7 +2,7 @@ import React from "react";
 import uuid from "react-uuid";
 import {Line, Text, Group} from "react-konva";
 import _ from "lodash";
-import {distance, getAngle} from "../App/App";
+import {distance, getAngle} from "../../HelperFunctions";
 import nj from 'numjs';
 
 

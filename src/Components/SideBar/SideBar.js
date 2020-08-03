@@ -61,13 +61,19 @@ const SideBar = (props) => {
                         fileContainerStyle={{backgroundColor: 'transparent', height: 10, width: 140, margin: 'auto', marginTop: 8, marginBottom: 0}}
                     />
                     <Tooltip title={"Redo"} enterDelay={1300}>
-                        <Button onClick={props.redo} style={{
-                            backgroundColor: "white",
-                            height: 30,
-                            marginTop: 18,
-                            marginLeft: props.sideBarWidth - (props.sideBarWidth * 0.25),
-                            position: 'absolute'
-                        }}><RedoIcon/></Button>
+                        <Button
+                            onClick={props.redo}
+                            style={{
+                                backgroundColor: "white",
+                                height: 30,
+                                marginTop: 18,
+                                marginLeft: props.sideBarWidth - (props.sideBarWidth * 0.25),
+                                position: 'absolute'
+                            }}
+                            disabled={props.redoBuffer.length === 0}
+                        >
+                            <RedoIcon/>
+                        </Button>
                     </Tooltip>
                 </div>
                 <Button onClick={() => props.setDrawMode('line')} className={props.drawMode === 'line' ? classes.buttonSelected : classes.buttonUnselected}>Line</Button>

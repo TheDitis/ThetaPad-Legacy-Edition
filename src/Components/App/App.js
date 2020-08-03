@@ -1,8 +1,8 @@
 import React from 'react';
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import styles from './App.module.css';
-import Konva from "konva";
-import {Stage, Layer, Rect, Text, Circle, Line, Ellipse} from 'react-konva';
+// import Konva from "konva";
+import {Stage, Layer} from 'react-konva';
 import {Image as KonvaImage} from 'react-konva'
 import useImage from "use-image";
 import allColors from '../../colorOptions.json'
@@ -10,26 +10,21 @@ import Lines from "../Lines/Lines";
 import SideBar from "../SideBar/SideBar";
 import StopPolyDrawButton from "../StopPolyDrawButton";
 import Grid from "../Grid/Grid";
+import {getAngle, distance} from "../../HelperFunctions";
 
-export const getAngle = (pt1, pt2) =>  Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x) * 180 / Math.PI;
-
-
-export const distance = (a, b) => {
-    const [x1, y1] = a;  // separate x and y from each coordinate
-    const [x2, y2] = b;
-    const xdist = Math.abs(x1 - x2);  // get the difference of each dimension (x & y)
-    const ydist = Math.abs(y1 - y2);
-    return Math.sqrt(xdist ** 2 + ydist ** 2);  // use pythagorean theorem to find absolute distance
-};
 
 const UserImage = (props) => {
-    const [image] = useImage(props.url,);
+    const [image] = useImage(props.url,);  // using useImage hook with given url
     return (
+        // return Konva layer with Konva image component
         <Layer>
             <KonvaImage
-                filters={[Konva.Filters.Blur]}
-                blurRadius={10}
-                image={image} {...props}/>
+                image={image}  // image from hook
+                // filters={[Konva.Filters.Blur]}
+                // blurRadius={10}
+                width={props.width}
+                height={props.height}
+            />
         </Layer>
     )
 };
@@ -60,8 +55,6 @@ function App() {
         opacity: 0.8
     });  // all of the parameters of the grid
     const [redoBuffer, setRedoBuffer] = useState([]);  // buffer of lines that you undid
-
-
     const [canvasSize, sizeCanvasSize] = useState(null);
     const [imageStyle, setImageStyle] = useState({});
 
@@ -303,237 +296,248 @@ function App() {
         }
     };
 
-
+    // run on mouse click when in poly-line mode
     const drawPoly = (x, y) => {
-        if (!inPolyDraw) {
-            setInPolyDraw(true);
-            startPoly(x, y);
-            addPolyPoint(x, y)
+        if (!inPolyDraw) {  // if not already drawing a poly line:
+            setInPolyDraw(true);  // signify that we are now drawing a new poly line
+            startPoly(x, y);  // start poly line at given x and y coordinates
         }
-        else {
-            addPolyPoint(x, y)
+        else {  // if we are already drawing a poly-line
+            addPolyPoint(x, y)  // add the given point
         }
 
     };
 
+    // start a poly-line
     const startPoly = (x, y) => {
         let allLines = lineList;
-        const color = allColors[Math.floor(Math.random() * allColors.length)];
-        let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 0, showDetails: false};
-        line.points = [x - sideBarWidth, y];
-        allLines.push(line);
-        setLineList(allLines);
+        const color = allColors[Math.floor(Math.random() * allColors.length)];  // get random color from list
+        let line = {x1: x, y1: y, color: color, type: 'poly', angles: [], lineCount: 1, showDetails: false};  // initialize line
+        line.points = [x - sideBarWidth, y, x - sideBarWidth, y];  // set list of points to [x, y, x ,y] correcting for sidebar width
+        allLines.push(line);  // add modified line to list
+        setLineList(allLines);  // set lineList state to updated list
         refresh();
-        if (allLines.length > 50) {
+        if (allLines.length > 100) {  // enforcing maximum number of segments to 100
             allLines.shift();
         }
-    }
+    };
 
+    // add new point to current poly-line
     const addPolyPoint = (x, y) => {
         let allLines = lineList;
-        let currentLine = allLines[allLines.length - 1];
-        currentLine.points.push(x - sideBarWidth);
-        currentLine.points.push(y);
-        currentLine.lineCount ++
-        setLineList(allLines)
+        let currentLine = allLines[allLines.length - 1];  // grab current line
+        currentLine.points.push(x - sideBarWidth);  // add the given x coordinate to line points correcting for sidebar
+        currentLine.points.push(y);  // add the given y coordinate to line points
+        currentLine.lineCount++;  // increment segment count for current line
+        setLineList(allLines);  // update lineList state to updated list
     };
 
-    const stopPolyDraw = (fromButton) => {
-        let lineRemoved = false;
-        const currentLine = lineList[lineList.length - 1];
-        if (fromButton) {
+    // end a poly line
+    const stopPolyDraw = (fromOnScreenButton) => {
+        let lineRemoved = false;  // whether or not the line was removed entirely
+        const currentLine = lineList[lineList.length - 1];  // get current line
+        if (fromOnScreenButton) {  // if they clicked the on-screen button to end the drawing:
+            // remove the latest 2 points, since clicking on the button will run addPolyPoint
             currentLine.points.pop();
             currentLine.points.pop();
         }
-        if (currentLine.points.length < 5) {
-            const allLines = lineList
-            allLines.pop();
-            setLineList(allLines);
-            lineRemoved = true;
+        if (currentLine.points.length < 5) {  // if there are 2 or fewer coordinates (only initial anchored point and current mouse position):
+            const allLines = lineList;
+            allLines.pop();  // remove the line
+            setLineList(allLines);  // update line list
+            lineRemoved = true;  // signify that the line was removed
         }
-        else {
+        else {  // if there were more than 2 coordinates:
+            // remove the points representing the mouse position, used for live-drawing.
             currentLine.points.pop();
             currentLine.points.pop();
         }
-        if (currentLine.distances) {
-            currentLine.distances.pop()
+        if (currentLine.distances) {  // if the line has a list of segment lengths:
+            currentLine.distances.pop()  // remove the most recent segment difference, which is the live-drawing one
         }
-        setInPolyDraw(false);
+        setInPolyDraw(false);  // signify that we are no longer in a poly-line drawing session
         setMouseDown(false);
-        return lineRemoved;
+        return lineRemoved;  // return the boolean representing whether or not the entire line was removed
     };
 
+    // run every time the canvas area is clicked on
     const handleMouseDown = e => {
-        const x = Math.round(e.clientX);
+        const x = Math.round(e.clientX);  // get the mouse coordinates
         const y = Math.round(e.clientY);
-        setMouseX(x);
+        setMouseX(x);  // set the corresponding mouse position states
         setMouseY(y);
         switch (drawMode) {
-            case 'line':
-                startLine(x, y);
+            case 'line':  // if we are in straight line mode:
+                startLine(x, y); // run line drawing function
                 break;
-            case 'poly':
-                drawPoly(x, y);
+            case 'poly':  // if we are in poly line drawing mode:
+                drawPoly(x, y);  // run poly drawing function
                 break;
             default:
                 break;
         }
-
     };
 
+    // run every time the mouse button is unpressed over canvas area
     const handleMouseUp = e => {
         const x = e.clientX;
         const y = e.clientY;
-
         switch (drawMode) {
-            case 'line':
-                endLine(x, y);
+            case 'line':  // if in straight line drawing mode
+                endLine(x, y);  // end the line
                 break;
-            case 'poly':
-                // addPolyPoint(x, y);
-                break;
+            case 'poly':  // if in poly line drawing mode
+                break;  // no need to do anything. case still here to mirror handleMouseDown
             default:
                 break;
         }
     };
 
+    // to reset the state of the program
     const clearAll = () => {
-        setImage(null);
-        setLineList([])
-        // setOrigImgDims(null);
-        setImgDims([0, 0])
+        setImage(null);  // reset user image
+        setLineList([]);  // empty lineList
+        setImgDims([0, 0]);  // reset imageDimensions
+        setImageStyle({});
     };
 
+    // run when a user chooses a picture, given image files
     const handleUpload = (pictures) => {
-        const picture = pictures[pictures.length - 1];
-        clearAll();
-        imageFromFile(picture)
+        const picture = pictures[pictures.length - 1];  // get only one image
+        clearAll();  // clear the state of the program
+        imageFromFile(picture)  // process image from raw file
     };
 
+    // takes image file and sets image-related states
     const imageFromFile = (picture) => {
-        const url = URL.createObjectURL(picture);
-        const fr = new FileReader();
-        let imageObj;
-        fr.onload = () => {
-            const img = new Image();
-            img.onload = () => {
+        const url = URL.createObjectURL(picture);  // create url for image file
+        const fr = new FileReader();  // create file reader
+        fr.onload = () => {  // set function for file reader loading image
+            const img = new Image();  // create new image object
+            img.onload = () => {  // set the function for when the image loads:
                 console.log('Image dims:', img.width, img.height);
-                setOrigImgDims([img.width, img.height]);
+                setOrigImgDims([img.width, img.height]);  // set image dimension states
                 setImgDims([img.width, img.height]);
-                setImage(url);
+                setImage(url);  // set image state to created url
             };
-            img.src = fr.result;
-            imageObj = img
+            img.src = fr.result;  // set source to result of the file reader
         };
-        fr.readAsDataURL(picture);
+        fr.readAsDataURL(picture);  // using file reader, read image file, calling functions specified above.
     };
 
+    // removes a point from a polyline given the index of the line in the list and the index of the point to remove
     const removePoint = (lineIndex, pointIndex) => {
         const allLines = lineList;
-        let line = allLines[lineIndex];
-        if (line.points.length < 5) {
-            // undo()
-            allLines.splice(lineIndex, 1)
+        let line = allLines[lineIndex];  // grab the specified line
+        if (line.points.length < 5) {  // if there are only 2 or fewer points
+            allLines.splice(lineIndex, 1);  // remove the line entirely, since only a point would remain otherwise
+            setInPolyDraw(false);  // make sure you aren't in poly draw mode after the line is removed
         }
-        else {
-            if (pointIndex > 0) {
+        else {  // if there are more than 2 points in the lise
+            if (pointIndex > 0) {  // if you specify the last point to be deleted
+                line.points.pop();  // remove last point, x and y
                 line.points.pop();
-                line.points.pop();
-                line.distances.pop();
-                line.displayAngles.pop();
-                line.angles.pop();
+                line.distances.pop();  // remove last distance
+                line.displayAngles.pop();  // remove last display angle
+                line.angles.pop();  // remove last angle
             }
-            else {
+            else {  // if you spcecified the first point to be deleted:
+                line.points.shift();  // remove the first point, x and y
                 line.points.shift();
-                line.points.shift();
-                line.distances.shift();
-                line.displayAngles.shift();
-                line.angles.shift();
+                line.distances.shift();  // remove first distance
+                line.displayAngles.shift();  // remove first display angle
+                line.angles.shift();  // remove first angle
             }
-            setLineList(allLines);
+            setLineList(allLines);  // update lineList state
         }
-        refresh();
+        refresh();  // refresh view
     };
 
+    // run when cmd/ctrl key is down and z is pressed, or undo button on page is pressed
     const undo = () => {
         console.log('undo');
-        let lineRemoved;
-        if (inPolyDraw) {
-            lineRemoved = stopPolyDraw()
+        if (inPolyDraw) {  // if you're in the middle of drawing a poly line
+            removePoint(lineList.length - 1, lineList[lineList.length - 1].distances.length - 1);  // undo the last point drawn
         }
-        if (!lineRemoved) {
+        else {  // if you're not in a poly draw session:
             let allLines = lineList;
             let buffer = redoBuffer;
-            buffer.push(allLines.pop());
-            setRedoBuffer(buffer);
-            console.log(redoBuffer);
-
-            setLineList(allLines);
+            buffer.push(allLines.pop());  // remove the last line and add it to the redo buffer
+            setRedoBuffer(buffer);  // update redoBuffer state
+            setLineList(allLines);  // update lineList state
         }
-        // for some reason it wont update until you mouse over canvas unless I have these:
-        setMouseX(window.innerWidth * 0.5 + Math.random());
-        setMouseY(window.innerHeight * 0.5 + Math.random());
-        refresh()
+        refresh(); // refresh view
     };
 
+    // run when cmd/ctrl and shift are both down and z is pressed, or redo button on page is pressed
     const redo = () => {
-        if (redoBuffer.length > 0) {
+        if (redoBuffer.length > 0) {  // if there are items in the redo buffer:
             let allLines = lineList;
             let buffer = redoBuffer;
-            allLines.push(buffer.pop());
-            setRedoBuffer(buffer);
-            setLineList(allLines)
+            allLines.push(buffer.pop());  // remove the line from the buffer and add it to the lineList
+            setRedoBuffer(buffer);  // update redoBuffer state
+            setLineList(allLines);  // update lineList state
         }
-        refresh();
+        refresh();  // refresh view
     };
 
     return (
         <div className={styles.App}>
             <div className={styles.container}>
                 <SideBar
-                    undo={undo}
-                    redo={redo}
-                    handleUpload={handleUpload}
-                    lineList={lineList}
-                    updateColor={updateColor}
-                    removeLine={removeLine}
-                    removePoint={removePoint}
-                    drawMode={drawMode}
-                    setDrawMode={setDrawMode}
-                    unit={unit} setUnit={setUnit}
-                    unselectAllLines={unselectAllLines}
-                    refresh={refresh}
-                    gridOn={gridOn}
-                    setGridOn={setGridOn}
-                    gridProps={gridProps}
-                    setGridProps={setGridProps}
-                    setImageStyle={setImageStyle}
-                    sideBarWidth={sideBarWidth}
+                    undo={undo}  // function for undo button
+                    redo={redo}  // function for redo button
+                    redoBuffer={redoBuffer}  // so that we can disable redo button when the buffer is empty
+                    handleUpload={handleUpload}  // function to run when the user uploads a file
+                    lineList={lineList}  // list of lines
+                    updateColor={updateColor}  // function to update the color of a line
+                    removeLine={removeLine}  // function to remove line from list
+                    removePoint={removePoint}  // function to remove point from poly-line
+                    drawMode={drawMode}  // current drawing mode state
+                    setDrawMode={setDrawMode}  // setState function for drawMode
+                    unit={unit}  // current unit to measure all lines relative to
+                    setUnit={setUnit}  // setState for updating unit to measure all lines relative to
+                    unselectAllLines={unselectAllLines}  // function to remove unit status from all lines
+                    refresh={refresh}  // function to refresh the view of the program
+                    gridOn={gridOn}  // state of whether or not the grid is on
+                    setGridOn={setGridOn}  // setState function to turn grid on and off
+                    gridProps={gridProps}  // object of properties defining the grid
+                    setGridProps={setGridProps}  // setState function to update the properties of the grid
+                    setImageStyle={setImageStyle}  // setState function for image style properties
+                    sideBarWidth={sideBarWidth}  // state of sidebar width
                 />
                 <div
-                    className={styles.drawingArea}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                    onMouseMove={handleMouseMove}
+                    className={styles.canvas}
+                    onMouseDown={handleMouseDown}  // clickHandler function
+                    onMouseUp={handleMouseUp}  // "unclick" handler function
+                    onMouseMove={handleMouseMove}  // mouse move handler
                 >
-                    <StopPolyDrawButton inProp={inPolyDraw} stopPolyDraw={stopPolyDraw}/>
-                    <Stage width={window.innerWidth - sideBarWidth} height={window.innerHeight} style={{position: 'absolute', ...imageStyle}}>
+                    <StopPolyDrawButton inProp={inPolyDraw} stopPolyDraw={stopPolyDraw}/>  {/* Button that appears when in poly draw session to end the session */}
+                    <Stage  // Konva stage for the image uploaded by user
+                        width={window.innerWidth - sideBarWidth}
+                        height={window.innerHeight}
+                        style={{position: 'absolute', ...imageStyle}}
+                    >
 
-                        {image ? <UserImage url={image} width={imgDims[0]} height={imgDims[1]} imgStyle={{filter: "grayscale(100%)"}}/> : null}
+                        {image ? (  // if we have an image url set:
+                            <UserImage  // render the image component using Konva
+                                url={image}  // url of the image
+                                width={imgDims[0]}  // width of the image
+                                height={imgDims[1]}  // height of the image
+                            />
+                            ) : null}
                     </Stage>
-
-                    <Stage width={window.innerWidth - sideBarWidth} height={window.innerHeight}>
+                    <Stage  // Konva stage for lines.
+                        width={window.innerWidth - sideBarWidth}  // width of canvas
+                        height={window.innerHeight}  // height of canvas
+                    >
                         {gridOn ? <Grid {...gridProps}/> : null}
                         <Layer>
                             <Lines list={lineList} unit={unit} sideBarWidth={sideBarWidth}/>
                         </Layer>
                     </Stage>
-
-
                 </div>
             </div>
-
-
         </div>
     );
 }
