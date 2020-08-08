@@ -25,7 +25,6 @@ const Grid = (props) => {
         const sides = [vertical, horizontal];
         const [longer, shorter] = sides.sort((a, b) => b.length - a.length);
 
-        let list = []
         const upLines = _.map(longer, (_, index) => {
             if (index < shorter.length - 1) {
                 const line1 = [
